@@ -1,0 +1,1 @@
+# Softwre-de-gerenciamento-de-notas-
