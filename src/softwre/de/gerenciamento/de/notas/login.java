@@ -1,13 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package softwre.de.gerenciamento.de.notas;
 
-/**
- *
- * @author vitor
- */
+package softwre.de.gerenciamento.de.notas;
+import java.util.Scanner;
+
 public class login {
     
+    
+    public static void criarLogin() {
+    Scanner senha = new Scanner(System.in);
+    System.out.print("CRIE sua senha ");
+    String cadastroSenha = senha.nextLine();
+    
+    
+    Scanner Email = new Scanner(System.in);
+    System.out.print("Digite seu e-mail ");
+    String cadastroEmail = senha.nextLine();
+        
+    }
+    
+    
+    
+   
 }
