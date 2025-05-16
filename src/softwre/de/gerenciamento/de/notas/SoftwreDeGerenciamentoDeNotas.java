@@ -8,7 +8,7 @@ public class SoftwreDeGerenciamentoDeNotas {
         
         login cadastro = new login();
         cadastro.criarLogin();
-        //cadastro.fazerLogin();
+        cadastro.fazerLogin();
       
         
         

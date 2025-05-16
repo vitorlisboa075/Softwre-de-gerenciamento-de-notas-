@@ -4,40 +4,37 @@ import java.util.Scanner;
 
 public class login {
 
-    String senha = "";
+Scanner entrada = new Scanner(System.in);
+Usuario u = new Usuario();
     void criarLogin() {
         
-        Scanner cadastroEmail = new Scanner(System.in);
+        
         System.out.print("Vamos fazer seu cadastro  \nDigite seu e-mail ");
-        String email = cadastroEmail.nextLine();    
-        
-        
-        Scanner cadastroSenha = new Scanner(System.in);
+        String email = entrada.nextLine();
+        u.setEmail(email);
+           
         System.out.print("CRIE sua senha ");
-        String senha = cadastroSenha.nextLine();
+        String senha = entrada.nextLine();
+        u.setSenha(senha);
     
         
     }
     
     void fazerLogin(){
-        Scanner usuario = new Scanner(System.in);
-        System.out.print("Digite seu e-mail ");
-        String loginSenha = usuario.nextLine();
-        
-        System.out.print(loginSenha );
-        
-        boolean vld = loginSenha.equals(senha);
-         System.out.print(senha );
+          System.out.print("Digite seu e-mail: ");
+        String loginEmail = entrada.nextLine();
 
-        
-        if(vld){
-          
-        System.out.print(loginSenha);
+        System.out.print("Digite sua senha: ");
+        String loginSenha = entrada.nextLine();
 
-        
-        }else{
-        System.out.print("errado");
-        
+        boolean emailValido = loginEmail.equals(u.getEmail());
+        boolean senhaValida = loginSenha.equals(u.getSenha());
+
+        if (emailValido && senhaValida) {
+            System.out.println("Login realizado com sucesso!");
+        } else {
+            System.out.println("E-mail ou senha incorretos.");
+        }
         }
         
         
