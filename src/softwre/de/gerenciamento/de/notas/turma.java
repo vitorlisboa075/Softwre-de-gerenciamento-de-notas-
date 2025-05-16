@@ -4,10 +4,6 @@
  */
 package softwre.de.gerenciamento.de.notas;
 
-/**
- *
- * @author iagop
- */
 public class turma {
     
 }
