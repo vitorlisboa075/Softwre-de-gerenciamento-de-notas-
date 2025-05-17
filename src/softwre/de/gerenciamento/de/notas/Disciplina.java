@@ -3,9 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package softwre.de.gerenciamento.de.notas;
-
-import softwre.de.gerenciamento.de.notas.curso.Curso;
-
 /**
  *
  * @author Tulyo
