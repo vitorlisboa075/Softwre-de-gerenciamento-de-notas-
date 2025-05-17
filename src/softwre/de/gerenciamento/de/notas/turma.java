@@ -1,114 +1,71 @@
 
 package softwre.de.gerenciamento.de.notas;
 
+import java.util.ArrayList;
 import java.util.List;
 
- public class turma {
-
+public class Turma {
     private int id;
     private String nome;
     private String descricao;
     private String semestre;
-    private curso curso;
-    private List<aluno> alunos;
+    private Curso curso; // Associação com o curso
+    private List<Aluno> alunos; // Alunos matriculados na turma
     private String horarioAulas;
+    private String sala;
 
     // Construtor
- 
-    public turma(int id, String nome, String descricao, String semestre, curso curso, List<aluno> alunos, String horarioAulas) {
+    public Turma(int id, String nome, String descricao, String semestre, Curso curso, String horarioAulas, String sala) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
         this.semestre = semestre;
         this.curso = curso;
-        this.alunos = alunos;
         this.horarioAulas = horarioAulas;
+        this.sala = sala;
+        this.alunos = new ArrayList<>();
     }
-
-    // Construtor vazio
-    public turma() {}
 
     // Getters e Setters
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-    public String getNome() {
-        return nome;
-    }
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    public String getSemestre() { return semestre; }
+    public void setSemestre(String semestre) { this.semestre = semestre; }
 
-    public String getDescricao() {
-        return descricao;
-    }
+    public Curso getCurso() { return curso; }
+    public void setCurso(Curso curso) { this.curso = curso; }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+    public List<Aluno> getAlunos() { return alunos; }
 
-    public String getSemestre() {
-        return semestre;
-    }
+    public String getHorarioAulas() { return horarioAulas; }
+    public void setHorarioAulas(String horarioAulas) { this.horarioAulas = horarioAulas; }
 
-    public void setSemestre(String semestre) {
-        this.semestre = semestre;
-    }
+    public String getSala() { return sala; }
+    public void setSala(String sala) { this.sala = sala; }
 
-    public curso getCurso() {
-        return curso;
-    }
-
-    public void setCurso(curso curso) {
-        this.curso = curso;
-    }
-
-    public List<aluno> getAlunos() {
-        return alunos;
-    }
-
-    public void setAlunos(List<aluno> alunos) {
-        this.alunos = alunos;
-    }
-
-    public String getHorarioAulas() {
-        return horarioAulas;
-    }
-
-    public void setHorarioAulas(String horarioAulas) {
-        this.horarioAulas = horarioAulas;
-    }
-
-    // Método para adicionar um aluno à turma
-
-    /**
-     *
-     * @param aluno
-     */
-    public void adicionarAluno(aluno aluno) {
-        if (alunos != null) {
+    // Métodos para gerenciar alunos
+    public void adicionarAluno(Aluno aluno) {
+        if (!alunos.contains(aluno)) {
             alunos.add(aluno);
         }
     }
 
-    // Método para remover um aluno da turma
-    public void removerAluno(aluno aluno) {
-        if (alunos != null) {
-            alunos.remove(aluno);
-        }
+    public void removerAluno(Aluno aluno) {
+        alunos.remove(aluno);
     }
 
-    private static class aluno {
-
-        public aluno() {
+    public void listarAlunos() {
+        System.out.println("Alunos da turma " + nome + ":");
+        for (Aluno a : alunos) {
+            System.out.println("- " + a.getNome());
         }
     }
-
- 
 }
+
