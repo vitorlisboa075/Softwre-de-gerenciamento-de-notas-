@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package softwre.de.gerenciamento.de.notas;
 
 public class Usuario {
@@ -107,6 +103,10 @@ public class Usuario {
     public boolean isSecretaria() {
         return tipoUsuario.equalsIgnoreCase("secretaria");
     }
+    public boolean isAdmin() {
+        return tipoUsuario != null && tipoUsuario.equalsIgnoreCase("admin");
+    }
+
 
     // Métodos para atualizar informações do usuário
     public void atualizarNome(String novoNome) {
