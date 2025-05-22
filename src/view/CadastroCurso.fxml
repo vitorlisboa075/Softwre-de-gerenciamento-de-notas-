@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controller.CadastroCursoController"
+            prefHeight="400.0" prefWidth="700.0"
+            style="-fx-background-color: linear-gradient(to bottom right, #ffffff, #dfe9f3);">
+
+    <children>
+
+        <!-- Título -->
+        <Label layoutX="230" layoutY="20" text="Cadastro de Curso"
+               style="-fx-font-size: 26; -fx-font-weight: bold;"/>
+
+        <!-- Grid dos campos -->
+        <GridPane layoutX="70.0" layoutY="80.0" hgap="15.0" vgap="15.0">
+            <columnConstraints>
+                <ColumnConstraints prefWidth="150.0"/>
+                <ColumnConstraints prefWidth="350.0"/>
+            </columnConstraints>
+            <children>
+
+                <Label text="Nome:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="nomeField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="Descrição:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="descricaoField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Label text="Código:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="codigoField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                <Label text="Carga Horária:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="cargaHorariaField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                <Label text="Modalidade:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="modalidadeCombo" prefWidth="250.0"
+                          GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+            </children>
+        </GridPane>
+
+        <!-- Botões -->
+        <HBox layoutX="190.0" layoutY="320.0" spacing="20.0">
+            <children>
+                <Button text="Cadastrar" onAction="#cadastrarCurso"
+                        style="-fx-background-color: #0052D4; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;"/>
+                <Button text="Limpar" onAction="#limparCampos"
+                        style="-fx-background-color: #cccccc; -fx-font-weight: bold; -fx-background-radius: 8;"/>
+                <Button text="Voltar" onAction="#voltar"
+                        style="-fx-background-color: transparent; -fx-border-color: #0052D4; -fx-text-fill: #0052D4; -fx-font-weight: bold; -fx-border-radius: 8;"/>
+            </children>
+        </HBox>
+
+    </children>
+</AnchorPane>

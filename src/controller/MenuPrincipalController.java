@@ -32,6 +32,9 @@ public class MenuPrincipalController implements Initializable {
     private Button btnRegistrarPresenca;
     @FXML
     private Button btnGerenciarUsuarios;
+    @FXML
+    private Button btnCadastrarCurso;
+
 
     private String tipoUsuario;
 
@@ -53,17 +56,20 @@ public class MenuPrincipalController implements Initializable {
                 btnCadastrarAluno.setVisible(false);
                 btnCadastrarTurma.setVisible(false);
                 btnCadastrarDisciplina.setVisible(false);
+                btnCadastrarCurso.setVisible(false);
                 btnGerenciarUsuarios.setVisible(false);
                 break;
             case "admin":
                 btnCadastrarAluno.setVisible(false);
                 btnCadastrarTurma.setVisible(false);
                 btnCadastrarDisciplina.setVisible(false);
+                btnCadastrarCurso.setVisible(false);
                 btnLancarNotas.setVisible(false);
                 btnRegistrarPresenca.setVisible(false);
                 break;
         }
     }
+
 
     // Método genérico para abrir telas
     private void abrirTela(String caminhoFXML, ActionEvent event, String titulo) {
@@ -110,4 +116,10 @@ public class MenuPrincipalController implements Initializable {
         Sessao.limpar();
         abrirTela("/view/Login.fxml", event, "Login");
     }
+    
+    @FXML
+    private void abrirCadastroCurso(ActionEvent event) {
+        abrirTela("/view/CadastroCurso.fxml", event, "Cadastro de Curso");
+    }
+
 }

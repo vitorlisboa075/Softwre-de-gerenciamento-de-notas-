@@ -18,6 +18,7 @@
                 <Button fx:id="btnCadastrarAluno" text="Cadastrar Aluno" prefWidth="200" onAction="#abrirCadastroAluno"/>
                 <Button fx:id="btnCadastrarTurma" text="Cadastrar Turma" prefWidth="200" onAction="#abrirCadastroTurma"/>
                 <Button fx:id="btnCadastrarDisciplina" text="Cadastrar Disciplina" prefWidth="200" onAction="#abrirCadastroDisciplina"/>
+                <Button fx:id="btnCadastrarCurso" text="Cadastrar Curso" prefWidth="200" onAction="#abrirCadastroCurso"/>
                 <Button fx:id="btnLancarNotas" text="Lançar Notas" prefWidth="200" onAction="#abrirLancarNotas"/>
                 <Button fx:id="btnRegistrarPresenca" text="Registrar Presença" prefWidth="200" onAction="#abrirRegistrarPresenca"/>
                 <Button fx:id="btnGerenciarUsuarios" text="Gerenciar Usuários" prefWidth="200"/>
