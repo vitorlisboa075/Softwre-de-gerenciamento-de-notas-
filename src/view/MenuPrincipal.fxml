@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.MenuPrincipalController"
+            prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(to bottom right, #ffffff, #dfe9f3);">
+
+    <children>
+        <Label layoutX="300" layoutY="30" text="Menu Principal"
+               style="-fx-font-size: 28; -fx-font-weight: bold;"/>
+
+        <Label fx:id="labelUsuario" layoutX="30" layoutY="20"
+               style="-fx-font-size: 14;"/>
+
+        <VBox layoutX="300" layoutY="100" spacing="15">
+            <children>
+                <Button fx:id="btnCadastrarAluno" text="Cadastrar Aluno" prefWidth="200" onAction="#abrirCadastroAluno"/>
+                <Button fx:id="btnCadastrarTurma" text="Cadastrar Turma" prefWidth="200" onAction="#abrirCadastroTurma"/>
+                <Button fx:id="btnCadastrarDisciplina" text="Cadastrar Disciplina" prefWidth="200" onAction="#abrirCadastroDisciplina"/>
+                <Button fx:id="btnLancarNotas" text="Lançar Notas" prefWidth="200" onAction="#abrirLancarNotas"/>
+                <Button fx:id="btnRegistrarPresenca" text="Registrar Presença" prefWidth="200" onAction="#abrirRegistrarPresenca"/>
+                <Button fx:id="btnGerenciarUsuarios" text="Gerenciar Usuários" prefWidth="200"/>
+                <Button text="Sair" onAction="#sair" prefWidth="200"/>
+            </children>
+        </VBox>
+
+    </children>
+</AnchorPane>

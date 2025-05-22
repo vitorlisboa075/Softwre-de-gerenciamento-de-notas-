@@ -1,72 +1,61 @@
-
 package controller;
 
-import java.util.List;
-import java.util.Scanner;
-import util.LoginUtils;
-import model.Usuario;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.Node;
+import javafx.stage.Stage;
+import util.Sessao;
+
+import java.io.IOException;
 
 public class LoginController {
 
-    private List<Usuario> usuarios;
-    private Scanner entrada;
+    @FXML
+    private TextField emailField;
 
-    public LoginController(List<Usuario> usuarios, Scanner entrada) {
-        this.usuarios = usuarios;
-        this.entrada = entrada;
-    }
+    @FXML
+    private PasswordField senhaField;
 
-    public Usuario autenticarUsuario() {
-        System.out.println("=== LOGIN ===");
+    @FXML
+    private void fazerLogin(ActionEvent event) {
+        String email = emailField.getText();
+        String senha = senhaField.getText();
 
-        System.out.print("Email: ");
-        String email = entrada.nextLine();
-
-        if (!LoginUtils.validarEmail(email)) {
-            System.out.println("E-mail inválido.");
-            return null;
-        }
-
-        System.out.print("Senha: ");
-        String senha = entrada.nextLine();
-
-        for (Usuario u : usuarios) {
-            if (u.getEmail().equalsIgnoreCase(email) && u.getSenha().equals(senha)) {
-                System.out.println("Bem-vindo(a), " + u.getNome() + "!\n");
-                return u;
-            }
-        }
-
-        System.out.println("E-mail ou senha incorretos.\n");
-        return null;
-    }
-
-    public void direcionarMenu(Usuario usuarioLogado) {
-        if (usuarioLogado == null) return;
-
-        switch (usuarioLogado.getTipoUsuario().toLowerCase()) {
-            case "admin" -> menuAdmin();
-            case "secretaria" -> menuSecretaria();
-            case "professor" -> menuProfessor();
-            default -> System.out.println("Tipo de usuário desconhecido.");
+        if (email.equals("secretaria@if.com") && senha.equals("123")) {
+            Sessao.setTipoUsuario("secretaria");
+            Sessao.setEmail(email);
+            abrirMenu(event);
+        } else if (email.equals("professor@if.com") && senha.equals("123")) {
+            Sessao.setTipoUsuario("professor");
+            Sessao.setEmail(email);
+            abrirMenu(event);
+        } else if (email.equals("admin@if.com") && senha.equals("123")) {
+            Sessao.setTipoUsuario("admin");
+            Sessao.setEmail(email);
+            abrirMenu(event);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro de Login");
+            alert.setHeaderText(null);
+            alert.setContentText("Email ou senha incorretos.");
+            alert.showAndWait();
         }
     }
 
-    private void menuAdmin() {
-        System.out.println("=== MENU ADMIN ===");
-        System.out.println("1 - Cadastrar novo professor");
-        System.out.println("2 - Cadastrar nova secretaria");
-        System.out.println("3 - Listar usuários");
-        System.out.println("(opções reais serão adicionadas posteriormente)");
-    }
-
-    private void menuSecretaria() {
-        System.out.println("=== MENU SECRETARIA ===");
-        System.out.println("[Simulação] Acesso ao cadastro de alunos, cursos, turmas e relatórios");
-    }
-
-    private void menuProfessor() {
-        System.out.println("=== MENU PROFESSOR ===");
-        System.out.println("[Simulação] Acesso à inserção de notas e presenças");
+    private void abrirMenu(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/view/MenuPrincipal.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Menu Principal");
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

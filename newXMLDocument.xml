@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.RegistrarPresencaController"
+            prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom right, #ffffff, #dfe9f3);">
+
+    <children>
+        <Label layoutX="320" layoutY="20" text="Registro de Presença"
+               style="-fx-font-size: 26; -fx-font-weight: bold;"/>
+
+        <!-- Filtros -->
+        <HBox layoutX="50" layoutY="70" spacing="20">
+            <children>
+                <Label text="Curso:"/>
+                <ComboBox fx:id="cursoCombo" prefWidth="150"/>
+
+                <Label text="Turma:"/>
+                <ComboBox fx:id="turmaCombo" prefWidth="150"/>
+
+                <Label text="Disciplina:"/>
+                <ComboBox fx:id="disciplinaCombo" prefWidth="150"/>
+            </children>
+        </HBox>
+
+        <!-- Tabela -->
+        <TableView fx:id="tabelaAlunos" layoutX="50" layoutY="120" prefWidth="800" prefHeight="350">
+            <columns>
+                <TableColumn fx:id="colNome" text="Nome" prefWidth="300"/>
+                <TableColumn fx:id="colMatricula" text="Matrícula" prefWidth="200"/>
+                <TableColumn fx:id="colPresenca" text="Presente" prefWidth="150"/>
+            </columns>
+        </TableView>
+
+        <!-- Botões -->
+        <HBox layoutX="300" layoutY="500" spacing="20">
+            <children>
+                <Button text="Salvar Presença" onAction="#salvarPresenca"
+                        style="-fx-background-color: #0052D4; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;"/>
+                <Button text="Limpar" onAction="#limparCampos"
+                        style="-fx-background-color: #cccccc; -fx-font-weight: bold; -fx-background-radius: 8;"/>
+                <Button text="Voltar" onAction="#voltar"
+                        style="-fx-background-color: transparent; -fx-border-color: #0052D4; -fx-text-fill: #0052D4; -fx-font-weight: bold; -fx-border-radius: 8;"/>
+            </children>
+        </HBox>
+
+    </children>
+</AnchorPane>

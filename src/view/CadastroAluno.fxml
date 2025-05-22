@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.CadastroAlunoController"
+            prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom right, #ffffff, #dfe9f3);">
+
+    <children>
+        <Label layoutX="350" layoutY="20" text="Cadastro de Aluno"
+               style="-fx-font-size: 26; -fx-font-weight: bold;"/>
+
+        <GridPane layoutX="50" layoutY="80" hgap="15" vgap="15">
+            <columnConstraints>
+                <ColumnConstraints prefWidth="150"/>
+                <ColumnConstraints prefWidth="250"/>
+                <ColumnConstraints prefWidth="150"/>
+                <ColumnConstraints prefWidth="250"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints prefHeight="30"/>
+            </rowConstraints>
+            <children>
+                <!-- Primeira Linha -->
+                <Label text="Nome:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="nomeField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="CPF:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                <TextField fx:id="cpfField" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+
+                <!-- Segunda Linha -->
+                <Label text="Email:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="emailField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Label text="Telefone:" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                <TextField fx:id="telefoneField" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+
+                <!-- Terceira Linha - Endereço -->
+                <Label text="Rua:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="ruaField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                <Label text="Número:" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                <TextField fx:id="numeroField" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+
+                <Label text="Complemento:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <TextField fx:id="complementoField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                <Label text="Bairro:" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
+                <TextField fx:id="bairroField" GridPane.rowIndex="3" GridPane.columnIndex="3"/>
+
+                <Label text="Cidade:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <TextField fx:id="cidadeField" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                <Label text="Estado:" GridPane.rowIndex="4" GridPane.columnIndex="2"/>
+                <TextField fx:id="estadoField" GridPane.rowIndex="4" GridPane.columnIndex="3"/>
+
+                <Label text="CEP:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <TextField fx:id="cepField" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                <!-- Curso e Turma -->
+                <Label text="Curso:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="cursoCombo" prefWidth="200" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+                <Label text="Turma:" GridPane.rowIndex="6" GridPane.columnIndex="2"/>
+                <ComboBox fx:id="turmaCombo" prefWidth="200" GridPane.rowIndex="6" GridPane.columnIndex="3"/>
+            </children>
+        </GridPane>
+
+        <!-- Botões -->
+        <HBox layoutX="300" layoutY="520" spacing="20">
+            <children>
+                <Button text="Cadastrar" onAction="#cadastrarAluno"
+                        style="-fx-background-color: #0052D4; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;"/>
+                <Button text="Limpar" onAction="#limparCampos"
+                        style="-fx-background-color: #cccccc; -fx-font-weight: bold; -fx-background-radius: 8;"/>
+                <Button text="Voltar" onAction="#voltar"
+                        style="-fx-background-color: transparent; -fx-border-color: #0052D4; -fx-text-fill: #0052D4; -fx-font-weight: bold; -fx-border-radius: 8;"/>
+            </children>
+        </HBox>
+
+    </children>
+</AnchorPane>

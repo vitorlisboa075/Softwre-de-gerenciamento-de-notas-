@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.CadastroTurmaController"
+            prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(to bottom right, #ffffff, #dfe9f3);">
+
+    <children>
+        <Label layoutX="270" layoutY="20" text="Cadastro de Turma"
+               style="-fx-font-size: 26; -fx-font-weight: bold;"/>
+
+        <GridPane layoutX="50" layoutY="80" hgap="15" vgap="15">
+            <columnConstraints>
+                <ColumnConstraints prefWidth="150"/>
+                <ColumnConstraints prefWidth="250"/>
+                <ColumnConstraints prefWidth="150"/>
+                <ColumnConstraints prefWidth="250"/>
+            </columnConstraints>
+            <children>
+                <!-- Primeira linha -->
+                <Label text="Nome da Turma:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="nomeField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="Descrição:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                <TextField fx:id="descricaoField" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+
+                <!-- Segunda linha -->
+                <Label text="Semestre:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <TextField fx:id="semestreField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Label text="Sala:" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                <TextField fx:id="salaField" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+
+                <!-- Terceira linha -->
+                <Label text="Horário:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <TextField fx:id="horarioField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                <Label text="Curso:" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                <ComboBox fx:id="cursoCombo" prefWidth="200" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+
+                <!-- Quarta linha -->
+                <Label text="Disciplina:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="disciplinaCombo" prefWidth="200" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+            </children>
+        </GridPane>
+
+        <!-- Botões -->
+        <HBox layoutX="250" layoutY="400" spacing="20">
+            <children>
+                <Button text="Cadastrar" onAction="#cadastrarTurma"
+                        style="-fx-background-color: #0052D4; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;"/>
+                <Button text="Limpar" onAction="#limparCampos"
+                        style="-fx-background-color: #cccccc; -fx-font-weight: bold; -fx-background-radius: 8;"/>
+                <Button text="Voltar" onAction="#voltar"
+                        style="-fx-background-color: transparent; -fx-border-color: #0052D4; -fx-text-fill: #0052D4; -fx-font-weight: bold; -fx-border-radius: 8;"/>
+            </children>
+        </HBox>
+
+    </children>
+</AnchorPane>
