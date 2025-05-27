@@ -16,14 +16,14 @@ import java.util.List;
 
 public class CadastroCursoController {
 
-    // 🎯 Campos da interface (FXML)
+    // Campos da interface (FXML)
     @FXML private TextField nomeField;
     @FXML private TextField descricaoField;
     @FXML private TextField codigoField;
     @FXML private TextField cargaHorariaField;
     @FXML private ComboBox<String> modalidadeCombo;
 
-    // 🔥 Lista simulada de cursos
+    // Lista simulada de cursos
     private static List<Curso> listaCursos = new ArrayList<>();
 
     // Este método é chamado automaticamente quando a tela abre
@@ -35,7 +35,7 @@ public class CadastroCursoController {
     // Método que roda quando clica no botão "Cadastrar"
     @FXML
     private void cadastrarCurso() {
-        // 👉 Captura os dados dos campos
+        // Captura os dados dos campos
         String nome = nomeField.getText();
         String descricao = descricaoField.getText();
         String codigo = codigoField.getText();
