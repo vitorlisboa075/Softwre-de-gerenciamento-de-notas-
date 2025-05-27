@@ -26,13 +26,13 @@ public class CadastroCursoController {
     // 🔥 Lista simulada de cursos
     private static List<Curso> listaCursos = new ArrayList<>();
 
-    // 🚀 Este método é chamado automaticamente quando a tela abre
+    // Este método é chamado automaticamente quando a tela abre
     @FXML
     public void initialize() {
         modalidadeCombo.getItems().addAll("Presencial", "EAD", "Semi-presencial");
     }
 
-    // ✅ Método que roda quando clica no botão "Cadastrar"
+    // Método que roda quando clica no botão "Cadastrar"
     @FXML
     private void cadastrarCurso() {
         // 👉 Captura os dados dos campos
@@ -42,7 +42,7 @@ public class CadastroCursoController {
         String carga = cargaHorariaField.getText();
         String modalidade = modalidadeCombo.getValue();
 
-        // 🔴 Validação dos campos obrigatórios
+        // Validação dos campos obrigatórios
         if (nome.isEmpty() || codigo.isEmpty() || carga.isEmpty() || modalidade == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Erro");
