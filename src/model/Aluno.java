@@ -110,5 +110,9 @@ public class Aluno {
     public void atualizarTurma(Turma novaTurma) {
         this.turma = novaTurma;
     }
+
+    public String getMatricula() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
 

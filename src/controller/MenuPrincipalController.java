@@ -34,7 +34,9 @@ public class MenuPrincipalController implements Initializable {
     private Button btnGerenciarUsuarios;
     @FXML
     private Button btnCadastrarCurso;
-
+    @FXML
+    private Button btnRelatorio;
+    
 
     private String tipoUsuario;
 
@@ -122,4 +124,8 @@ public class MenuPrincipalController implements Initializable {
         abrirTela("/view/CadastroCurso.fxml", event, "Cadastro de Curso");
     }
 
+    @FXML
+    private void abrirRelatorio (ActionEvent event) {
+         abrirTela("/view/Relatorio.fxml", event, "Relatórios");
+    }
 }

@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.MenuPrincipalController"
-            prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(to bottom right, #ffffff, #dfe9f3);">
+<AnchorPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(to bottom right, #ffffff, #dfe9f3);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuPrincipalController">
 
     <children>
-        <Label layoutX="300" layoutY="30" text="Menu Principal"
-               style="-fx-font-size: 28; -fx-font-weight: bold;"/>
+        <Label layoutX="300" layoutY="30" style="-fx-font-size: 28; -fx-font-weight: bold;" text="Menu Principal" />
 
-        <Label fx:id="labelUsuario" layoutX="30" layoutY="20"
-               style="-fx-font-size: 14;"/>
+        <Label fx:id="labelUsuario" layoutX="30" layoutY="20" style="-fx-font-size: 14;" />
 
         <VBox layoutX="300" layoutY="100" spacing="15">
             <children>
-                <Button fx:id="btnCadastrarAluno" text="Cadastrar Aluno" prefWidth="200" onAction="#abrirCadastroAluno"/>
-                <Button fx:id="btnCadastrarTurma" text="Cadastrar Turma" prefWidth="200" onAction="#abrirCadastroTurma"/>
-                <Button fx:id="btnCadastrarDisciplina" text="Cadastrar Disciplina" prefWidth="200" onAction="#abrirCadastroDisciplina"/>
-                <Button fx:id="btnCadastrarCurso" text="Cadastrar Curso" prefWidth="200" onAction="#abrirCadastroCurso"/>
-                <Button fx:id="btnLancarNotas" text="Lançar Notas" prefWidth="200" onAction="#abrirLancarNotas"/>
-                <Button fx:id="btnRegistrarPresenca" text="Registrar Presença" prefWidth="200" onAction="#abrirRegistrarPresenca"/>
-                <Button fx:id="btnGerenciarUsuarios" text="Gerenciar Usuários" prefWidth="200"/>
-                <Button text="Sair" onAction="#sair" prefWidth="200"/>
+                <Button fx:id="btnCadastrarAluno" onAction="#abrirCadastroAluno" prefWidth="200" text="Cadastrar Aluno" />
+                <Button fx:id="btnCadastrarTurma" onAction="#abrirCadastroTurma" prefWidth="200" text="Cadastrar Turma" />
+                <Button fx:id="btnCadastrarDisciplina" onAction="#abrirCadastroDisciplina" prefWidth="200" text="Cadastrar Disciplina" />
+                <Button fx:id="btnCadastrarCurso" onAction="#abrirCadastroCurso" prefWidth="200" text="Cadastrar Curso" />
+                <Button fx:id="btnLancarNotas" onAction="#abrirLancarNotas" prefWidth="200" text="Lançar Notas" />
+                <Button fx:id="btnRegistrarPresenca" onAction="#abrirRegistrarPresenca" prefWidth="200" text="Registrar Presença" />
+                <Button fx:id="btnGerenciarUsuarios" prefWidth="200" text="Gerenciar Usuários" />
+            <Button fx:id="bntRelatorio" layoutX="10.0" layoutY="255.0" onAction="#abrirRelatorio" prefWidth="200" text="Relatórios" />
             </children>
         </VBox>
+          <Button layoutX="300.0" layoutY="422.0" onAction="#sair" prefWidth="200" text="Sair" />
 
     </children>
 </AnchorPane>
