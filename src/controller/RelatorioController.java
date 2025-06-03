@@ -6,7 +6,13 @@ import javafx.collections.*;
 import model.*;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import model.RelatorioAluno;
 
 public class RelatorioController {
@@ -25,8 +31,7 @@ public class RelatorioController {
 
     @FXML
     public void initialize() {
-        // Carregue os valores nos ComboBoxes
-       
+        cursoComboBox.getItems().addAll("Curso 1", "Curso 2", "Curso 3");       
 
         // Configure colunas
         colNome.setCellValueFactory(cellData -> cellData.getValue().nomeProperty());
@@ -76,7 +81,7 @@ public class RelatorioController {
     }
 
     @FXML
-    public void exportarPDF() {
+    public void onExportPdfClick(ActionEvent event) {
         // Aqui você pode usar a biblioteca iText ou Apache PDFBox
         showAlert("PDF", "Funcionalidade de PDF ainda não implementada.");
     }
@@ -88,5 +93,25 @@ public class RelatorioController {
         alert.setContentText(mensagem);
         alert.showAndWait();
     }
+    
+    
+    @FXML
+    public void voltar() {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MenuPrincipal.fxml"));
+        Parent root = loader.load();
+        Stage stage = new Stage();
+        stage.setTitle("Menu Principal");
+        stage.setScene(new Scene(root));
+        stage.show();
+
+        // Fecha a janela atual
+        Stage currentStage = (Stage) cursoComboBox.getScene().getWindow();
+        currentStage.close();
+    } catch (IOException e) {
+        showAlert("Erro", "Não foi possível voltar à tela anterior.");
+    }
+}
+
 }
 

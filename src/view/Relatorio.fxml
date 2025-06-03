@@ -22,25 +22,25 @@
       <Label alignment="CENTER" layoutX="14.0" layoutY="57.0" prefHeight="30.0" prefWidth="69.0" style="-fx-font-size: 16;" text="Curso" />
       <Label alignment="CENTER" layoutX="247.0" layoutY="57.0" prefHeight="30.0" prefWidth="69.0" style="-fx-font-size: 16;" text="Turma" />
       <Label alignment="CENTER" layoutX="477.0" layoutY="57.0" prefHeight="30.0" prefWidth="69.0" style="-fx-font-size: 16;" text="Disciplina" />
-      <TableView layoutX="18.0" layoutY="137.0" prefHeight="203.0" prefWidth="644.0">
+      <TableView fx:id="tabelaRelatorio" layoutX="18.0" layoutY="137.0" prefHeight="203.0" prefWidth="644.0">
         <columns>
-          <TableColumn prefWidth="75.0" text="Nome do Aluno" />
-          <TableColumn prefWidth="75.0" text="Matrícula" />
-            <TableColumn prefWidth="75.0" text="Número de faltas" />
-            <TableColumn prefWidth="75.0" text="Média" />
-            <TableColumn prefWidth="75.0" text="Situação Final" />
+          <TableColumn fx:id="colNome" prefWidth="75.0" text="Nome do Aluno" />
+          <TableColumn fx:id="colMatricula" prefWidth="75.0" text="Matrícula" />
+            <TableColumn fx:id="colFaltas" prefWidth="75.0" text="Número de faltas" />
+            <TableColumn fx:id="colMedia" prefWidth="75.0" text="Média" />
+            <TableColumn fx:id="colSituacao" prefWidth="75.0" text="Situação Final" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <ComboBox layoutX="17.0" layoutY="87.0" prefHeight="26.0" prefWidth="186.0" />
-      <ComboBox layoutX="247.0" layoutY="87.0" prefHeight="26.0" prefWidth="186.0" />
-      <ComboBox layoutX="477.0" layoutY="87.0" prefHeight="26.0" prefWidth="186.0" />
+      <ComboBox fx:id="cursoComboBox" layoutX="17.0" layoutY="87.0" prefHeight="26.0" prefWidth="186.0" />
+      <ComboBox fx:id="turmaComboBox" layoutX="247.0" layoutY="87.0" prefHeight="26.0" prefWidth="186.0" />
+      <ComboBox fx:id="disciplinaComboBox" layoutX="477.0" layoutY="87.0" prefHeight="26.0" prefWidth="186.0" />
       <Button layoutX="517.0" layoutY="352.0" mnemonicParsing="false" onAction="#onExportPdfClick" prefHeight="26.0" prefWidth="132.0" text="Exportar PDF" />
-      <Button layoutX="517.0" layoutY="389.0" mnemonicParsing="false" onAction="#onExportCsvClick" prefHeight="26.0" prefWidth="132.0" text="Exportar CSV" />
-      <Button layoutX="185.0" layoutY="424.0" onAction="#salvarPresenca" style="-fx-background-color: #0052D4; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;" text="Salvar Relatório" />
-      <Button layoutX="312.0" layoutY="424.0" onAction="#limparCampos" style="-fx-background-color: #cccccc; -fx-font-weight: bold; -fx-background-radius: 8;" text="Limpar" />
+      <Button layoutX="517.0" layoutY="389.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="132.0" text="Exportar CSV" />
+      <Button layoutX="185.0" layoutY="424.0" style="-fx-background-color: #0052D4; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;" text="Salvar Relatório" />
+      <Button layoutX="312.0" layoutY="424.0" style="-fx-background-color: #cccccc; -fx-font-weight: bold; -fx-background-radius: 8;" text="Limpar" />
       <Button layoutX="384.0" layoutY="423.0" onAction="#voltar" style="-fx-background-color: transparent; -fx-border-color: #0052D4; -fx-text-fill: #0052D4; -fx-font-weight: bold; -fx-border-radius: 8;" text="Voltar" />
    </children>
 </AnchorPane>
