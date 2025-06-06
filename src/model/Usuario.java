@@ -1,143 +1,103 @@
 package model;
 
+import javafx.beans.property.*;
+
 public class Usuario {
-    private int id;
-    private String nome;
-    private String cpf;
-    private String email;
-    private String genero;
-    private String dataNascimento;
-    private String telefone;
-    private String senha;
-    private String tipoUsuario; // "professor" ou "secretaria"
 
-    // Endereço
-    private String logradouro;
-    private String numero;
-    private String complemento;
-    private String bairro;
-    private String cidade;
-    private String estado;
-    private String cep;
+    private final LongProperty id = new SimpleLongProperty();
+    private final StringProperty nome = new SimpleStringProperty();
+    private final StringProperty cpf = new SimpleStringProperty();
+    private final StringProperty email = new SimpleStringProperty();
+    private final StringProperty genero = new SimpleStringProperty();
+    private final StringProperty dataNascimento = new SimpleStringProperty();
+    private final StringProperty telefone = new SimpleStringProperty();
+    private final StringProperty senha = new SimpleStringProperty();
+    private final StringProperty tipoUsuario = new SimpleStringProperty();
 
-    // Construtor
-    public Usuario(int id, String nome, String cpf, String email, String genero, String dataNascimento,
-                   String telefone, String senha, String tipoUsuario, String logradouro, String numero,
-                   String complemento, String bairro, String cidade, String estado, String cep) {
-        this.id = id;
-        this.nome = nome;
-        this.cpf = cpf;
-        this.email = email;
-        this.genero = genero;
-        this.dataNascimento = dataNascimento;
-        this.telefone = telefone;
-        this.senha = senha;
-        this.tipoUsuario = tipoUsuario;
-        this.logradouro = logradouro;
-        this.numero = numero;
-        this.complemento = complemento;
-        this.bairro = bairro;
-        this.cidade = cidade;
-        this.estado = estado;
-        this.cep = cep;
-    }
-    
-    // Construtor vazio
-    public Usuario() {
-    }
+    private final StringProperty logradouro = new SimpleStringProperty();
+    private final StringProperty numero = new SimpleStringProperty();
+    private final StringProperty complemento = new SimpleStringProperty();
+    private final StringProperty bairro = new SimpleStringProperty();
+    private final StringProperty cidade = new SimpleStringProperty();
+    private final StringProperty estado = new SimpleStringProperty();
+    private final StringProperty cep = new SimpleStringProperty();
 
-    // Getters e Setters (agrupados)
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public Usuario() {}
 
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
+    public long getId() { return id.get(); }
+    public void setId(long value) { id.set(value); }
+    public LongProperty idProperty() { return id; }
 
-    public String getCpf() { return cpf; }
-    public void setCpf(String cpf) { this.cpf = cpf; }
+    public String getNome() { return nome.get(); }
+    public void setNome(String value) { nome.set(value); }
+    public StringProperty nomeProperty() { return nome; }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public String getCpf() { return cpf.get(); }
+    public void setCpf(String value) { cpf.set(value); }
+    public StringProperty cpfProperty() { return cpf; }
 
-    public String getGenero() { return genero; }
-    public void setGenero(String genero) { this.genero = genero; }
+    public String getEmail() { return email.get(); }
+    public void setEmail(String value) { email.set(value); }
+    public StringProperty emailProperty() { return email; }
 
-    public String getDataNascimento() { return dataNascimento; }
-    public void setDataNascimento(String dataNascimento) { this.dataNascimento = dataNascimento; }
+    public String getGenero() { return genero.get(); }
+    public void setGenero(String value) { genero.set(value); }
+    public StringProperty generoProperty() { return genero; }
 
-    public String getTelefone() { return telefone; }
-    public void setTelefone(String telefone) { this.telefone = telefone; }
+    public String getDataNascimento() { return dataNascimento.get(); }
+    public void setDataNascimento(String value) { dataNascimento.set(value); }
+    public StringProperty dataNascimentoProperty() { return dataNascimento; }
 
-    public String getSenha() { return senha; }
-    public void setSenha(String senha) { this.senha = senha; }
+    public String getTelefone() { return telefone.get(); }
+    public void setTelefone(String value) { telefone.set(value); }
+    public StringProperty telefoneProperty() { return telefone; }
 
-    public String getTipoUsuario() { return tipoUsuario; }
-    public void setTipoUsuario(String tipoUsuario) { this.tipoUsuario = tipoUsuario; }
+    public String getSenha() { return senha.get(); }
+    public void setSenha(String value) { senha.set(value); }
+    public StringProperty senhaProperty() { return senha; }
 
-    public String getLogradouro() { return logradouro; }
-    public void setLogradouro(String logradouro) { this.logradouro = logradouro; }
+    public String getTipoUsuario() { return tipoUsuario.get(); }
+    public void setTipoUsuario(String value) { tipoUsuario.set(value); }
+    public StringProperty tipoProperty() { return tipoUsuario; }
 
-    public String getNumero() { return numero; }
-    public void setNumero(String numero) { this.numero = numero; }
+    public String getLogradouro() { return logradouro.get(); }
+    public void setLogradouro(String value) { logradouro.set(value); }
+    public StringProperty logradouroProperty() { return logradouro; }
 
-    public String getComplemento() { return complemento; }
-    public void setComplemento(String complemento) { this.complemento = complemento; }
+    public String getNumero() { return numero.get(); }
+    public void setNumero(String value) { numero.set(value); }
+    public StringProperty numeroProperty() { return numero; }
 
-    public String getBairro() { return bairro; }
-    public void setBairro(String bairro) { this.bairro = bairro; }
+    public String getComplemento() { return complemento.get(); }
+    public void setComplemento(String value) { complemento.set(value); }
+    public StringProperty complementoProperty() { return complemento; }
 
-    public String getCidade() { return cidade; }
-    public void setCidade(String cidade) { this.cidade = cidade; }
+    public String getBairro() { return bairro.get(); }
+    public void setBairro(String value) { bairro.set(value); }
+    public StringProperty bairroProperty() { return bairro; }
 
-    public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
+    public String getCidade() { return cidade.get(); }
+    public void setCidade(String value) { cidade.set(value); }
+    public StringProperty cidadeProperty() { return cidade; }
 
-    public String getCep() { return cep; }
-    public void setCep(String cep) { this.cep = cep; }
+    public String getEstado() { return estado.get(); }
+    public void setEstado(String value) { estado.set(value); }
+    public StringProperty estadoProperty() { return estado; }
 
-    // Métodos de verificação de tipo
+    public String getCep() { return cep.get(); }
+    public void setCep(String value) { cep.set(value); }
+    public StringProperty cepProperty() { return cep; }
+
+    // Métodos auxiliares
     public boolean isProfessor() {
-        return tipoUsuario.equalsIgnoreCase("professor");
+        return "professor".equalsIgnoreCase(getTipoUsuario());
     }
 
     public boolean isSecretaria() {
-        return tipoUsuario.equalsIgnoreCase("secretaria");
+        return "secretaria".equalsIgnoreCase(getTipoUsuario());
     }
+
     public boolean isAdmin() {
-        return tipoUsuario != null && tipoUsuario.equalsIgnoreCase("admin");
-    }
-
-
-    // Métodos para atualizar informações do usuário
-    public void atualizarNome(String novoNome) {
-        this.nome = novoNome;
-    }
-
-    public void atualizarSenha(String novaSenha) {
-        this.senha = novaSenha;
-    }
-
-    public void atualizarCidade(String novaCidade) {
-        this.cidade = novaCidade;
-    }
-
-    public void atualizarEstado(String novoEstado) {
-        this.estado = novoEstado;
-    }
-
-    public void atualizarBairro(String novoBairro) {
-        this.bairro = novoBairro;
-    }
-
-    public void atualizarLogradouro(String novoLogradouro) {
-        this.logradouro = novoLogradouro;
-    }
-
-    public void atualizarNumero(String novoNumero) {
-        this.numero = novoNumero;
-    }
-
-    public void atualizarComplemento(String novoComplemento) {
-        this.complemento = novoComplemento;
+        return "admin".equalsIgnoreCase(getTipoUsuario());
     }
 }
