@@ -59,8 +59,8 @@ public class RelatorioController {
 
         List<Aluno> alunos = Dados.getAlunosPorTurma(turma);
         for (Aluno aluno : alunos) {
-            int faltas = Dados.getFaltas(aluno.getId(), disciplina);
-            double media = Dados.getMedia(aluno.getId(), disciplina);
+            int faltas = Dados.getFaltas((int) aluno.getId(), disciplina);
+            double media = Dados.getMedia((int) aluno.getId(), disciplina);
             String situacao = (media >= 7.0 && faltas <= 25) ? "Aprovado" : "Reprovado"; // Ex: 25 faltas máx
 
             relatorioData.add(new RelatorioAluno(aluno.getNome(), aluno.getMatricula(), faltas, media, situacao));
