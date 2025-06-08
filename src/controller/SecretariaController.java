@@ -1,9 +1,6 @@
 package controller;
 
-import model.Aluno;
-import model.Curso;
-import model.Disciplina;
-import model.Turma;
+import model.*;
 
 import java.util.List;
 import java.util.Scanner;
@@ -41,17 +38,15 @@ public class SecretariaController {
         System.out.print("CEP: ");
         String cep = entrada.nextLine();
 
-        // Exibir cursos disponíveis
         System.out.println("\nCursos disponíveis:");
         for (int i = 0; i < cursos.size(); i++) {
             System.out.println((i + 1) + " - " + cursos.get(i).getNome());
         }
         System.out.print("Escolha o curso (número): ");
         int opcCurso = entrada.nextInt();
-        entrada.nextLine(); // limpar buffer
+        entrada.nextLine();
         Curso cursoSelecionado = cursos.get(opcCurso - 1);
 
-        // Exibir turmas disponíveis
         System.out.println("\nTurmas disponíveis:");
         for (int i = 0; i < turmas.size(); i++) {
             System.out.println((i + 1) + " - " + turmas.get(i).getNome());
@@ -61,10 +56,8 @@ public class SecretariaController {
         entrada.nextLine();
         Turma turmaSelecionada = turmas.get(opcTurma - 1);
 
-        // Gerar ID simples baseado no tamanho da lista
         int novoId = listaAlunos.size() + 1;
 
-        // Criar aluno
         Aluno novoAluno = new Aluno(novoId, nome, cpf, email, telefone,
                 logradouro, numero, complemento, bairro, cidade, estado, cep,
                 cursoSelecionado, turmaSelecionada);
@@ -79,7 +72,7 @@ public class SecretariaController {
         System.out.println("Disciplina: " + turmaSelecionada.getDisciplina().getNome());
     }
 
-    public void cadastrarDisciplina(Scanner entrada, List<Disciplina> listaDisciplinas, List<Curso> cursos) {
+    public void cadastrarDisciplina(Scanner entrada, List<Disciplina> listaDisciplinas, List<Curso> cursos, List<Professor> professores) {
         System.out.println("=== CADASTRO DE DISCIPLINA ===");
 
         System.out.print("Nome da disciplina: ");
@@ -98,8 +91,9 @@ public class SecretariaController {
         System.out.print("Ementa: ");
         String ementa = entrada.nextLine();
 
-        System.out.print("Semestre oferecido (ex: 2025.1): ");
-        String semestre = entrada.nextLine();
+        System.out.print("Semestre oferecido (ex: 1, 2, 3...): ");
+        int semestre = entrada.nextInt();
+        entrada.nextLine();
 
         System.out.println("\nCursos disponíveis:");
         for (int i = 0; i < cursos.size(); i++) {
@@ -110,14 +104,28 @@ public class SecretariaController {
         entrada.nextLine();
         Curso cursoSelecionado = cursos.get(opcCurso - 1);
 
+        System.out.println("\nProfessores disponíveis:");
+        for (int i = 0; i < professores.size(); i++) {
+            System.out.println((i + 1) + " - " + professores.get(i).getNome());
+        }
+        System.out.print("Escolha o professor responsável: ");
+        int opcProf = entrada.nextInt();
+        entrada.nextLine();
+        Professor professorSelecionado = professores.get(opcProf - 1);
+
         int novoId = listaDisciplinas.size() + 1;
 
-        Disciplina novaDisciplina = new Disciplina(novoId, nome, descricao, cargaHoraria, codigo, ementa, semestre, cursoSelecionado);
+        Disciplina novaDisciplina = new Disciplina(
+                novoId, nome, descricao, codigo, cargaHoraria,
+                ementa, semestre, cursoSelecionado, professorSelecionado
+        );
+
         listaDisciplinas.add(novaDisciplina);
 
         System.out.println("\nDisciplina cadastrada com sucesso!");
         System.out.println("Nome: " + nome);
         System.out.println("Curso: " + cursoSelecionado.getNome());
+        System.out.println("Professor: " + professorSelecionado.getNome());
     }
 
     public void cadastrarTurma(Scanner entrada, List<Turma> listaTurmas, List<Curso> cursos, List<Disciplina> disciplinas) {
@@ -138,7 +146,6 @@ public class SecretariaController {
         System.out.print("Sala: ");
         String sala = entrada.nextLine();
 
-        // Selecionar curso
         System.out.println("\nCursos disponíveis:");
         for (int i = 0; i < cursos.size(); i++) {
             System.out.println((i + 1) + " - " + cursos.get(i).getNome());
@@ -148,7 +155,6 @@ public class SecretariaController {
         entrada.nextLine();
         Curso cursoSelecionado = cursos.get(opcCurso - 1);
 
-        // Selecionar disciplina
         System.out.println("\nDisciplinas disponíveis:");
         for (int i = 0; i < disciplinas.size(); i++) {
             System.out.println((i + 1) + " - " + disciplinas.get(i).getNome());

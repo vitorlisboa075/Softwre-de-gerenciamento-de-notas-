@@ -22,6 +22,10 @@ public class Curso {
         this.professores = new ArrayList<>();
     }
 
+    Curso(String sistemas) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     // Getters e Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }

@@ -1,106 +1,64 @@
 package model;
 
-import model.Curso;
-
 public class Disciplina {
-    
-
     private int id;
     private String nome;
     private String descricao;
-    private int cargaHoraria;
     private String codigo;
+    private int cargaHoraria;
     private String ementa;
-    private String semestreOferecido;
+    private int semestre;
     private Curso curso;
+    private Professor professor;
 
-    public Disciplina(int idDisc, String nomeDisc, String descricaoDisc, int carga,
-                      String codDisc, String ementaDisc, String semestre, Curso cursoRelacionado) {
-        id = idDisc;
-        nome = nomeDisc;
-        descricao = descricaoDisc;
-        cargaHoraria = carga;
-        codigo = codDisc;
-        ementa = ementaDisc;
-        semestreOferecido = semestre;
-        curso = cursoRelacionado;
+    // ✅ Construtor vazio
+    public Disciplina(int par, String programação, String introdução_à_programação, int par1, String proG01, String ementa_básica, String string, Curso get, Professor get1) {
     }
 
-    public int getId() {
-        return id;
+    // ✅ Construtor completo
+    public Disciplina(int id, String nome, String descricao, String codigo, int cargaHoraria, String ementa, int semestre, Curso curso, Professor professor) {
+        this.id = id;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.codigo = codigo;
+        this.cargaHoraria = cargaHoraria;
+        this.ementa = ementa;
+        this.semestre = semestre;
+        this.curso = curso;
+        this.professor = professor;
     }
 
-    public void setId(int novoId) {
-        id = novoId;
-    }
+    // ✅ Getters e Setters
 
-    public String getNome() {
-        return nome;
-    }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    public void setNome(String novoNome) {
-        nome = novoNome;
-    }
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-    public String getDescricao() {
-        return descricao;
-    }
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
 
-    public void setDescricao(String novaDescricao) {
-        descricao = novaDescricao;
-    }
+    public String getCodigo() { return codigo; }
+    public void setCodigo(String codigo) { this.codigo = codigo; }
 
-    public int getCargaHoraria() {
-        return cargaHoraria;
-    }
+    public int getCargaHoraria() { return cargaHoraria; }
+    public void setCargaHoraria(int cargaHoraria) { this.cargaHoraria = cargaHoraria; }
 
-    public void setCargaHoraria(int novaCarga) {
-        cargaHoraria = novaCarga;
-    }
+    public String getEmenta() { return ementa; }
+    public void setEmenta(String ementa) { this.ementa = ementa; }
 
-    public String getCodigo() {
-        return codigo;
-    }
+    public int getSemestre() { return semestre; }
+    public void setSemestre(int semestre) { this.semestre = semestre; }
 
-    public void setCodigo(String novoCodigo) {
-        codigo = novoCodigo;
-    }
+    public Curso getCurso() { return curso; }
+    public void setCurso(Curso curso) { this.curso = curso; }
 
-    public String getEmenta() {
-        return ementa;
-    }
-
-    public void setEmenta(String novaEmenta) {
-        ementa = novaEmenta;
-    }
-
-    public String getSemestreOferecido() {
-        return semestreOferecido;
-    }
-
-    public void setSemestreOferecido(String novoSemestre) {
-        semestreOferecido = novoSemestre;
-    }
-
-    public Curso getCurso() {
-        return curso;
-    }
-
-    public void setCurso(Curso novoCurso) {
-        curso = novoCurso;
-    }
+    public Professor getProfessor() { return professor; }
+    public void setProfessor(Professor professor) { this.professor = professor; }
 
     @Override
     public String toString() {
-        return "Disciplina{" +
-               "id=" + id +
-               ", nome='" + nome + '\'' +
-               ", descricao='" + descricao + '\'' +
-               ", cargaHoraria=" + cargaHoraria +
-               ", codigo='" + codigo + '\'' +
-               ", ementa='" + ementa + '\'' +
-               ", semestreOferecido='" + semestreOferecido + '\'' +
-               ", curso=" + curso +
-               '}';
+        return nome;
     }
 }
