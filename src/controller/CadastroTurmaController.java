@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import javafx.scene.Node;
 
 import java.io.IOException;
+import javafx.scene.layout.BorderPane;
 
 public class CadastroTurmaController {
 
@@ -20,6 +21,7 @@ public class CadastroTurmaController {
     @FXML private TextField horarioField;
     @FXML private ComboBox<String> cursoCombo;
     @FXML private ComboBox<String> disciplinaCombo;
+    @FXML private Button btnVoltar;
 
     @FXML
     private void cadastrarTurma() {
@@ -60,15 +62,26 @@ public class CadastroTurmaController {
     
     @FXML
     private void voltar(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/MenuPrincipal.fxml"));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Menu Principal");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+        MenuPrincipalController menuController = buscarMenuController();
+        if (menuController != null) {
+            menuController.restaurarEstado();
+            menuController.limparConteudo();
         }
     }
+
+    
+
+    private MenuPrincipalController buscarMenuController() {
+        Parent root = btnVoltar.getScene().getRoot();
+        if (root instanceof BorderPane borderPane) {
+            Object controller = borderPane.getUserData();
+            if (controller instanceof MenuPrincipalController menuController) {
+                return menuController;
+            }
+        }
+        return null;
+    }
+
+
 
 }

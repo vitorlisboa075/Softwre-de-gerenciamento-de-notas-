@@ -11,9 +11,13 @@ public class SoftwreDeGerenciamentoDeNotas extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
-        primaryStage.setTitle("Sistema de Gerenciamento de Notas");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.setResizable(false); // impede redimensionar
+        Scene scene = new Scene(root, 800, 600);
+        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+        primaryStage.setTitle("Login");
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false); // Login screen non-resizable
+        primaryStage.setMinWidth(600);
+        primaryStage.setMinHeight(400);
         primaryStage.show();
     }
 

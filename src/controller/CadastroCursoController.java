@@ -9,10 +9,13 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import model.Curso;
+import javafx.scene.layout.BorderPane;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import util.TrocaDeTela;
 
 public class CadastroCursoController {
 
@@ -22,6 +25,8 @@ public class CadastroCursoController {
     @FXML private TextField codigoField;
     @FXML private TextField cargaHorariaField;
     @FXML private ComboBox<String> modalidadeCombo;
+    @FXML private Button btnVoltar;
+
 
     //  Lista simulada de cursos
     private static List<Curso> listaCursos = new ArrayList<>();
@@ -94,16 +99,27 @@ public class CadastroCursoController {
     // Voltar para o Menu Principal
     @FXML
     private void voltar(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/MenuPrincipal.fxml"));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Menu Principal");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+        MenuPrincipalController menuController = buscarMenuController();
+        if (menuController != null) {
+            menuController.restaurarEstado();
+            menuController.limparConteudo();
         }
     }
+
+    
+
+    private MenuPrincipalController buscarMenuController() {
+        Parent root = btnVoltar.getScene().getRoot();
+        if (root instanceof BorderPane borderPane) {
+            Object controller = borderPane.getUserData();
+            if (controller instanceof MenuPrincipalController menuController) {
+                return menuController;
+            }
+        }
+        return null;
+    }
+
+
 
     // Gerador de IDs 
     private int gerarId() {

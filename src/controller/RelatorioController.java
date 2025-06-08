@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.RelatorioAluno;
 
@@ -27,6 +28,7 @@ public class RelatorioController {
     @FXML private TableColumn<RelatorioAluno, Integer> colFaltas;
     @FXML private TableColumn<RelatorioAluno, Double> colMedia;
     @FXML private TableColumn<RelatorioAluno, String> colSituacao;
+    @FXML private Button btnVoltar;
 
     private final ObservableList<RelatorioAluno> relatorioData = FXCollections.observableArrayList();
 
@@ -97,22 +99,28 @@ public class RelatorioController {
     
     
     @FXML
-    public void voltar() {
-    try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MenuPrincipal.fxml"));
-        Parent root = loader.load();
-        Stage stage = new Stage();
-        stage.setTitle("Menu Principal");
-        stage.setScene(new Scene(root));
-        stage.show();
-
-        // Fecha a janela atual
-        Stage currentStage = (Stage) cursoComboBox.getScene().getWindow();
-        currentStage.close();
-    } catch (IOException e) {
-        showAlert("Erro", "Não foi possível voltar à tela anterior.");
+    private void voltar(ActionEvent event) {
+        MenuPrincipalController menuController = buscarMenuController();
+        if (menuController != null) {
+            menuController.restaurarEstado();
+            menuController.limparConteudo();
+        }
     }
-}
+
+    
+
+    private MenuPrincipalController buscarMenuController() {
+        Parent root = btnVoltar.getScene().getRoot();
+        if (root instanceof BorderPane borderPane) {
+            Object controller = borderPane.getUserData();
+            if (controller instanceof MenuPrincipalController menuController) {
+                return menuController;
+            }
+        }
+        return null;
+    }
+
 
 }
+
 

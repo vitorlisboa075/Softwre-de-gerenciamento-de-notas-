@@ -2,29 +2,116 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(to bottom right, #ffffff, #dfe9f3);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuPrincipalController">
-
-    <children>
-        <Label layoutX="300" layoutY="30" style="-fx-font-size: 28; -fx-font-weight: bold;" text="Menu Principal" />
-
-        <Label fx:id="labelUsuario" layoutX="30" layoutY="20" style="-fx-font-size: 14;" />
-
-        <VBox layoutX="300" layoutY="100" spacing="15">
-            <children>
-                <Button fx:id="btnCadastrarAluno" onAction="#abrirCadastroAluno" prefWidth="200" text="Cadastrar Aluno" />
-                <Button fx:id="btnCadastrarTurma" onAction="#abrirCadastroTurma" prefWidth="200" text="Cadastrar Turma" />
-                <Button fx:id="btnCadastrarDisciplina" onAction="#abrirCadastroDisciplina" prefWidth="200" text="Cadastrar Disciplina" />
-                <Button fx:id="btnCadastrarCurso" onAction="#abrirCadastroCurso" prefWidth="200" text="Cadastrar Curso" />
-                <Button fx:id="btnLancarNotas" onAction="#abrirLancarNotas" prefWidth="200" text="Lançar Notas" />
-                <Button fx:id="btnRegistrarPresenca" onAction="#abrirRegistrarPresenca" prefWidth="200" text="Registrar Presença" />
-                <Button fx:id="btnGerenciarUsuarios" prefWidth="200" text="Gerenciar Usuários" />
-            <Button fx:id="bntRelatorio" layoutX="10.0" layoutY="255.0" onAction="#abrirRelatorio" prefWidth="200" text="Relatórios" />
-            </children>
+<BorderPane fx:id="rootPane" prefHeight="600" prefWidth="800" style="-fx-background-color: linear-gradient(to bottom, #e6e9f0, #dfe4ea);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuPrincipalController">
+    <!-- Header -->
+    <top>
+        <HBox alignment="CENTER" prefHeight="60" style="-fx-background-color: linear-gradient(to bottom, #2c3e50, #34495e); -fx-padding: 10;">
+            <Button fx:id="btnToggleSidebar" onAction="#toggleSidebar" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-family: 'Arial'; -fx-font-size: 18;" styleClass="toggle-button" text="☰" />
+            <Label fx:id="labelUsuario" style="-fx-text-fill: white; -fx-font-family: 'Arial'; -fx-font-size: 18; -fx-font-weight: bold;" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="btnSair" onAction="#sair" styleClass="sair-button" text="Sair" />
+        </HBox>
+    </top>
+    
+    <!-- Sidebar -->
+    <left>
+        <VBox fx:id="sidebarVBox" alignment="TOP_CENTER" maxHeight="-Infinity" prefWidth="220" style="-fx-background-color: rgba(236, 240, 241, 0.9); -fx-padding: 15; -fx-spacing: 12; -fx-background-radius: 10; -fx-border-radius: 10;">
+            <effect>
+                <DropShadow color="rgba(0,0,0,0.2)" radius="10" />
+            </effect>
+            <Button fx:id="btnCadastrarAluno" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirCadastroAluno" styleClass="sidebar-button" text="Cadastrar Aluno">
+                <graphic>
+                    <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
+                        <Image url="@../Image/1f9d1-1f3fb-1f393%20(1).png" />
+                    </ImageView>
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Cadastrar novo aluno" />
+                </tooltip>
+            </Button>
+            <Button fx:id="btnCadastrarTurma" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirCadastroTurma" styleClass="sidebar-button" text="Cadastrar Turma">
+                <graphic>
+                    <ImageView fitHeight="24" fitWidth="24" focusTraversable="true" preserveRatio="true">
+                        <Image url="@../Image/pngwing.com.png" />
+                    </ImageView>
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Cadastrar nova turma" />
+                </tooltip>
+            </Button>
+            <Button fx:id="btnCadastrarDisciplina" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirCadastroDisciplina" styleClass="sidebar-button" text="Cadastrar Disciplina">
+                <graphic>
+                    <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
+                        <Image url="@../Image/1043312.png" />
+                    </ImageView>
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Cadastrar nova disciplina" />
+                </tooltip>
+            </Button>
+            <Button fx:id="btnCadastrarCurso" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirCadastroCurso" styleClass="sidebar-button" text="Cadastrar Curso">
+                <graphic>
+                    <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
+                        <Image url="@../Image/curso.png" />
+                    </ImageView>
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Cadastrar novo curso" />
+                </tooltip>
+            </Button>
+            <Button fx:id="btnLancarNotas" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirLancarNotas" styleClass="sidebar-button" text="Lançar Notas">
+                <graphic>
+                    <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
+                        <Image url="@../Image/notas-dos-alunos.png" />
+                    </ImageView>
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Lançar notas dos alunos" />
+                </tooltip>
+            </Button>
+            <Button fx:id="btnRegistrarPresenca" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirRegistrarPresenca" styleClass="sidebar-button" text="Registrar Presença">
+                <graphic>
+                    <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
+                        <Image url="@../Image/png-clipart-grading-in-education-school-report-card-student-college-school-label-text.png" />
+                    </ImageView>
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Registrar presença dos alunos" />
+                </tooltip>
+            </Button>
+            <Button fx:id="btnRelatorio" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirRelatorio" styleClass="sidebar-button" text="Relatório">
+                <graphic>
+                    <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
+                        <Image url="@../Image/relatorio.png" />
+                    </ImageView>
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Gerar relatórios" />
+                </tooltip>
+            </Button>
         </VBox>
-          <Button layoutX="300.0" layoutY="422.0" onAction="#sair" prefWidth="200" text="Sair" />
-
-    </children>
-</AnchorPane>
+    </left>
+    
+    <!-- Content Area -->
+    <center>
+        <StackPane fx:id="contentArea" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: transparent; -fx-padding: 20;">
+            <VBox alignment="TOP_CENTER" maxHeight="Infinity" maxWidth="Infinity" spacing="15" style="-fx-background-color: #ffffff; -fx-background-radius: 10; -fx-padding: 20;" StackPane.alignment="CENTER">
+                <effect>
+                    <DropShadow color="rgba(0,0,0,0.2)" radius="10" />
+                </effect>
+                <Label fx:id="contentTitle" style="-fx-font-family: 'Arial'; -fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-padding: 0 0 15 0;" text="Bem-vindo ao Sistema de Gerenciamento Acadêmico" />
+            <StackPane fx:id="contentPane" prefHeight="554.0" prefWidth="500.0" />
+            </VBox>
+        </StackPane>
+    </center>
+</BorderPane>

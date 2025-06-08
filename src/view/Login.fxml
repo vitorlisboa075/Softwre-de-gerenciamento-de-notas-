@@ -1,67 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 
-<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
-
-    <children>
-        <HBox prefHeight="500.0" prefWidth="800.0">
-            <children>
-
-                <!-- LADO ESQUERDO -->
-                <AnchorPane prefWidth="400.0" style="-fx-background-color: linear-gradient(to bottom right, #0052D4, #4364F7, #6FB1FC);">
-                    <children>
-                        <VBox alignment="CENTER" layoutX="50.0" layoutY="120.0" spacing="20.0" />
-                  <ImageView fitHeight="192.0" fitWidth="250.0" focusTraversable="true" layoutX="104.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../../Downloads/upscalemedia-transformed-Photoroom.png" />
-                     </image>
-                  </ImageView>
-                          <Label layoutX="60.0" layoutY="216.0" style="-fx-text-fill: white; -fx-font-size: 30; -fx-font-weight: bold;" text="Olá, Seja bem vindo" />
-                    </children>
-                </AnchorPane>
-
-                <!-- LADO DIREITO -->
-                <AnchorPane prefWidth="400.0" style="-fx-background-color: white;">
-                    <children>
-
-                        <VBox alignment="CENTER" layoutX="75.0" layoutY="102.0" spacing="15.0">
-                            <children>
-                                <Label text="Email " />
-                                <TextField fx:id="emailField" prefWidth="250.0" promptText="nome@mail.com" />
-
-                                <Label text="Senha" />
-                                <PasswordField fx:id="senhaField" prefWidth="250.0" promptText="********" />
-
-                                <HBox spacing="10.0">
-                                    <children>
-                                        <CheckBox text="Lembre senha" />
-                                        <Hyperlink text="Esqueceu sua senha?" />
-                                    </children>
-                                </HBox>
-
-                                <HBox spacing="15.0">
-                                    <children>
-                                        <Button onAction="#fazerLogin" style="-fx-background-color: #0052D4; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;" text="Login" />
-                                        <Button style="-fx-background-color: transparent; -fx-border-color: #0052D4; -fx-text-fill: #0052D4; -fx-font-weight: bold; -fx-border-radius: 8;" text="Criar conta" />
-                                    </children>
-                                </HBox>
-                            </children>
-                        </VBox>
-                    </children>
-                </AnchorPane>
-
-            </children>
-        </HBox>
-    </children>
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #dfe4ea;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+   <children>
+      <HBox prefHeight="600.0" prefWidth="800.0">
+         <children>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: linear-gradient(to bottom right, #0052D4, #4364F7, #6FB1FC);">
+               <children>
+            
+                  <!-- Login Container -->
+                  <VBox fx:id="loginContainer" alignment="CENTER" prefHeight="600.0" prefWidth="400.0" spacing="10">
+                     <Label style="-fx-text-fill: white; -fx-font-size: 30; -fx-font-weight: bold;" text="Olá, Seja bem-vindo ao">
+                        <opaqueInsets>
+                           <Insets />
+                        </opaqueInsets></Label>
+                     <!-- Logo -->
+                     <ImageView fx:id="logoImage" fitHeight="237.0" fitWidth="263.0" preserveRatio="true">
+                        <image>
+                           <Image url="@../Image/Gemini_Generated_Image_3ya9s53ya9s53ya9-removebg-preview.png" />
+                        </image>
+                        <effect>
+                           <DropShadow spread="0.61">
+                              <color>
+                                 <Color opacity="0.20000000298023224" />
+                              </color></DropShadow>
+                        </effect>
+                        <VBox.margin>
+                           <Insets top="-50.0" />
+                        </VBox.margin>
+                     </ImageView>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+         
+                  <!-- Login Card -->
+                  <VBox fx:id="loginCard" alignment="CENTER" layoutY="-6.0" prefHeight="608.0" prefWidth="400.0" spacing="15" style="-fx-background-color: rgba(255, 255, 255, 0.85); -fx-background-radius: 0; -fx-border-color: rgba(200, 200, 200, 0.3); -fx-border-radius: 0; -fx-padding: 20;">
+                     <effect>
+                        <DropShadow color="rgba(0,0,0,0.3)" radius="15" />
+                     </effect>
+                     <children>
+                        <Label contentDisplay="RIGHT" style="-fx-font-family: 'Arial'; -fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-padding: 0 0 15 0;" text="Sistema Acadêmico">
+                           <graphic>
+                              <ImageView fitHeight="54.0" fitWidth="64.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Image/Gemini_Generated_Image_3ya9s53ya9s53ya9-Photoroom.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Label>
+                        <TextField fx:id="txtEmail" maxWidth="260" promptText="Email" styleClass="form-field" />
+                        <StackPane maxWidth="260">
+                           <PasswordField fx:id="txtSenha" maxWidth="260" promptText="Senha" styleClass="form-field" visible="true" />
+                           <TextField fx:id="txtSenhaVisible" maxWidth="260" promptText="Senha" styleClass="form-field" visible="false" />
+                        </StackPane>
+                        <HBox alignment="CENTER_LEFT" maxWidth="260" spacing="10">
+                           <CheckBox fx:id="chkShowPassword" onAction="#togglePasswordVisibility">
+                              <graphic>
+                                 <ImageView fx:id="imgShowPassword" fitHeight="16" fitWidth="16" preserveRatio="true">
+                                    <image>
+                                       <Image url="@../images/eye-closed.png" />
+                                    </image>
+                                 </ImageView>
+                              </graphic>
+                           </CheckBox>
+                           <Label style="-fx-font-family: 'Arial'; -fx-font-size: 12; -fx-text-fill: #2c3e50;" text="Mostrar Senha" />
+                        </HBox>
+                        <Button fx:id="btnEntrar" maxWidth="260" onAction="#fazerLogin" styleClass="form-button" text="Entrar" />
+                        <Label fx:id="lblErro" styleClass="error-label" text="" visible="false" />
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </HBox>
+   </children>
 </AnchorPane>

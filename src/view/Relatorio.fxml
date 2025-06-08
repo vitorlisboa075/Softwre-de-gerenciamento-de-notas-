@@ -41,6 +41,6 @@
       <Button layoutX="517.0" layoutY="389.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="132.0" text="Exportar CSV" />
       <Button layoutX="185.0" layoutY="424.0" style="-fx-background-color: #0052D4; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;" text="Salvar Relatório" />
       <Button layoutX="312.0" layoutY="424.0" style="-fx-background-color: #cccccc; -fx-font-weight: bold; -fx-background-radius: 8;" text="Limpar" />
-      <Button layoutX="384.0" layoutY="423.0" onAction="#voltar" style="-fx-background-color: transparent; -fx-border-color: #0052D4; -fx-text-fill: #0052D4; -fx-font-weight: bold; -fx-border-radius: 8;" text="Voltar" />
+      <Button fx:id="btnVoltar" layoutX="384.0" layoutY="423.0" onAction="#voltar" style="-fx-background-color: transparent; -fx-border-color: #0052D4; -fx-text-fill: #0052D4; -fx-font-weight: bold; -fx-border-radius: 8;" text="Voltar" />
    </children>
 </AnchorPane>

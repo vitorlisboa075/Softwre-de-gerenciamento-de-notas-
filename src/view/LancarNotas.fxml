@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controller.LancarNotasController"
-            prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom right, #ffffff, #dfe9f3);">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom right, #ffffff, #dfe9f3);" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="controller.LancarNotasController">
 
     <children>
-        <Label layoutX="320" layoutY="20" text="Lançamento de Notas"
-               style="-fx-font-size: 26; -fx-font-weight: bold;"/>
+        <Label layoutX="320" layoutY="20" style="-fx-font-size: 26; -fx-font-weight: bold;" text="Lançamento de Notas" />
 
         <!-- Filtros -->
         <HBox layoutX="50" layoutY="70" spacing="20">
             <children>
-                <Label text="Curso:"/>
-                <ComboBox fx:id="cursoCombo" prefWidth="150"/>
+                <Label text="Curso:" />
+                <ComboBox fx:id="cursoCombo" prefWidth="150" />
 
-                <Label text="Turma:"/>
-                <ComboBox fx:id="turmaCombo" prefWidth="150"/>
+                <Label text="Turma:" />
+                <ComboBox fx:id="turmaCombo" prefWidth="150" />
 
-                <Label text="Disciplina:"/>
-                <ComboBox fx:id="disciplinaCombo" prefWidth="150"/>
+                <Label text="Disciplina:" />
+                <ComboBox fx:id="disciplinaCombo" prefWidth="150" />
             </children>
         </HBox>
 
         <!-- Tabela -->
-        <TableView fx:id="tabelaAlunos" layoutX="50" layoutY="120" prefWidth="800" prefHeight="350">
+        <TableView fx:id="tabelaAlunos" layoutX="50" layoutY="120" prefHeight="350" prefWidth="800">
             <columns>
-                <TableColumn fx:id="colNome" text="Nome" prefWidth="250"/>
-                <TableColumn fx:id="colMatricula" text="Matrícula" prefWidth="150"/>
-                <TableColumn fx:id="colNota1" text="Nota 1" prefWidth="100"/>
-                <TableColumn fx:id="colNota2" text="Nota 2" prefWidth="100"/>
-                <TableColumn fx:id="colNota3" text="Nota 3" prefWidth="100"/>
-                <TableColumn fx:id="colMedia" text="Média" prefWidth="100"/>
+                <TableColumn fx:id="colNome" prefWidth="250" text="Nome" />
+                <TableColumn fx:id="colMatricula" prefWidth="150" text="Matrícula" />
+                <TableColumn fx:id="colNota1" prefWidth="100" text="Nota 1" />
+                <TableColumn fx:id="colNota2" prefWidth="100" text="Nota 2" />
+                <TableColumn fx:id="colNota3" prefWidth="100" text="Nota 3" />
+                <TableColumn fx:id="colMedia" prefWidth="100" text="Média" />
             </columns>
         </TableView>
 
         <!-- Botões -->
         <HBox layoutX="300" layoutY="500" spacing="20">
             <children>
-                <Button text="Salvar Notas" onAction="#salvarNotas"
-                        style="-fx-background-color: #0052D4; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;"/>
-                <Button text="Limpar" onAction="#limparCampos"
-                        style="-fx-background-color: #cccccc; -fx-font-weight: bold; -fx-background-radius: 8;"/>
-                <Button text="Voltar" onAction="#voltar"
-                        style="-fx-background-color: transparent; -fx-border-color: #0052D4; -fx-text-fill: #0052D4; -fx-font-weight: bold; -fx-border-radius: 8;"/>
+                <Button onAction="#salvarNotas" style="-fx-background-color: #0052D4; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;" text="Salvar Notas" />
+                <Button onAction="#limparCampos" style="-fx-background-color: #cccccc; -fx-font-weight: bold; -fx-background-radius: 8;" text="Limpar" />
+                <Button fx:id="btnVoltar" onAction="#voltar" style="-fx-background-color: transparent; -fx-border-color: #0052D4; -fx-text-fill: #0052D4; -fx-font-weight: bold; -fx-border-radius: 8;" text="Voltar" />
             </children>
         </HBox>
 

@@ -1,24 +1,51 @@
 package controller;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.event.ActionEvent;
-import javafx.scene.Node;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import util.Sessao;
+import javafx.event.ActionEvent;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MenuPrincipalController implements Initializable {
 
     @FXML
     private Label labelUsuario;
+
+    @FXML
+    private VBox sidebarVBox;
+
+    @FXML
+    private StackPane contentArea;
+
+    @FXML
+    private Pane contentPane;
+
+    @FXML
+    private Label contentTitle;
+
+    @FXML
+    private BorderPane rootPane;
+
+    @FXML
+    private Button btnToggleSidebar;
 
     @FXML
     private Button btnCadastrarAluno;
@@ -31,101 +58,283 @@ public class MenuPrincipalController implements Initializable {
     @FXML
     private Button btnRegistrarPresenca;
     @FXML
-    private Button btnGerenciarUsuarios;
-    @FXML
     private Button btnCadastrarCurso;
     @FXML
     private Button btnRelatorio;
-    
+    @FXML
+    private Button btnSair;
 
     private String tipoUsuario;
+    private Button activeButton;
+    private Map<Button, String> buttonStyles;
+    private boolean sidebarCollapsed = false;
+    private final double SIDEBAR_EXPANDED_WIDTH = 220.0;
+    private final double SIDEBAR_COLLAPSED_WIDTH = 60.0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tipoUsuario = Sessao.getTipoUsuario();
-        labelUsuario.setText("Logado como: " + tipoUsuario);
+        String email = Sessao.getEmail();
+        String displayText = String.format("Sistema Acadêmico - Logado como: %s (%s)", 
+            email.split("@")[0].replace(".", " "), 
+            tipoUsuario.substring(0, 1).toUpperCase() + tipoUsuario.substring(1));
+        labelUsuario.setText(displayText);
+
+        // Initialize button styles map
+        buttonStyles = new HashMap<>();
+        buttonStyles.put(btnCadastrarAluno, btnCadastrarAluno.getStyle());
+        buttonStyles.put(btnCadastrarTurma, btnCadastrarTurma.getStyle());
+        buttonStyles.put(btnCadastrarDisciplina, btnCadastrarDisciplina.getStyle());
+        buttonStyles.put(btnCadastrarCurso, btnCadastrarCurso.getStyle());
+        buttonStyles.put(btnLancarNotas, btnLancarNotas.getStyle());
+        buttonStyles.put(btnRegistrarPresenca, btnRegistrarPresenca.getStyle());
+        buttonStyles.put(btnRelatorio, btnRelatorio.getStyle());
+
+        // Apply animations to buttons
+        setupButtonAnimations();
+
+        // Armazenar a instância do controlador no userData
+        rootPane.setUserData(this);
+
         aplicarPermissoes();
     }
 
+    public void configureStage(Stage stage) {
+        stage.setTitle("Sistema de Gerenciamento Acadêmico");
+        stage.setResizable(true);
+        stage.setMinWidth(600);
+        stage.setMinHeight(400);
+    }
+
+    private void setupButtonAnimations() {
+        for (Button btn : new Button[]{btnCadastrarAluno, btnCadastrarTurma, btnCadastrarDisciplina, 
+                                       btnCadastrarCurso, btnLancarNotas, btnRegistrarPresenca, btnRelatorio}) {
+            ScaleTransition scaleIn = new ScaleTransition(Duration.millis(100), btn);
+            scaleIn.setToX(1.05);
+            scaleIn.setToY(1.05);
+
+            ScaleTransition scaleOut = new ScaleTransition(Duration.millis(100), btn);
+            scaleOut.setToX(1.0);
+            scaleOut.setToY(1.0);
+
+            btn.setOnMouseEntered(e -> scaleIn.playFromStart());
+            btn.setOnMouseExited(e -> scaleOut.playFromStart());
+        }
+    }
+
     private void aplicarPermissoes() {
+        // Default: hide and disable layout management for all buttons
+        btnCadastrarAluno.setVisible(false);
+        btnCadastrarAluno.setManaged(false);
+        btnCadastrarTurma.setVisible(false);
+        btnCadastrarTurma.setManaged(false);
+        btnCadastrarDisciplina.setVisible(false);
+        btnCadastrarDisciplina.setManaged(false);
+        btnCadastrarCurso.setVisible(false);
+        btnCadastrarCurso.setManaged(false);
+        btnLancarNotas.setVisible(false);
+        btnLancarNotas.setManaged(false);
+        btnRegistrarPresenca.setVisible(false);
+        btnRegistrarPresenca.setManaged(false);
+        btnRelatorio.setVisible(false);
+        btnRelatorio.setManaged(false);
+
+        // Enable buttons based on user type and count visible buttons
+        int visibleButtonCount = 0;
         switch (tipoUsuario) {
             case "secretaria":
-                btnLancarNotas.setVisible(false);
-                btnRegistrarPresenca.setVisible(false);
-                btnGerenciarUsuarios.setVisible(false);
+                btnCadastrarAluno.setVisible(true);
+                btnCadastrarAluno.setManaged(true);
+                btnCadastrarTurma.setVisible(true);
+                btnCadastrarTurma.setManaged(true);
+                btnCadastrarDisciplina.setVisible(true);
+                btnCadastrarDisciplina.setManaged(true);
+                btnCadastrarCurso.setVisible(true);
+                btnCadastrarCurso.setManaged(true);
+                btnRelatorio.setVisible(true);
+                btnRelatorio.setManaged(true);
+                visibleButtonCount = 5;
                 break;
             case "professor":
-                btnCadastrarAluno.setVisible(false);
-                btnCadastrarTurma.setVisible(false);
-                btnCadastrarDisciplina.setVisible(false);
-                btnCadastrarCurso.setVisible(false);
-                btnGerenciarUsuarios.setVisible(false);
+                btnLancarNotas.setVisible(true);
+                btnLancarNotas.setManaged(true);
+                btnRegistrarPresenca.setVisible(true);
+                btnRegistrarPresenca.setManaged(true);
+                btnRelatorio.setVisible(true);
+                btnRelatorio.setManaged(true);
+                visibleButtonCount = 3;
                 break;
             case "admin":
-                btnCadastrarAluno.setVisible(false);
-                btnCadastrarTurma.setVisible(false);
-                btnCadastrarDisciplina.setVisible(false);
-                btnCadastrarCurso.setVisible(false);
-                btnLancarNotas.setVisible(false);
-                btnRegistrarPresenca.setVisible(false);
+                btnRelatorio.setVisible(true);
+                btnRelatorio.setManaged(true);
+                visibleButtonCount = 1;
                 break;
         }
+
+        // Adjust VBox height dynamically: 40px per button (30px height + 12px spacing) + padding
+        double buttonHeight = 30.0;
+        double spacing = 12.0;
+        double totalHeight = visibleButtonCount * buttonHeight + (visibleButtonCount > 0 ? (visibleButtonCount - 1) * spacing : 0) + 30.0;
+        sidebarVBox.setPrefHeight(totalHeight);
+        sidebarVBox.setMaxHeight(totalHeight);
     }
 
+    private void setActiveButton(Button button) {
+        if (activeButton != null) {
+            activeButton.getStyleClass().remove("active");
+        }
+        if (button != null) {
+            button.getStyleClass().add("active");
+        }
+        activeButton = button;
+    }
 
-    // Método genérico para abrir telas
-    private void abrirTela(String caminhoFXML, ActionEvent event, String titulo) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource(caminhoFXML));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle(titulo);
-            stage.setResizable(false);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void restaurarEstado() {
+        // Restaurar estado da sidebar (mantém expandida por padrão)
+        if (sidebarCollapsed) {
+            toggleSidebar();
+        }
+        // Reaplicar estilos aos botões
+        for (Map.Entry<Button, String> entry : buttonStyles.entrySet()) {
+            Button btn = entry.getKey();
+            btn.setStyle(entry.getValue());
+            btn.getStyleClass().remove("active");
+        }
+        if (activeButton != null) {
+            activeButton.getStyleClass().add("active");
         }
     }
 
-    // Métodos dos botões
+    @FXML
+    private void toggleSidebar() {
+        sidebarCollapsed = !sidebarCollapsed;
+        if (sidebarCollapsed) {
+            sidebarVBox.setPrefWidth(SIDEBAR_COLLAPSED_WIDTH);
+            sidebarVBox.getChildren().forEach(node -> {
+                if (node instanceof Button btn) {
+                    btn.setText("");
+                    btn.setGraphicTextGap(0);
+                    btn.setAlignment(javafx.geometry.Pos.CENTER);
+                }
+            });
+            labelUsuario.setVisible(false);
+        } else {
+            sidebarVBox.setPrefWidth(SIDEBAR_EXPANDED_WIDTH);
+            labelUsuario.setVisible(true);
+            // Restore button text based on fx:id
+            btnCadastrarAluno.setText("Cadastrar Aluno");
+            btnCadastrarTurma.setText("Cadastrar Turma");
+            btnCadastrarDisciplina.setText("Cadastrar Disciplina");
+            btnCadastrarCurso.setText("Cadastrar Curso");
+            btnLancarNotas.setText("Lançar Notas");
+            btnRegistrarPresenca.setText("Registrar Presença");
+            btnRelatorio.setText("Relatório");
+            sidebarVBox.getChildren().forEach(node -> {
+                if (node instanceof Button btn) {
+                    btn.setGraphicTextGap(12);
+                    btn.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+                }
+            });
+        }
+    }
+
+    private void carregarConteudo(String caminhoFXML, String titulo, Button button) {
+        try {
+            Parent content = FXMLLoader.load(getClass().getResource(caminhoFXML));
+            contentPane.getChildren().clear();
+            content.setOpacity(0);
+            contentPane.getChildren().add(content);
+            // Ensure content scales with contentPane
+            if (content instanceof Region region) {
+                region.setMaxWidth(Double.MAX_VALUE);
+                region.setMaxHeight(Double.MAX_VALUE);
+                region.prefWidthProperty().bind(contentPane.widthProperty());
+                region.prefHeightProperty().bind(contentPane.heightProperty());
+            }
+
+
+            // Fade-in animation
+            FadeTransition fadeIn = new FadeTransition(Duration.millis(300), content);
+            fadeIn.setFromValue(0);
+            fadeIn.setToValue(1);
+            fadeIn.play();
+            // Update content title
+            contentTitle.setText(titulo);
+            // Set active button style
+            setActiveButton(button);
+            // Restaurar estado da interface
+            restaurarEstado();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setHeaderText(null);
+            alert.setContentText("Falha ao carregar a tela: " + caminhoFXML + "\nErro: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
     @FXML
     private void abrirCadastroAluno(ActionEvent event) {
-        abrirTela("/view/CadastroAluno.fxml", event, "Cadastro de Aluno");
+        carregarConteudo("/view/CadastroAluno.fxml", "Cadastro de Aluno", btnCadastrarAluno);
     }
 
     @FXML
     private void abrirCadastroTurma(ActionEvent event) {
-        abrirTela("/view/CadastroTurma.fxml", event, "Cadastro de Turma");
+        carregarConteudo("/view/CadastroTurma.fxml", "Cadastro de Turma", btnCadastrarTurma);
     }
 
     @FXML
     private void abrirCadastroDisciplina(ActionEvent event) {
-        abrirTela("/view/CadastroDisciplina.fxml", event, "Cadastro de Disciplina");
+        carregarConteudo("/view/CadastroDisciplina.fxml", "Cadastro de Disciplina", btnCadastrarDisciplina);
     }
 
     @FXML
     private void abrirLancarNotas(ActionEvent event) {
-        abrirTela("/view/LancarNotas.fxml", event, "Lançamento de Notas");
+        carregarConteudo("/view/LancarNotas.fxml", "Lançamento de Notas", btnLancarNotas);
     }
 
     @FXML
     private void abrirRegistrarPresenca(ActionEvent event) {
-        abrirTela("/view/RegistrarPresenca.fxml", event, "Registro de Presença");
+        carregarConteudo("/view/RegistrarPresenca.fxml", "Registro de Presença", btnRegistrarPresenca);
     }
+
+    @FXML
+    private void abrirCadastroCurso(ActionEvent event) {
+        carregarConteudo("/view/CadastroCurso.fxml", "Cadastro de Curso", btnCadastrarCurso);
+    }
+
+    @FXML
+    private void abrirRelatorio(ActionEvent event) {
+        carregarConteudo("/view/Relatorio.fxml", "Relatórios", btnRelatorio);
+    }
+    
+    public void limparConteudo() {
+    contentTitle.setText("Painel Inicial");
+    contentPane.getChildren().clear();
+    }
+
 
     @FXML
     private void sair(ActionEvent event) {
         Sessao.limpar();
-        abrirTela("/view/Login.fxml", event, "Login");
-    }
-    
-    @FXML
-    private void abrirCadastroCurso(ActionEvent event) {
-        abrirTela("/view/CadastroCurso.fxml", event, "Cadastro de Curso");
-    }
-
-    @FXML
-    private void abrirRelatorio (ActionEvent event) {
-         abrirTela("/view/Relatorio.fxml", event, "Relatórios");
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
+            Stage stage = (Stage) rootPane.getScene().getWindow();
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+            stage.setScene(scene);
+            stage.setTitle("Login");
+            stage.setResizable(false); // Login screen non-resizable
+            stage.show();
+            setActiveButton(null);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setHeaderText(null);
+            alert.setContentText("Falha ao carregar a tela de login.");
+            alert.showAndWait();
+        }
     }
 }
