@@ -1,4 +1,4 @@
-package repository;
+package service;
 
 import model.Usuario;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ public class UsuarioRepository {
     public List<Usuario> buscarTodos() {
         return new ArrayList<>(usuarios);
     }
-
+    
     public void salvar(Usuario usuario) {
         if (usuario.getId() == 0) {
             usuario.setId((int) System.currentTimeMillis()); // Corrigido: sem cast

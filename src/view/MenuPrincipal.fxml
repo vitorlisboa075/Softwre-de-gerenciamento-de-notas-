@@ -32,7 +32,7 @@
             <Button fx:id="btnCadastrarAluno" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirCadastroAluno" styleClass="sidebar-button" text="Cadastrar Aluno">
                 <graphic>
                     <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
-                        <Image url="@../Image/1f9d1-1f3fb-1f393%20(1).png" />
+                        <Image url="@../Image/Ícone%20cadastrar%20aluno.png" />
                     </ImageView>
                 </graphic>
                 <tooltip>
@@ -42,7 +42,7 @@
             <Button fx:id="btnCadastrarTurma" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirCadastroTurma" styleClass="sidebar-button" text="Cadastrar Turma">
                 <graphic>
                     <ImageView fitHeight="24" fitWidth="24" focusTraversable="true" preserveRatio="true">
-                        <Image url="@../Image/pngwing.com.png" />
+                        <Image url="@../Image/Ícone%20cadastrar%20turma.png" />
                     </ImageView>
                 </graphic>
                 <tooltip>
@@ -52,7 +52,7 @@
             <Button fx:id="btnCadastrarDisciplina" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirCadastroDisciplina" styleClass="sidebar-button" text="Cadastrar Disciplina">
                 <graphic>
                     <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
-                        <Image url="@../Image/1043312.png" />
+                        <Image url="@../Image/Ícone%20cadastrar%20disciplina.png" />
                     </ImageView>
                 </graphic>
                 <tooltip>
@@ -62,17 +62,87 @@
             <Button fx:id="btnCadastrarCurso" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirCadastroCurso" styleClass="sidebar-button" text="Cadastrar Curso">
                 <graphic>
                     <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
-                        <Image url="@../Image/curso.png" />
+                        <Image url="@../Image/Ícone%20cadastrar%20curso.png" />
                     </ImageView>
                 </graphic>
                 <tooltip>
                     <Tooltip text="Cadastrar novo curso" />
                 </tooltip>
             </Button>
+         <Button fx:id="btnGerenciarUsuario" graphicTextGap="12" layoutX="25.0" layoutY="320.0" maxWidth="Infinity" onAction="#abrirGerenciarUsuario" styleClass="sidebar-button" text="Gerenciar Usuário">
+            <graphic>
+               <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
+                  <image>
+                     <Image url="@../Image/Ícone%20gerenciar%20usuário.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+            <tooltip>
+               <Tooltip text="Gerar relatórios" />
+            </tooltip>
+         </Button>
+         <Button fx:id="btnGerenciarAluno" graphicTextGap="12" layoutX="25.0" layoutY="370.0" maxWidth="Infinity" onAction="#abrirGerenciarAluno" styleClass="sidebar-button" text="Gerenciar Aluno">
+            <graphic>
+               <ImageView fitHeight="41.0" fitWidth="24.0" preserveRatio="true">
+                  <image>
+                     <Image url="@../Image/Ícone%20gerenciar%20aluno.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+            <tooltip>
+               <Tooltip text="Gerar relatórios" />
+            </tooltip>
+         </Button>
+         <Button fx:id="btnGerenciarTurmas" graphicTextGap="12" layoutX="25.0" layoutY="328.0" maxWidth="Infinity" styleClass="sidebar-button" text="Gerenciar Turmas">
+            <graphic>
+               <ImageView fitHeight="41.0" fitWidth="24.0" preserveRatio="true">
+                  <image>
+                     <Image url="@../Image/Ícone%20gerenciar%20turma.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+            <tooltip>
+               <Tooltip text="Gerar relatórios" />
+            </tooltip>
+         </Button>
+         <Button fx:id="btnGerenciarCursos" graphicTextGap="12" layoutX="25.0" layoutY="308.0" maxWidth="Infinity" styleClass="sidebar-button" text="Gerenciar Cursos">
+            <graphic>
+               <ImageView fitHeight="41.0" fitWidth="24.0" preserveRatio="true">
+                  <image>
+                     <Image url="@../Image/Ícone%20gerenciar%20curso.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+            <tooltip>
+               <Tooltip text="Gerar relatórios" />
+            </tooltip>
+         </Button>
+         <Button fx:id="btnGerenciarDisciplinas" graphicTextGap="12" layoutX="25.0" layoutY="428.0" maxWidth="Infinity" styleClass="sidebar-button" text="Gerenciar Disciplinas">
+            <graphic>
+               <ImageView fitHeight="41.0" fitWidth="24.0" preserveRatio="true">
+                  <image>
+                     <Image url="@../Image/Ícone%20gerenciar%20disciplinas.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+            <tooltip>
+               <Tooltip text="Gerar relatórios" />
+            </tooltip>
+         </Button>
+            <Button fx:id="btnRelatorio" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirRelatorio" styleClass="sidebar-button" text="Relatório">
+                <graphic>
+                    <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
+                        <Image url="@../Image/Ícone%20relatorio.png" />
+                    </ImageView>
+                </graphic>
+                <tooltip>
+                    <Tooltip text="Gerar relatórios" />
+                </tooltip>
+            </Button>
             <Button fx:id="btnLancarNotas" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirLancarNotas" styleClass="sidebar-button" text="Lançar Notas">
                 <graphic>
                     <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
-                        <Image url="@../Image/notas-dos-alunos.png" />
+                        <Image url="@../Image/Ícone%20lançar%20nota.png" />
                     </ImageView>
                 </graphic>
                 <tooltip>
@@ -82,23 +152,25 @@
             <Button fx:id="btnRegistrarPresenca" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirRegistrarPresenca" styleClass="sidebar-button" text="Registrar Presença">
                 <graphic>
                     <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
-                        <Image url="@../Image/png-clipart-grading-in-education-school-report-card-student-college-school-label-text.png" />
+                        <Image url="@../Image/Ícone%20registrar%20presença.png" />
                     </ImageView>
                 </graphic>
                 <tooltip>
                     <Tooltip text="Registrar presença dos alunos" />
                 </tooltip>
             </Button>
-            <Button fx:id="btnRelatorio" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirRelatorio" styleClass="sidebar-button" text="Relatório">
-                <graphic>
-                    <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
-                        <Image url="@../Image/relatorio.png" />
-                    </ImageView>
-                </graphic>
-                <tooltip>
-                    <Tooltip text="Gerar relatórios" />
-                </tooltip>
-            </Button>
+         <Button fx:id="btnConfiguracoes" graphicTextGap="12" layoutX="25.0" layoutY="428.0" maxWidth="Infinity" styleClass="sidebar-button" text="Configurações">
+            <graphic>
+               <ImageView fitHeight="41.0" fitWidth="24.0" preserveRatio="true">
+                  <image>
+                     <Image url="@../Image/Ícone%20configurações.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+            <tooltip>
+               <Tooltip text="Gerar relatórios" />
+            </tooltip>
+         </Button>
         </VBox>
     </left>
     

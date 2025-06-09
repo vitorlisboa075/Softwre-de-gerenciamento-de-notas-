@@ -2,7 +2,7 @@ package service;
 
 import java.util.List;
 import model.Usuario;
-import repository.UsuarioRepository;
+import service.UsuarioRepository;
 
 import java.util.regex.Pattern;
 

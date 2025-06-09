@@ -8,10 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom right, #ffffff, #dfe9f3);" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="controller.LancarNotasController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom right, #ffffff, #dfe9f3);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LancarNotasController">
 
     <children>
-        <Label layoutX="320" layoutY="20" style="-fx-font-size: 26; -fx-font-weight: bold;" text="Lançamento de Notas" />
 
         <!-- Filtros -->
         <HBox layoutX="50" layoutY="70" spacing="20">

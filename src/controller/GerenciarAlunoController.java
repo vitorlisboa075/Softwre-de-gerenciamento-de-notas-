@@ -1,12 +1,18 @@
+package controller;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.scene.Parent;
+import javafx.scene.layout.BorderPane;
 import model.Aluno;
 import service.AlunoService;
-import session.UsuarioSession;
+import util.UsuarioSession;
+import util.TrocaDeTela;
 
-public class AlunoController {
+public class GerenciarAlunoController {
 
     @FXML private TableView<Aluno> tabelaAlunos;
     @FXML private TableColumn<Aluno, Number> colId;
@@ -15,6 +21,7 @@ public class AlunoController {
     @FXML private TableColumn<Aluno, String> colCurso;
     @FXML private TableColumn<Aluno, String> colTurma;
     @FXML private TableColumn<Aluno, String> colEmail;
+    @FXML private Button btnVoltar;
 
     private final AlunoService alunoService = new AlunoService();
 
@@ -64,5 +71,32 @@ public class AlunoController {
             alunoService.excluir(alunoSelecionado.getId()); // getId() agora retorna long
             carregarAlunos();
         }
+    }
+    
+    // Método para limpar os campos
+    @FXML
+    private void limparCampos() {
+
+    }
+    
+    // Voltar para o Menu Principal
+    @FXML
+    private void voltar(ActionEvent event) {
+        MenuPrincipalController menuController = buscarMenuController();
+        if (menuController != null) {
+            menuController.restaurarEstado();
+            menuController.limparConteudo();
+        }
+    }
+
+    private MenuPrincipalController buscarMenuController() {
+        Parent root = btnVoltar.getScene().getRoot();
+        if (root instanceof BorderPane borderPane) {
+            Object controller = borderPane.getUserData();
+            if (controller instanceof MenuPrincipalController menuController) {
+                return menuController;
+            }
+        }
+        return null;
     }
 }

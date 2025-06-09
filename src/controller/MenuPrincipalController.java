@@ -23,6 +23,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.HashMap;
 import java.util.Map;
+import javafx.geometry.Pos;
 
 public class MenuPrincipalController implements Initializable {
 
@@ -62,6 +63,18 @@ public class MenuPrincipalController implements Initializable {
     @FXML
     private Button btnRelatorio;
     @FXML
+    private Button btnGerenciarUsuario;
+    @FXML
+    private Button btnGerenciarAluno;
+    @FXML
+    private Button btnGerenciarTurmas;
+    @FXML
+    private Button btnGerenciarCursos;
+    @FXML
+    private Button btnGerenciarDisciplinas;
+    @FXML
+    private Button btnConfiguracoes;
+    @FXML
     private Button btnSair;
 
     private String tipoUsuario;
@@ -89,6 +102,13 @@ public class MenuPrincipalController implements Initializable {
         buttonStyles.put(btnLancarNotas, btnLancarNotas.getStyle());
         buttonStyles.put(btnRegistrarPresenca, btnRegistrarPresenca.getStyle());
         buttonStyles.put(btnRelatorio, btnRelatorio.getStyle());
+        buttonStyles.put(btnGerenciarUsuario, btnGerenciarUsuario.getStyle());
+        buttonStyles.put(btnGerenciarAluno, btnGerenciarAluno.getStyle());
+        
+        buttonStyles.put(btnGerenciarTurmas, btnGerenciarTurmas.getStyle());
+        buttonStyles.put(btnGerenciarCursos, btnGerenciarCursos.getStyle());
+        buttonStyles.put(btnGerenciarDisciplinas, btnGerenciarDisciplinas.getStyle());
+        buttonStyles.put(btnConfiguracoes, btnConfiguracoes.getStyle());
 
         // Apply animations to buttons
         setupButtonAnimations();
@@ -108,7 +128,8 @@ public class MenuPrincipalController implements Initializable {
 
     private void setupButtonAnimations() {
         for (Button btn : new Button[]{btnCadastrarAluno, btnCadastrarTurma, btnCadastrarDisciplina, 
-                                       btnCadastrarCurso, btnLancarNotas, btnRegistrarPresenca, btnRelatorio}) {
+                                       btnCadastrarCurso, btnLancarNotas, btnRegistrarPresenca, btnRelatorio,
+                                       btnGerenciarUsuario, btnGerenciarAluno, btnGerenciarTurmas, btnGerenciarCursos, btnGerenciarDisciplinas, btnConfiguracoes}) {
             ScaleTransition scaleIn = new ScaleTransition(Duration.millis(100), btn);
             scaleIn.setToX(1.05);
             scaleIn.setToY(1.05);
@@ -123,7 +144,7 @@ public class MenuPrincipalController implements Initializable {
     }
 
     private void aplicarPermissoes() {
-        // Default: hide and disable layout management for all buttons
+        // ocultar e desabilitar o gerenciamento de layout para todos os botões
         btnCadastrarAluno.setVisible(false);
         btnCadastrarAluno.setManaged(false);
         btnCadastrarTurma.setVisible(false);
@@ -138,8 +159,21 @@ public class MenuPrincipalController implements Initializable {
         btnRegistrarPresenca.setManaged(false);
         btnRelatorio.setVisible(false);
         btnRelatorio.setManaged(false);
+        btnGerenciarUsuario.setVisible(false);
+        btnGerenciarUsuario.setManaged(false);
+        btnGerenciarAluno.setVisible(false);
+        btnGerenciarAluno.setManaged(false);
+        
+        btnGerenciarTurmas.setVisible(false);
+        btnGerenciarTurmas.setManaged(false);
+        btnGerenciarCursos.setVisible(false);
+        btnGerenciarCursos.setManaged(false);
+        btnGerenciarDisciplinas.setVisible(false);
+        btnGerenciarDisciplinas.setManaged(false);
+        btnConfiguracoes.setVisible(false);
+        btnConfiguracoes.setManaged(false);
 
-        // Enable buttons based on user type and count visible buttons
+        // Habilitar botões com base no tipo de usuário 
         int visibleButtonCount = 0;
         switch (tipoUsuario) {
             case "secretaria":
@@ -153,7 +187,20 @@ public class MenuPrincipalController implements Initializable {
                 btnCadastrarCurso.setManaged(true);
                 btnRelatorio.setVisible(true);
                 btnRelatorio.setManaged(true);
-                visibleButtonCount = 5;
+                btnGerenciarUsuario.setVisible(true);
+                btnGerenciarUsuario.setManaged(true);
+                btnGerenciarAluno.setVisible(true);
+                btnGerenciarAluno.setManaged(true);
+                
+                btnGerenciarTurmas.setVisible(true);
+                btnGerenciarTurmas.setManaged(true);
+                btnGerenciarCursos.setVisible(true);
+                btnGerenciarCursos.setManaged(true);
+                btnGerenciarDisciplinas.setVisible(true);
+                btnGerenciarDisciplinas.setManaged(true);
+                btnConfiguracoes.setVisible(true);
+                btnConfiguracoes.setManaged(true);
+                visibleButtonCount = 11;
                 break;
             case "professor":
                 btnLancarNotas.setVisible(true);
@@ -162,12 +209,35 @@ public class MenuPrincipalController implements Initializable {
                 btnRegistrarPresenca.setManaged(true);
                 btnRelatorio.setVisible(true);
                 btnRelatorio.setManaged(true);
+                btnConfiguracoes.setVisible(true);
+                btnConfiguracoes.setManaged(true);
                 visibleButtonCount = 3;
                 break;
             case "admin":
                 btnRelatorio.setVisible(true);
                 btnRelatorio.setManaged(true);
-                visibleButtonCount = 1;
+                btnCadastrarTurma.setVisible(true);
+                btnCadastrarTurma.setManaged(true);
+                btnCadastrarDisciplina.setVisible(true);
+                btnCadastrarDisciplina.setManaged(true);
+                btnCadastrarCurso.setVisible(true);
+                btnCadastrarCurso.setManaged(true);
+                btnRelatorio.setVisible(true);
+                btnRelatorio.setManaged(true);
+                btnGerenciarUsuario.setVisible(true);
+                btnGerenciarUsuario.setManaged(true);
+                btnGerenciarAluno.setVisible(true);
+                btnGerenciarAluno.setManaged(true);
+                
+                btnGerenciarTurmas.setVisible(true);
+                btnGerenciarTurmas.setManaged(true);
+                btnGerenciarCursos.setVisible(true);
+                btnGerenciarCursos.setManaged(true);
+                btnGerenciarDisciplinas.setVisible(true);
+                btnGerenciarDisciplinas.setManaged(true);
+                btnConfiguracoes.setVisible(true);
+                btnConfiguracoes.setManaged(true);
+                visibleButtonCount = 11;
                 break;
         }
 
@@ -229,6 +299,14 @@ public class MenuPrincipalController implements Initializable {
             btnLancarNotas.setText("Lançar Notas");
             btnRegistrarPresenca.setText("Registrar Presença");
             btnRelatorio.setText("Relatório");
+            btnGerenciarUsuario.setText("Gerenciar Usuarios");
+            btnGerenciarAluno.setText("Gerenciar Aluno");
+            
+            btnGerenciarTurmas.setText("Gerenciar Turmas");
+            btnGerenciarCursos.setText("Gerenciar Cursos"); 
+            btnGerenciarDisciplinas.setText("Gerenciar Disciplinas");
+            btnConfiguracoes.setText("Configurações");
+            
             sidebarVBox.getChildren().forEach(node -> {
                 if (node instanceof Button btn) {
                     btn.setGraphicTextGap(12);
@@ -250,7 +328,10 @@ public class MenuPrincipalController implements Initializable {
                 region.setMaxHeight(Double.MAX_VALUE);
                 region.prefWidthProperty().bind(contentPane.widthProperty());
                 region.prefHeightProperty().bind(contentPane.heightProperty());
+
+                StackPane.setAlignment(region, Pos.CENTER);
             }
+
 
 
             // Fade-in animation
@@ -308,6 +389,17 @@ public class MenuPrincipalController implements Initializable {
     private void abrirRelatorio(ActionEvent event) {
         carregarConteudo("/view/Relatorio.fxml", "Relatórios", btnRelatorio);
     }
+    
+    @FXML
+    private void abrirGerenciarUsuario(ActionEvent event) {
+        carregarConteudo("/view/GerenciamentoUsuario.fxml", "Gerenciar Usuarios", btnGerenciarUsuario);
+    }
+    
+    @FXML
+    private void abrirGerenciarAluno(ActionEvent event) {
+        carregarConteudo("/view/GerenciamentoAluno.fxml", "Gerenciar Aluno", btnGerenciarAluno);
+    }
+    
     
     public void limparConteudo() {
     contentTitle.setText("Painel Inicial");

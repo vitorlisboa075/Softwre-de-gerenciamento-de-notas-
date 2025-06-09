@@ -2,18 +2,23 @@ package controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import model.Usuario;
 import service.UsuarioService;
+import util.TrocaDeTela;
 
-public class UsuarioController {
+public class GerenciarUsuarioController {
 
     @FXML private TableView<Usuario> tabelaUsuarios;
     @FXML private TableColumn<Usuario, Number> colId;
     @FXML private TableColumn<Usuario, String> colNome;
     @FXML private TableColumn<Usuario, String> colEmail;
     @FXML private TableColumn<Usuario, String> colTipo;
+    @FXML private Button btnVoltar;
 
     private final UsuarioService usuarioService = new UsuarioService();
 
@@ -55,5 +60,32 @@ public class UsuarioController {
             usuarioService.excluir(usuario.getId());
             carregarUsuarios();
         }
+    }
+    
+    @FXML
+    private void limparCampos() {
+        
+    }
+    
+    
+    // Voltar para o Menu Principal
+    @FXML
+    private void voltar(ActionEvent event) {
+        MenuPrincipalController menuController = buscarMenuController();
+        if (menuController != null) {
+            menuController.restaurarEstado();
+            menuController.limparConteudo();
+        }
+    }
+
+    private MenuPrincipalController buscarMenuController() {
+        Parent root = btnVoltar.getScene().getRoot();
+        if (root instanceof BorderPane borderPane) {
+            Object controller = borderPane.getUserData();
+            if (controller instanceof MenuPrincipalController menuController) {
+                return menuController;
+            }
+        }
+        return null;
     }
 }

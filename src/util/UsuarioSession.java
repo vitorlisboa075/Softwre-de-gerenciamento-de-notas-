@@ -1,4 +1,4 @@
-package session;
+package util;
 
 public class UsuarioSession {
     private static final String role = "SECRETARIA"; // simulado

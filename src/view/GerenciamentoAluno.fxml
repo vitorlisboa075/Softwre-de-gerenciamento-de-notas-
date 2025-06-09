@@ -6,7 +6,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="504.0" prefWidth="794.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="controller.AlunoController">
+<AnchorPane prefHeight="504.0" prefWidth="794.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GerenciarAlunoController">
     <children>
         <TableView fx:id="tabelaAlunos" layoutX="7.0" layoutY="72.0" prefHeight="300" prefWidth="780.0">
             <columns>
@@ -15,7 +15,7 @@
                 <TableColumn fx:id="colMatricula" prefWidth="122.4000244140625" text="Matrícula" />
                 <TableColumn fx:id="colCurso" prefWidth="125.60003662109375" text="Curso" />
                 <TableColumn fx:id="colTurma" prefWidth="104.800048828125" text="Turma" />
-            <TableColumn fx:id="colEmail1" prefWidth="173.60003662109375" text="Email" />
+            <TableColumn fx:id="colEmail" prefWidth="173.60003662109375" text="Email" />
             </columns>
         </TableView>
 
@@ -23,7 +23,7 @@
         <Button layoutX="118.0" layoutY="383.0" onAction="#onEditarAluno" text="Editar" />
         <Button layoutX="190.0" layoutY="383.0" onAction="#onExcluirAluno" text="Excluir" />
       <Label layoutX="225.0" layoutY="14.0" style="-fx-font-size: 28px; -fx-font-weight: bold;" text="Gerenciamento de Aluno" />
-      <Button layoutX="411.0" layoutY="440.0" onAction="#voltar" style="-fx-background-color: transparent; -fx-border-color: #0052D4; -fx-text-fill: #0052D4; -fx-font-weight: bold; -fx-border-radius: 8;" text="Voltar" />
+      <Button fx:id="btnVoltar" layoutX="411.0" layoutY="440.0" onAction="#voltar" style="-fx-background-color: transparent; -fx-border-color: #0052D4; -fx-text-fill: #0052D4; -fx-font-weight: bold; -fx-border-radius: 8;" text="Voltar" />
       <Button layoutX="322.0" layoutY="441.0" onAction="#limparCampos" style="-fx-background-color: #cccccc; -fx-font-weight: bold; -fx-background-radius: 8;" text="Limpar" />
     </children>
 </AnchorPane>

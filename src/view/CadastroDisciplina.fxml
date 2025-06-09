@@ -12,12 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom right, #f0f4f7, #e6ecf1);" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="controller.CadastroDisciplinaController">
-
-    <!-- TOPO -->
-    <top>
-        <Label style="-fx-font-size: 28px; -fx-font-weight: bold;" text="Cadastro de Disciplina" BorderPane.alignment="CENTER" />
-    </top>
+<BorderPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: linear-gradient(to bottom right, #f0f4f7, #e6ecf1);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CadastroDisciplinaController">
 
     <!-- CENTRO -->
     <center>

@@ -1,4 +1,4 @@
-package controller;
+package model;
 
 import model.Curso;
 import model.Disciplina;

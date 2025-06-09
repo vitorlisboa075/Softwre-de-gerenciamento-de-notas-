@@ -1,0 +1,86 @@
+/* Form Field */
+.form-field {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dfe4ea;
+    -fx-border-radius: 5;
+    -fx-padding: 8;
+    -fx-font-family: 'Arial';
+    -fx-font-size: 14;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 3, 0, 0, 1);
+}
+.form-field:focused {
+    -fx-border-color: #3498db;
+    -fx-effect: dropshadow(gaussian, rgba(52,152,219,0.3), 5, 0, 0, 1);
+}
+
+/* Form Button */
+.form-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-family: 'Arial';
+    -fx-font-size: 14;
+    -fx-padding: 8 16;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-cursor: hand;
+}
+.form-button:hover {
+    -fx-background-color: #2980b9;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+.form-button:pressed {
+    -fx-background-color: #21618c;
+    -fx-scale-x: 1.0;
+    -fx-scale-y: 1.0;
+}
+
+/* Error Label */
+.error-label {
+    -fx-font-family: 'Arial';
+    -fx-font-size: 12;
+    -fx-text-fill: #e74c3c;
+    -fx-background-color: rgba(231, 76, 60, 0.1);
+    -fx-padding: 5;
+    -fx-background-radius: 5;
+}
+
+/* Sidebar Button */
+.sidebar-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-family: 'Arial';
+    -fx-font-size: 14;
+    -fx-padding: 8 16;
+    -fx-background-radius: 8;
+}
+.sidebar-button:hover {
+    -fx-background-color: #2980b9;
+    -fx-cursor: hand;
+}
+
+/* Sair Button */
+.sair-button {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-font-family: 'Arial';
+    -fx-font-size: 14;
+    -fx-padding: 8 16;
+    -fx-background-radius: 8;
+}
+.sair-button:hover {
+    -fx-background-color: #c0392b;
+    -fx-cursor: hand;
+}
+
+/* Toggle Button */
+.toggle-button:hover {
+    -fx-background-color: #34495e;
+    -fx-cursor: hand;
+}
+
+/* Active Sidebar Button */
+.active {
+    -fx-background-color: #2980b9;
+}
