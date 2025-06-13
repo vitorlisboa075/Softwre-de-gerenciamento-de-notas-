@@ -13,6 +13,8 @@ import javafx.util.Duration;
 import util.Sessao;
 import javafx.event.ActionEvent;
 import java.io.IOException;
+import model.MockDB;
+import model.Usuario;
 
 public class LoginController {
 
@@ -100,22 +102,21 @@ public class LoginController {
     }
 
     private boolean autenticarUsuario(String email, String senha) {
-        // Exemplo de autenticação para teste
-        if (email.equals("professor@if.com") && senha.equals("Abcd1234!")) {
-            Sessao.setTipoUsuario("professor");
-            Sessao.setEmail(email);
-            return true;
-        } else if (email.equals("secretaria@if.com") && senha.equals("Abcd1234!")) {
-            Sessao.setTipoUsuario("secretaria");
-            Sessao.setEmail(email);
-            return true;
-        } else if (email.equals("admin@if.com") && senha.equals("Abcd1234!")) {
-            Sessao.setTipoUsuario("admin");
-            Sessao.setEmail(email);
+        // Busca o usuário no nosso banco de dados simulado
+        Usuario usuarioEncontrado = MockDB.findUsuarioByEmail(email);
+
+        if (usuarioEncontrado != null && usuarioEncontrado.getSenha().equals(senha)) {
+            // Se encontrou o usuário e a senha bate, inicia a sessão
+            Sessao.setTipoUsuario(usuarioEncontrado.getTipoUsuario());
+            Sessao.setEmail(usuarioEncontrado.getEmail());
             return true;
         }
+
+        // Se não encontrou ou a senha está errada
         return false;
     }
+
+    // Dentro da classe LoginController.java
 
     private void abrirMenu() {
         try {
@@ -124,16 +125,25 @@ public class LoginController {
             MenuPrincipalController controller = loader.getController();
             Stage stage = (Stage) txtEmail.getScene().getWindow();
             Scene scene = new Scene(root, 800, 600);
-            scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+
+            // --- CORREÇÃO APLICADA AQUI ---
+            // O caminho correto para o seu arquivo de estilos
+            scene.getStylesheets().add(getClass().getResource("/view/styles.css").toExternalForm());
+
             stage.setScene(scene);
-            controller.configureStage(stage);
+
+            // Esta chamada é do seu controller original, que espera um Stage
+            if (controller != null) {
+                controller.configureStage(stage);
+            }
+
             stage.show();
-        } catch (IOException e) {
+        } catch (Exception e) { // Mudei para Exception para capturar qualquer tipo de erro
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText(null);
-            alert.setContentText("Falha ao carregar o menu principal.");
+            alert.setTitle("Erro Crítico");
+            alert.setHeaderText("Falha ao carregar o menu principal.");
+            alert.setContentText("Ocorreu um erro durante a inicialização do menu. Verifique se o arquivo FXML e o Controller estão corretos. Erro: " + e.getMessage());
             alert.showAndWait();
         }
     }

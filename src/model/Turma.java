@@ -1,77 +1,57 @@
-
+// Local: src/model/Turma.java
 package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class Turma {
     private int id;
-    private String nome;
-    private String descricao;
-    private String semestre;
-    private Curso curso; // Associação com o curso
-    private Disciplina disciplina; // Associação com a disciplina
-    private List<Aluno> alunos; // Alunos matriculados na turma
-    private String horarioAulas;
-    private String sala;
+    private final StringProperty nome = new SimpleStringProperty();
+    private final StringProperty periodo = new SimpleStringProperty();
+    
+    private List<Disciplina> disciplinas;
+    private List<Usuario> alunos; // MUDANÇA: Agora é uma lista de Usuario
 
     // Construtor
-    public Turma(int id, String nome, String descricao, String semestre, Curso curso, Disciplina disciplina, String horarioAulas, String sala) {
+    public Turma(int id, String nome, String periodo) {
         this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.semestre = semestre;
-        this.curso = curso;
-        this.disciplina = disciplina;
-        this.horarioAulas = horarioAulas;
-        this.sala = sala;
-        this.alunos = new ArrayList<>();
+        this.setNome(nome);
+        this.setPeriodo(periodo);
+        this.disciplinas = new ArrayList<>();
+        this.alunos = new ArrayList<>(); // Inicializa a lista de Usuario
     }
 
-    // Getters e Setters
+    // --- Getters e Setters ---
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
+    public String getNome() { return nome.get(); }
+    public void setNome(String nome) { this.nome.set(nome); }
+    public StringProperty nomeProperty() { return nome; }
 
-    public String getDescricao() { return descricao; }
-    public void setDescricao(String descricao) { this.descricao = descricao; }
+    public String getPeriodo() { return periodo.get(); }
+    public void setPeriodo(String periodo) { this.periodo.set(periodo); }
+    public StringProperty periodoProperty() { return periodo; }
 
-    public String getSemestre() { return semestre; }
-    public void setSemestre(String semestre) { this.semestre = semestre; }
+    public List<Disciplina> getDisciplinas() { return disciplinas; }
+    public void setDisciplinas(List<Disciplina> disciplinas) { this.disciplinas = disciplinas; }
 
-    public Curso getCurso() { return curso; }
-    public void setCurso(Curso curso) { this.curso = curso; }
+    // Getters e Setters atualizados para Usuario
+    public List<Usuario> getAlunos() { return alunos; }
+    public void setAlunos(List<Usuario> alunos) { this.alunos = alunos; }
 
-    public Disciplina getDisciplina() { return disciplina; }
-    public void setDisciplina(Disciplina disciplina) { this.disciplina = disciplina; }
+    // --- Métodos para gerenciar listas ---
+    public void adicionarDisciplina(Disciplina disciplina) {
+        if (!disciplinas.contains(disciplina)) {
+            disciplinas.add(disciplina);
+        }
+    }
 
-    public List<Aluno> getAlunos() { return alunos; }
-
-    public String getHorarioAulas() { return horarioAulas; }
-    public void setHorarioAulas(String horarioAulas) { this.horarioAulas = horarioAulas; }
-
-    public String getSala() { return sala; }
-    public void setSala(String sala) { this.sala = sala; }
-
-    // Métodos para gerenciar alunos
-    public void adicionarAluno(Aluno aluno) {
-        if (!alunos.contains(aluno)) {
+    public void adicionarAluno(Usuario aluno) {
+        if (aluno.isAluno() && !alunos.contains(aluno)) {
             alunos.add(aluno);
         }
     }
-
-    public void removerAluno(Aluno aluno) {
-        alunos.remove(aluno);
-    }
-
-    public void listarAlunos() {
-        System.out.println("Alunos da turma " + nome + ":");
-        for (Aluno a : alunos) {
-            System.out.println("- " + a.getNome());
-        }
-    }
 }
-
-

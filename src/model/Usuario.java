@@ -1,19 +1,23 @@
+// Local: src/model/Usuario.java
 package model;
 
 import javafx.beans.property.*;
 
 public class Usuario {
 
+    // --- Dados Pessoais ---
     private final LongProperty id = new SimpleLongProperty();
     private final StringProperty nome = new SimpleStringProperty();
     private final StringProperty cpf = new SimpleStringProperty();
     private final StringProperty email = new SimpleStringProperty();
-    private final StringProperty genero = new SimpleStringProperty();
-    private final StringProperty dataNascimento = new SimpleStringProperty();
     private final StringProperty telefone = new SimpleStringProperty();
     private final StringProperty senha = new SimpleStringProperty();
-    private final StringProperty tipoUsuario = new SimpleStringProperty();
+    private final StringProperty tipoUsuario = new SimpleStringProperty(); // "Aluno", "Professor", "Secretaria"
+    
+    // --- Campo específico para Aluno ---
+    private final StringProperty matricula = new SimpleStringProperty();
 
+    // --- Endereço ---
     private final StringProperty logradouro = new SimpleStringProperty();
     private final StringProperty numero = new SimpleStringProperty();
     private final StringProperty complemento = new SimpleStringProperty();
@@ -24,6 +28,7 @@ public class Usuario {
 
     public Usuario() {}
 
+    //Getters e Setters
     public long getId() { return id.get(); }
     public void setId(long value) { id.set(value); }
     public LongProperty idProperty() { return id; }
@@ -39,15 +44,7 @@ public class Usuario {
     public String getEmail() { return email.get(); }
     public void setEmail(String value) { email.set(value); }
     public StringProperty emailProperty() { return email; }
-
-    public String getGenero() { return genero.get(); }
-    public void setGenero(String value) { genero.set(value); }
-    public StringProperty generoProperty() { return genero; }
-
-    public String getDataNascimento() { return dataNascimento.get(); }
-    public void setDataNascimento(String value) { dataNascimento.set(value); }
-    public StringProperty dataNascimentoProperty() { return dataNascimento; }
-
+    
     public String getTelefone() { return telefone.get(); }
     public void setTelefone(String value) { telefone.set(value); }
     public StringProperty telefoneProperty() { return telefone; }
@@ -59,7 +56,12 @@ public class Usuario {
     public String getTipoUsuario() { return tipoUsuario.get(); }
     public void setTipoUsuario(String value) { tipoUsuario.set(value); }
     public StringProperty tipoProperty() { return tipoUsuario; }
+    
+    public String getMatricula() { return matricula.get(); }
+    public void setMatricula(String value) { matricula.set(value); }
+    public StringProperty matriculaProperty() { return matricula; }
 
+    //getters e setters para endereço 
     public String getLogradouro() { return logradouro.get(); }
     public void setLogradouro(String value) { logradouro.set(value); }
     public StringProperty logradouroProperty() { return logradouro; }
@@ -87,7 +89,8 @@ public class Usuario {
     public String getCep() { return cep.get(); }
     public void setCep(String value) { cep.set(value); }
     public StringProperty cepProperty() { return cep; }
-
+    
+    
     // Métodos auxiliares
     public boolean isProfessor() {
         return "professor".equalsIgnoreCase(getTipoUsuario());
@@ -96,8 +99,9 @@ public class Usuario {
     public boolean isSecretaria() {
         return "secretaria".equalsIgnoreCase(getTipoUsuario());
     }
-
-    public boolean isAdmin() {
-        return "admin".equalsIgnoreCase(getTipoUsuario());
+    
+    public boolean isAluno() {
+        return "aluno".equalsIgnoreCase(getTipoUsuario());
     }
 }
+

@@ -1,64 +1,44 @@
+// Local: src/model/Disciplina.java
 package model;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class Disciplina {
-    private int id;
-    private String nome;
-    private String descricao;
-    private String codigo;
-    private int cargaHoraria;
-    private String ementa;
-    private int semestre;
-    private Curso curso;
-    private Professor professor;
+    private final IntegerProperty id = new SimpleIntegerProperty();
+    private final StringProperty nome = new SimpleStringProperty();
+    // AQUI ESTÁ A MUDANÇA: Agora associamos a um Usuario
+    private final ObjectProperty<Usuario> professor = new SimpleObjectProperty<>();
 
-    // ✅ Construtor vazio
-    public Disciplina(int par, String programação, String introdução_à_programação, int par1, String proG01, String ementa_básica, String string, Curso get, Professor get1) {
+    // Construtor
+    public Disciplina(int id, String nome, Usuario professor) {
+        this.setId(id);
+        this.setNome(nome);
+        this.setProfessor(professor);
     }
+    
+    public Disciplina() {}
 
-    // ✅ Construtor completo
-    public Disciplina(int id, String nome, String descricao, String codigo, int cargaHoraria, String ementa, int semestre, Curso curso, Professor professor) {
-        this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.codigo = codigo;
-        this.cargaHoraria = cargaHoraria;
-        this.ementa = ementa;
-        this.semestre = semestre;
-        this.curso = curso;
-        this.professor = professor;
-    }
 
-    // ✅ Getters e Setters
+    // --- Getters e Setters atualizados para Usuario ---
+    public int getId() { return id.get(); }
+    public void setId(int id) { this.id.set(id); }
+    public IntegerProperty idProperty() { return id; }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public String getNome() { return nome.get(); }
+    public void setNome(String nome) { this.nome.set(nome); }
+    public StringProperty nomeProperty() { return nome; }
 
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
-
-    public String getDescricao() { return descricao; }
-    public void setDescricao(String descricao) { this.descricao = descricao; }
-
-    public String getCodigo() { return codigo; }
-    public void setCodigo(String codigo) { this.codigo = codigo; }
-
-    public int getCargaHoraria() { return cargaHoraria; }
-    public void setCargaHoraria(int cargaHoraria) { this.cargaHoraria = cargaHoraria; }
-
-    public String getEmenta() { return ementa; }
-    public void setEmenta(String ementa) { this.ementa = ementa; }
-
-    public int getSemestre() { return semestre; }
-    public void setSemestre(int semestre) { this.semestre = semestre; }
-
-    public Curso getCurso() { return curso; }
-    public void setCurso(Curso curso) { this.curso = curso; }
-
-    public Professor getProfessor() { return professor; }
-    public void setProfessor(Professor professor) { this.professor = professor; }
+    public Usuario getProfessor() { return professor.get(); }
+    public void setProfessor(Usuario professor) { this.professor.set(professor); }
+    public ObjectProperty<Usuario> professorProperty() { return professor; }
 
     @Override
     public String toString() {
-        return nome;
+        return getNome();
     }
 }

@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
@@ -11,179 +12,91 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="rootPane" prefHeight="600" prefWidth="800" style="-fx-background-color: linear-gradient(to bottom, #e6e9f0, #dfe4ea);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuPrincipalController">
-    <!-- Header -->
+<BorderPane fx:id="rootPane" prefHeight="700" prefWidth="1000" style="-fx-background-color: #ecf0f1;" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuPrincipalController">
+   
     <top>
-        <HBox alignment="CENTER" prefHeight="60" style="-fx-background-color: linear-gradient(to bottom, #2c3e50, #34495e); -fx-padding: 10;">
-            <Button fx:id="btnToggleSidebar" onAction="#toggleSidebar" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-family: 'Arial'; -fx-font-size: 18;" styleClass="toggle-button" text="☰" />
-            <Label fx:id="labelUsuario" style="-fx-text-fill: white; -fx-font-family: 'Arial'; -fx-font-size: 18; -fx-font-weight: bold;" />
-            <Region HBox.hgrow="ALWAYS" />
-            <Button fx:id="btnSair" onAction="#sair" styleClass="sair-button" text="Sair" />
+        <HBox alignment="CENTER_LEFT" prefHeight="50" style="-fx-background-color: #2c3e50; -fx-padding: 0 15 0 10;">
+            <children>
+                <Button fx:id="btnToggleSidebar" onAction="#toggleSidebar" style="-fx-background-color: transparent; -fx-text-fill: white;" styleClass="toggle-button" text="☰">
+                    <font><Font name="Arial Bold" size="18.0" /></font>
+                </Button>
+                <Label fx:id="labelUsuario" style="-fx-text-fill: white; -fx-font-size: 16;" text="Carregando...">
+               <padding><Insets left="15.0" /></padding>
+            </Label>
+                <Region HBox.hgrow="ALWAYS" />
+                <Button fx:id="btnSair" onAction="#sair" styleClass="sair-button" text="Sair" />
+            </children>
         </HBox>
     </top>
     
-    <!-- Sidebar -->
     <left>
-        <VBox fx:id="sidebarVBox" alignment="TOP_CENTER" maxHeight="-Infinity" prefWidth="220" style="-fx-background-color: rgba(236, 240, 241, 0.9); -fx-padding: 15; -fx-spacing: 12; -fx-background-radius: 10; -fx-border-radius: 10;">
-            <effect>
-                <DropShadow color="rgba(0,0,0,0.2)" radius="10" />
-            </effect>
-            <Button fx:id="btnCadastrarAluno" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirCadastroAluno" styleClass="sidebar-button" text="Cadastrar Aluno">
-                <graphic>
-                    <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
-                        <Image url="@../Image/Ícone%20cadastrar%20aluno.png" />
-                    </ImageView>
-                </graphic>
-                <tooltip>
-                    <Tooltip text="Cadastrar novo aluno" />
-                </tooltip>
-            </Button>
-            <Button fx:id="btnCadastrarTurma" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirCadastroTurma" styleClass="sidebar-button" text="Cadastrar Turma">
-                <graphic>
-                    <ImageView fitHeight="24" fitWidth="24" focusTraversable="true" preserveRatio="true">
-                        <Image url="@../Image/Ícone%20cadastrar%20turma.png" />
-                    </ImageView>
-                </graphic>
-                <tooltip>
-                    <Tooltip text="Cadastrar nova turma" />
-                </tooltip>
-            </Button>
-            <Button fx:id="btnCadastrarDisciplina" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirCadastroDisciplina" styleClass="sidebar-button" text="Cadastrar Disciplina">
-                <graphic>
-                    <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
-                        <Image url="@../Image/Ícone%20cadastrar%20disciplina.png" />
-                    </ImageView>
-                </graphic>
-                <tooltip>
-                    <Tooltip text="Cadastrar nova disciplina" />
-                </tooltip>
-            </Button>
-            <Button fx:id="btnCadastrarCurso" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirCadastroCurso" styleClass="sidebar-button" text="Cadastrar Curso">
-                <graphic>
-                    <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
-                        <Image url="@../Image/Ícone%20cadastrar%20curso.png" />
-                    </ImageView>
-                </graphic>
-                <tooltip>
-                    <Tooltip text="Cadastrar novo curso" />
-                </tooltip>
-            </Button>
-         <Button fx:id="btnGerenciarUsuario" graphicTextGap="12" layoutX="25.0" layoutY="320.0" maxWidth="Infinity" onAction="#abrirGerenciarUsuario" styleClass="sidebar-button" text="Gerenciar Usuário">
-            <graphic>
-               <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
-                  <image>
-                     <Image url="@../Image/Ícone%20gerenciar%20usuário.png" />
-                  </image>
-               </ImageView>
-            </graphic>
-            <tooltip>
-               <Tooltip text="Gerar relatórios" />
-            </tooltip>
-         </Button>
-         <Button fx:id="btnGerenciarAluno" graphicTextGap="12" layoutX="25.0" layoutY="370.0" maxWidth="Infinity" onAction="#abrirGerenciarAluno" styleClass="sidebar-button" text="Gerenciar Aluno">
-            <graphic>
-               <ImageView fitHeight="41.0" fitWidth="24.0" preserveRatio="true">
-                  <image>
-                     <Image url="@../Image/Ícone%20gerenciar%20aluno.png" />
-                  </image>
-               </ImageView>
-            </graphic>
-            <tooltip>
-               <Tooltip text="Gerar relatórios" />
-            </tooltip>
-         </Button>
-         <Button fx:id="btnGerenciarTurmas" graphicTextGap="12" layoutX="25.0" layoutY="328.0" maxWidth="Infinity" styleClass="sidebar-button" text="Gerenciar Turmas">
-            <graphic>
-               <ImageView fitHeight="41.0" fitWidth="24.0" preserveRatio="true">
-                  <image>
-                     <Image url="@../Image/Ícone%20gerenciar%20turma.png" />
-                  </image>
-               </ImageView>
-            </graphic>
-            <tooltip>
-               <Tooltip text="Gerar relatórios" />
-            </tooltip>
-         </Button>
-         <Button fx:id="btnGerenciarCursos" graphicTextGap="12" layoutX="25.0" layoutY="308.0" maxWidth="Infinity" styleClass="sidebar-button" text="Gerenciar Cursos">
-            <graphic>
-               <ImageView fitHeight="41.0" fitWidth="24.0" preserveRatio="true">
-                  <image>
-                     <Image url="@../Image/Ícone%20gerenciar%20curso.png" />
-                  </image>
-               </ImageView>
-            </graphic>
-            <tooltip>
-               <Tooltip text="Gerar relatórios" />
-            </tooltip>
-         </Button>
-         <Button fx:id="btnGerenciarDisciplinas" graphicTextGap="12" layoutX="25.0" layoutY="428.0" maxWidth="Infinity" styleClass="sidebar-button" text="Gerenciar Disciplinas">
-            <graphic>
-               <ImageView fitHeight="41.0" fitWidth="24.0" preserveRatio="true">
-                  <image>
-                     <Image url="@../Image/Ícone%20gerenciar%20disciplinas.png" />
-                  </image>
-               </ImageView>
-            </graphic>
-            <tooltip>
-               <Tooltip text="Gerar relatórios" />
-            </tooltip>
-         </Button>
-            <Button fx:id="btnRelatorio" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirRelatorio" styleClass="sidebar-button" text="Relatório">
-                <graphic>
-                    <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
-                        <Image url="@../Image/Ícone%20relatorio.png" />
-                    </ImageView>
-                </graphic>
-                <tooltip>
-                    <Tooltip text="Gerar relatórios" />
-                </tooltip>
-            </Button>
-            <Button fx:id="btnLancarNotas" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirLancarNotas" styleClass="sidebar-button" text="Lançar Notas">
-                <graphic>
-                    <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
-                        <Image url="@../Image/Ícone%20lançar%20nota.png" />
-                    </ImageView>
-                </graphic>
-                <tooltip>
-                    <Tooltip text="Lançar notas dos alunos" />
-                </tooltip>
-            </Button>
-            <Button fx:id="btnRegistrarPresenca" graphicTextGap="12" maxWidth="Infinity" onAction="#abrirRegistrarPresenca" styleClass="sidebar-button" text="Registrar Presença">
-                <graphic>
-                    <ImageView fitHeight="24" fitWidth="24" preserveRatio="true">
-                        <Image url="@../Image/Ícone%20registrar%20presença.png" />
-                    </ImageView>
-                </graphic>
-                <tooltip>
-                    <Tooltip text="Registrar presença dos alunos" />
-                </tooltip>
-            </Button>
-         <Button fx:id="btnConfiguracoes" graphicTextGap="12" layoutX="25.0" layoutY="428.0" maxWidth="Infinity" styleClass="sidebar-button" text="Configurações">
-            <graphic>
-               <ImageView fitHeight="41.0" fitWidth="24.0" preserveRatio="true">
-                  <image>
-                     <Image url="@../Image/Ícone%20configurações.png" />
-                  </image>
-               </ImageView>
-            </graphic>
-            <tooltip>
-               <Tooltip text="Gerar relatórios" />
-            </tooltip>
-         </Button>
+        <VBox fx:id="sidebarVBox" alignment="TOP_CENTER" prefWidth="220" style="-fx-background-color: #ffffff; -fx-border-width: 0 1 0 0; -fx-border-color: #bdc3c7;">
+            <effect><DropShadow blurType="GAUSSIAN" color="#00000033" height="20" radius="9.5" width="20" /></effect>
+            <children>
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: transparent; -fx-background: transparent;" VBox.vgrow="ALWAYS">
+                    <content>
+                        <VBox spacing="10.0" style="-fx-padding: 10;">
+                            <children>
+                                <Button fx:id="btnCadastrarUsuario" onAction="#abrirCadastroUsuario" graphicTextGap="12" maxWidth="Infinity" styleClass="sidebar-button" text="Cadastrar Usuário">
+                                    <graphic><ImageView fitHeight="24" fitWidth="24" preserveRatio="true"><Image url="@../Image/Ícone%20cadastrar%20aluno.png" /></ImageView></graphic>
+                                </Button>
+                                <Button fx:id="btnGerenciarAlunos" onAction="#abrirGerenciarAlunos" graphicTextGap="12" maxWidth="Infinity" styleClass="sidebar-button" text="Gerenciar Alunos">
+                                    <graphic><ImageView fitHeight="24" fitWidth="24" preserveRatio="true"><Image url="@../Image/Ícone%20gerenciar%20aluno.png" /></ImageView></graphic>
+                                </Button>
+                                <Button fx:id="btnGerenciarUsuarios" onAction="#abrirGerenciarUsuarios" graphicTextGap="12" maxWidth="Infinity" styleClass="sidebar-button" text="Gerenciar Usuários">
+                                    <graphic><ImageView fitHeight="24" fitWidth="24" preserveRatio="true"><Image url="@../Image/Ícone%20gerenciar%20usuário.png" /></ImageView></graphic>
+                                </Button>
+                                <Button fx:id="btnCadastrarDisciplina" onAction="#abrirCadastroDisciplina" graphicTextGap="12" maxWidth="Infinity" styleClass="sidebar-button" text="Cadastrar Disciplina">
+                                    <graphic><ImageView fitHeight="24" fitWidth="24" preserveRatio="true"><Image url="@../Image/Ícone%20cadastrar%20disciplina.png" /></ImageView></graphic>
+                                </Button>
+                                <Button fx:id="btnCadastrarTurma" onAction="#abrirCadastroTurma" graphicTextGap="12" maxWidth="Infinity" styleClass="sidebar-button" text="Cadastrar Turma">
+                                    <graphic><ImageView fitHeight="24" fitWidth="24" preserveRatio="true"><Image url="@../Image/Ícone%20cadastrar%20turma.png" /></ImageView></graphic>
+                                </Button>
+                                <Button fx:id="btnGerenciarTurmas" onAction="#abrirGerenciarTurmas" graphicTextGap="12" maxWidth="Infinity" styleClass="sidebar-button" text="Gerenciar Turmas">
+                                     <graphic><ImageView fitHeight="24" fitWidth="24" preserveRatio="true"><Image url="@../Image/Ícone%20gerenciar%20turma.png" /></ImageView></graphic>
+                                </Button>
+                                <Button fx:id="btnGerenciarDisciplinas" onAction="#abrirGerenciarDisciplinas" graphicTextGap="12" maxWidth="Infinity" styleClass="sidebar-button" text="Gerenciar Disciplinas">
+                                    <graphic><ImageView fitHeight="24" fitWidth="24" preserveRatio="true"><Image url="@../Image/Ícone%20gerenciar%20disciplinas.png" /></ImageView></graphic>
+                                </Button>
+
+                                <Button fx:id="btnLancarNotas" onAction="#abrirLancarNotas" graphicTextGap="12" maxWidth="Infinity" styleClass="sidebar-button" text="Lançar Notas">
+                                    <graphic><ImageView fitHeight="24" fitWidth="24" preserveRatio="true"><Image url="@../Image/Ícone%20lançar%20nota.png" /></ImageView></graphic>
+                                </Button>
+                                <Button fx:id="btnRegistrarPresenca" onAction="#abrirRegistrarPresenca" graphicTextGap="12" maxWidth="Infinity" styleClass="sidebar-button" text="Registrar Presença">
+                                    <graphic><ImageView fitHeight="24" fitWidth="24" preserveRatio="true"><Image url="@../Image/Ícone%20registrar%20presença.png" /></ImageView></graphic>
+                                </Button>
+                                
+                                <Button fx:id="btnVerMinhasNotas" onAction="#abrirVerMinhasNotas" graphicTextGap="12" maxWidth="Infinity" styleClass="sidebar-button" text="Ver Minhas Notas" />
+                                <Button fx:id="btnEditarMeusDados" onAction="#abrirEditarMeusDados" graphicTextGap="12" maxWidth="Infinity" styleClass="sidebar-button" text="Editar Meus Dados" />
+                                
+                                <Button fx:id="btnRelatorios" onAction="#abrirRelatorios" graphicTextGap="12" maxWidth="Infinity" styleClass="sidebar-button" text="Relatórios">
+                                    <graphic><ImageView fitHeight="24" fitWidth="24" preserveRatio="true"><Image url="@../Image/Ícone%20relatorio.png" /></ImageView></graphic>
+                                </Button>
+                                <Button fx:id="btnConfiguracoes" onAction="#abrirConfiguracoes" graphicTextGap="12" maxWidth="Infinity" styleClass="sidebar-button" text="Configurações">
+                                    <graphic><ImageView fitHeight="24" fitWidth="24" preserveRatio="true"><Image url="@../Image/Ícone%20configurações.png" /></ImageView></graphic>
+                                </Button>
+                            </children>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+            </children>
         </VBox>
     </left>
     
-    <!-- Content Area -->
     <center>
-        <StackPane fx:id="contentArea" maxHeight="Infinity" maxWidth="Infinity" style="-fx-background-color: transparent; -fx-padding: 20;">
-            <VBox alignment="TOP_CENTER" maxHeight="Infinity" maxWidth="Infinity" spacing="15" style="-fx-background-color: #ffffff; -fx-background-radius: 10; -fx-padding: 20;" StackPane.alignment="CENTER">
-                <effect>
-                    <DropShadow color="rgba(0,0,0,0.2)" radius="10" />
-                </effect>
-                <Label fx:id="contentTitle" style="-fx-font-family: 'Arial'; -fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-padding: 0 0 15 0;" text="Bem-vindo ao Sistema de Gerenciamento Acadêmico" />
-            <StackPane fx:id="contentPane" prefHeight="554.0" prefWidth="500.0" />
-            </VBox>
+        <StackPane fx:id="contentArea" style="-fx-background-color: transparent; -fx-padding: 20;">
+            <children>
+                <VBox alignment="TOP_LEFT" maxHeight="Infinity" maxWidth="Infinity" spacing="15" style="-fx-background-color: #ffffff; -fx-background-radius: 10; -fx-padding: 20;">
+                    <effect><DropShadow color="rgba(0,0,0,0.1)" height="20" radius="9.5" width="20" /></effect>
+                    <children>
+                        <Label fx:id="contentTitle" style="-fx-font-size: 22; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" text="Painel Inicial" />
+                        <StackPane fx:id="contentPane" VBox.vgrow="ALWAYS" />
+                    </children>
+                </VBox>
+            </children>
         </StackPane>
     </center>
 </BorderPane>

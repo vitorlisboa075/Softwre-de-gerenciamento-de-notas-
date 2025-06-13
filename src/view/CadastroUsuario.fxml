@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CadastroUsuarioController">
+   <children>
+      <VBox alignment="TOP_CENTER" layoutX="50.0" layoutY="30.0" spacing="15.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0">
+         <children>
+            <Label text="Cadastro de Usuário" textFill="#333">
+               <font>
+                  <Font name="Arial Bold" size="24.0" />
+               </font>
+            </Label>
+            
+            <GridPane hgap="10.0" vgap="10.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="120.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="250.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="120.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="250.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Tipo de Usuário:" />
+                  <ComboBox fx:id="tipoUsuarioCombo" prefWidth="250.0" GridPane.columnIndex="1" />
+                  
+                  <Label text="Nome Completo:" GridPane.rowIndex="1" />
+                  <TextField fx:id="nomeField" promptText="Ex: João da Silva" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="1" />
+                  
+                  <Label text="CPF:" GridPane.rowIndex="2" />
+                  <TextField fx:id="cpfField" promptText="Apenas números" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  
+                  <Label text="Email:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <TextField fx:id="emailField" promptText="Ex: joao.silva@email.com" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  
+                  <Label text="Telefone:" GridPane.rowIndex="3" />
+                  <TextField fx:id="telefoneField" promptText="Ex: (11) 99999-8888" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                  <Label fx:id="matriculaLabel" text="Matrícula:" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <TextField fx:id="matriculaField" promptText="Matrícula do aluno" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+            
+            <Separator prefWidth="200.0" />
+
+            <Label text="Endereço" textFill="#333">
+               <font><Font name="Arial Bold" size="18.0" /></font>
+            </Label>
+
+            <GridPane hgap="10.0" vgap="10.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="120.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="250.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="120.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="250.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="Logradouro:" />
+                  <TextField fx:id="logradouroField" GridPane.columnIndex="1" GridPane.columnSpan="3" />
+                  
+                  <Label text="Número:" GridPane.rowIndex="1" />
+                  <TextField fx:id="numeroField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                  <Label text="Complemento:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <TextField fx:id="complementoField" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+
+                  <Label text="Bairro:" GridPane.rowIndex="2" />
+                  <TextField fx:id="bairroField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                  <Label text="Cidade:" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <TextField fx:id="cidadeField" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+
+                  <Label text="Estado:" GridPane.rowIndex="3" />
+                  <TextField fx:id="estadoField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                  <Label text="CEP:" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <TextField fx:id="cepField" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+
+            <HBox alignment="CENTER_RIGHT" spacing="20.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Button onAction="#limparCampos" text="Limpar" styleClass="form-button-secondary" />
+                  <Button onAction="#cadastrarUsuario" text="Salvar Cadastro" styleClass="form-button" />
+                  <Button fx:id="btnVoltar" onAction="#voltar" text="Voltar" />
+               </children>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

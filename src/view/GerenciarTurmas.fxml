@@ -11,35 +11,30 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GerenciarAlunoController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GerenciarTurmasController">
     <children>
         <VBox alignment="TOP_CENTER" spacing="15.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="20.0">
             <children>
-                <Label text="Gerenciamento de Alunos" textFill="#333">
+                <Label text="Gerenciamento de Turmas" textFill="#333">
                     <font>
                         <Font name="Arial Bold" size="24.0" />
                     </font>
                 </Label>
-
                 <HBox alignment="CENTER_LEFT" spacing="10.0">
                     <children>
-                        <TextField fx:id="pesquisaCpfField" promptText="Pesquisar por CPF..." HBox.hgrow="ALWAYS" />
-                        <Button onAction="#handleNovoAluno" text="Novo Aluno" styleClass="form-button" />
-                        <Button onAction="#handleEditarAluno" text="Editar Aluno" styleClass="form-button-secondary" />
-                        <Button onAction="#handleExcluirAlunos" text="Excluir Selecionados" styleClass="sair-button" />
+                        <TextField fx:id="pesquisaField" promptText="Pesquisar por nome da turma..." HBox.hgrow="ALWAYS" />
+                        <Button onAction="#handleNovaTurma" text="Nova Turma" styleClass="form-button" />
+                        <Button onAction="#handleEditarTurma" text="Editar Turma" styleClass="form-button-secondary" />
+                        <Button onAction="#handleExcluirTurmas" text="Excluir Selecionadas" styleClass="sair-button" />
                     </children>
                 </HBox>
-
-                <TableView fx:id="tabelaAlunos" VBox.vgrow="ALWAYS">
+                <TableView fx:id="tabelaTurmas" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn fx:id="colSelecao" prefWidth="50.0" text="Sel." />
-                        <TableColumn fx:id="colNome" prefWidth="250.0" text="Nome" />
-                        <TableColumn fx:id="colMatricula" prefWidth="120.0" text="Matrícula" />
-                        <TableColumn fx:id="colCpf" prefWidth="120.0" text="CPF" />
-                        <TableColumn fx:id="colEmail" prefWidth="200.0" text="Email" />
+                        <TableColumn fx:id="colNome" prefWidth="400.0" text="Nome da Turma" />
+                        <TableColumn fx:id="colPeriodo" prefWidth="250.0" text="Período" />
                     </columns>
                 </TableView>
-                
                 <HBox alignment="CENTER_RIGHT">
                      <children>
                         <Button fx:id="btnVoltar" onAction="#voltar" text="Voltar ao Menu" />
