@@ -41,7 +41,6 @@ public class MenuPrincipalController implements Initializable {
     // Secretaria
     @FXML private Button btnCadastrarUsuario;
     @FXML private Button btnGerenciarAlunos;
-    @FXML private Button btnGerenciarUsuarios;
     @FXML private Button btnCadastrarDisciplina;
     @FXML private Button btnCadastrarTurma;
     @FXML private Button btnGerenciarTurmas;
@@ -77,7 +76,7 @@ public class MenuPrincipalController implements Initializable {
         
         // ATUALIZADO: Garante que só botões existentes sejam adicionados ao mapa e animações
         Button[] allButtons = {
-            btnCadastrarUsuario, btnGerenciarAlunos, btnGerenciarUsuarios,
+            btnCadastrarUsuario, btnGerenciarAlunos, 
             btnCadastrarDisciplina, btnCadastrarTurma, btnLancarNotas,
             btnRegistrarPresenca, btnVerMinhasNotas, btnEditarMeusDados,
             btnRelatorios, btnConfiguracoes, btnGerenciarTurmas, btnGerenciarDisciplinas
@@ -114,14 +113,14 @@ public class MenuPrincipalController implements Initializable {
 
     // ATUALIZADO: Permissões para os novos perfis e botões
     private void aplicarPermissoes(String tipoUsuario) {
-        setButtonVisibility(false, btnCadastrarUsuario, btnGerenciarAlunos, btnGerenciarUsuarios, 
+        setButtonVisibility(false, btnCadastrarUsuario, btnGerenciarAlunos, 
                                   btnCadastrarDisciplina, btnCadastrarTurma, btnLancarNotas, 
                                   btnRegistrarPresenca, btnVerMinhasNotas, btnEditarMeusDados,
                                   btnRelatorios, btnConfiguracoes, btnGerenciarTurmas,btnGerenciarDisciplinas);
 
         switch (tipoUsuario.toLowerCase()) {
             case "secretaria":
-                setButtonVisibility(true, btnCadastrarUsuario, btnGerenciarAlunos, btnGerenciarUsuarios,
+                setButtonVisibility(true, btnCadastrarUsuario, btnGerenciarAlunos,
                                           btnCadastrarDisciplina, btnCadastrarTurma, btnRelatorios, btnConfiguracoes, btnGerenciarTurmas, btnGerenciarDisciplinas);
                 break;
             case "professor":
@@ -184,7 +183,6 @@ public class MenuPrincipalController implements Initializable {
             if (btnGerenciarAlunos != null) btnGerenciarAlunos.setText("Gerenciar Alunos");
             if (btnGerenciarTurmas != null) btnGerenciarTurmas.setText("Gerenciamento de Alunos"); 
             if (btnGerenciarDisciplinas!= null) btnGerenciarDisciplinas.setText("Gerenciamento de Alunos"); 
-            if (btnGerenciarUsuarios != null) btnGerenciarUsuarios.setText("Gerenciar Usuários");
             if (btnCadastrarDisciplina != null) btnCadastrarDisciplina.setText("Cad. Disciplina");
             if (btnCadastrarTurma != null) btnCadastrarTurma.setText("Cadastrar Turma");
             if (btnLancarNotas != null) btnLancarNotas.setText("Lançar Notas");
@@ -224,7 +222,6 @@ public class MenuPrincipalController implements Initializable {
     // --- MÉTODOS DE AÇÃO (onAction) ATUALIZADOS ---
     
     @FXML void abrirCadastroUsuario(ActionEvent e) { carregarConteudo("/view/CadastroUsuario.fxml", "Cadastro de Usuário", btnCadastrarUsuario); }
-    @FXML void abrirGerenciarUsuarios(ActionEvent e) { carregarConteudo("/view/GerenciamentoUsuario.fxml", "Gerenciamento de Usuários", btnGerenciarUsuarios); }
     @FXML void abrirCadastroDisciplina(ActionEvent e) { carregarConteudo("/view/CadastroDisciplina.fxml", "Cadastro de Disciplina", btnCadastrarDisciplina); }
     @FXML void abrirCadastroTurma(ActionEvent e) { carregarConteudo("/view/CadastroTurma.fxml", "Cadastro de Turma", btnCadastrarTurma); }
     @FXML void abrirLancarNotas(ActionEvent e) { carregarConteudo("/view/LancarNotas.fxml", "Lançamento de Notas", btnLancarNotas); }

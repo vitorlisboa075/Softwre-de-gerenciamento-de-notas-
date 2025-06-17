@@ -6,6 +6,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.cell.TextFieldTableCell?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -24,13 +26,20 @@
                 <HBox alignment="CENTER_LEFT" spacing="10.0">
                     <children>
                         <TextField fx:id="pesquisaCpfField" promptText="Pesquisar por CPF..." HBox.hgrow="ALWAYS" />
-                        <Button styleClass="form-button" text="Novo Aluno" onAction="#handleNovoAluno" />
-                        <Button styleClass="form-button-secondary" text="Editar Aluno" onAction="#handleEditarAluno" />
-                        <Button styleClass="sair-button" text="Excluir Selecionados" onAction="#handleExcluirSelecionados" />
+                        <Button onAction="#handleNovoAluno" styleClass="form-button" text="Novo Aluno" />
+                        <Button onAction="#handleEditarAluno" styleClass="form-button-secondary">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Image/Editar.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></Button>
+                        <Button onAction="#handleExcluirSelecionados" styleClass="sair-button" text="Excluir Selecionados" />
                     </children>
                 </HBox>
 
-                <TableView fx:id="tabelaAlunos" VBox.vgrow="ALWAYS" editable="true">
+                <TableView fx:id="tabelaAlunos" editable="true" VBox.vgrow="ALWAYS">
                     <columns>
                         <!-- Coluna Seleção com checkbox -->
                         <TableColumn fx:id="colSelecao" prefWidth="50.0" text="Sel." />

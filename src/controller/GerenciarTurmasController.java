@@ -13,6 +13,7 @@ import javafx.util.converter.DefaultStringConverter;
 import model.*;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -32,6 +33,10 @@ public class GerenciarTurmasController {
     @FXML private TableColumn<AlunoWrapper, String> colCpfAluno;
 
     @FXML private Button btnVoltar;
+    
+    // 1. Adicione a referência para o novo botão de adicionar aluno
+    @FXML private Button btnAdicionarAluno;
+
 
     /* ---------- Dados ---------- */
     private final ObservableList<TurmaWrapper> masterTurmaList = FXCollections.observableArrayList();
@@ -230,6 +235,104 @@ public class GerenciarTurmasController {
             }
         }
     }
+    
+    // ==================================================================
+    // 2. INÍCIO DAS NOVAS FUNÇÕES ADICIONADAS
+    // ==================================================================
+
+    /**
+     * NOVA FUNÇÃO: Abre um diálogo para adicionar um aluno à turma selecionada.
+     */
+    @FXML
+    private void handleAdicionarAluno() {
+        TurmaWrapper turmaSelecionada = tabelaTurmas.getSelectionModel().getSelectedItem();
+        if (turmaSelecionada == null) {
+            showAlert(Alert.AlertType.WARNING, "Seleção Inválida", "Por favor, selecione uma turma para adicionar um aluno.");
+            return;
+        }
+
+        List<Usuario> alunosDisponiveis = getAlunosDisponiveis(turmaSelecionada.getTurma().getId());
+
+        if (alunosDisponiveis.isEmpty()) {
+            showAlert(Alert.AlertType.INFORMATION, "Nenhum Aluno", "Não há novos alunos disponíveis para adicionar a esta turma.");
+            return;
+        }
+
+        ChoiceDialog<Usuario> dialog = new ChoiceDialog<>(null, alunosDisponiveis);
+        dialog.setTitle("Adicionar Aluno");
+        dialog.setHeaderText("Selecione o aluno que deseja adicionar à turma: " + turmaSelecionada.getTurma().getNome());
+        dialog.setContentText("Aluno:");
+
+        dialog.setConverter(new javafx.util.StringConverter<Usuario>() {
+            @Override
+            public String toString(Usuario usuario) {
+                return usuario == null ? "" : usuario.getNome() + " (CPF: " + usuario.getCpf() + ")";
+            }
+            @Override
+            public Usuario fromString(String string) {
+                return null;
+            }
+        });
+
+        Optional<Usuario> result = dialog.showAndWait();
+        result.ifPresent(alunoParaAdicionar -> {
+            if (adicionarAlunoNaTurma(turmaSelecionada.getTurma().getId(), alunoParaAdicionar.getCpf())) {
+                showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Aluno adicionado à turma com sucesso!");
+                carregarAlunosDaTurma(turmaSelecionada.getTurma().getId());
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Erro", "Não foi possível adicionar o aluno à turma.");
+            }
+        });
+    }
+
+    /**
+     * NOVA FUNÇÃO: Busca no banco de dados os alunos que não pertencem a uma turma.
+     */
+    private List<Usuario> getAlunosDisponiveis(int turmaId) {
+        List<Usuario> lista = new ArrayList<>();
+        String sql = "SELECT cpf, nome FROM usuarios WHERE tipo = 'aluno' AND cpf NOT IN (SELECT aluno_cpf FROM turma_aluno WHERE turma_id = ?)";
+
+        try (Connection conn = Conexao.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setInt(1, turmaId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Usuario aluno = new Usuario();
+                aluno.setCpf(rs.getString("cpf"));
+                aluno.setNome(rs.getString("nome"));
+                lista.add(aluno);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erro de Banco de Dados", "Falha ao buscar alunos disponíveis.");
+        }
+        return lista;
+    }
+
+    /**
+     * NOVA FUNÇÃO: Insere a relação aluno-turma no banco de dados.
+     */
+    private boolean adicionarAlunoNaTurma(int turmaId, String alunoCpf) {
+        String sql = "INSERT INTO turma_aluno (turma_id, aluno_cpf) VALUES (?, ?)";
+        try (Connection conn = Conexao.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            
+            ps.setInt(1, turmaId);
+            ps.setString(2, alunoCpf);
+            int affectedRows = ps.executeUpdate();
+            return affectedRows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // ==================================================================
+    // FIM DAS NOVAS FUNÇÕES
+    // ==================================================================
+
 
     @FXML
     private void handleRemoverAluno() {
