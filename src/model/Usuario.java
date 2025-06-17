@@ -1,4 +1,3 @@
-// Local: src/model/Usuario.java
 package model;
 
 import javafx.beans.property.*;
@@ -28,7 +27,8 @@ public class Usuario {
 
     public Usuario() {}
 
-    //Getters e Setters
+    // Getters e Setters
+
     public long getId() { return id.get(); }
     public void setId(long value) { id.set(value); }
     public LongProperty idProperty() { return id; }
@@ -44,7 +44,7 @@ public class Usuario {
     public String getEmail() { return email.get(); }
     public void setEmail(String value) { email.set(value); }
     public StringProperty emailProperty() { return email; }
-    
+
     public String getTelefone() { return telefone.get(); }
     public void setTelefone(String value) { telefone.set(value); }
     public StringProperty telefoneProperty() { return telefone; }
@@ -55,13 +55,14 @@ public class Usuario {
 
     public String getTipoUsuario() { return tipoUsuario.get(); }
     public void setTipoUsuario(String value) { tipoUsuario.set(value); }
-    public StringProperty tipoProperty() { return tipoUsuario; }
-    
+    public StringProperty tipoUsuarioProperty() { return tipoUsuario; }
+
     public String getMatricula() { return matricula.get(); }
     public void setMatricula(String value) { matricula.set(value); }
     public StringProperty matriculaProperty() { return matricula; }
 
-    //getters e setters para endereço 
+    // --- Endereço ---
+
     public String getLogradouro() { return logradouro.get(); }
     public void setLogradouro(String value) { logradouro.set(value); }
     public StringProperty logradouroProperty() { return logradouro; }
@@ -89,9 +90,9 @@ public class Usuario {
     public String getCep() { return cep.get(); }
     public void setCep(String value) { cep.set(value); }
     public StringProperty cepProperty() { return cep; }
-    
-    
-    // Métodos auxiliares
+
+    // --- Métodos auxiliares ---
+
     public boolean isProfessor() {
         return "professor".equalsIgnoreCase(getTipoUsuario());
     }
@@ -99,9 +100,22 @@ public class Usuario {
     public boolean isSecretaria() {
         return "secretaria".equalsIgnoreCase(getTipoUsuario());
     }
-    
+
     public boolean isAluno() {
         return "aluno".equalsIgnoreCase(getTipoUsuario());
     }
+    private final BooleanProperty selected = new SimpleBooleanProperty(false);
+
+public BooleanProperty selectedProperty() {
+    return selected;
 }
 
+public boolean isSelected() {
+    return selected.get();
+}
+
+public void setSelected(boolean selected) {
+    this.selected.set(selected);
+}
+
+}

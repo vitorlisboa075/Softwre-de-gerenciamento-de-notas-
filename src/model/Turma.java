@@ -1,4 +1,3 @@
-// Local: src/model/Turma.java
 package model;
 
 import java.util.ArrayList;
@@ -10,48 +9,49 @@ public class Turma {
     private int id;
     private final StringProperty nome = new SimpleStringProperty();
     private final StringProperty periodo = new SimpleStringProperty();
-    
-    private List<Disciplina> disciplinas;
-    private List<Usuario> alunos; // MUDANÇA: Agora é uma lista de Usuario
 
-    // Construtor
-    public Turma(int id, String nome, String periodo) {
-        this.id = id;
-        this.setNome(nome);
-        this.setPeriodo(periodo);
+    private List<Disciplina> disciplinas;
+    private List<Usuario> alunos;
+
+    /* -------- Construtores -------- */
+    // Construtor vazio – necessário para new Turma()
+    public Turma() {
         this.disciplinas = new ArrayList<>();
-        this.alunos = new ArrayList<>(); // Inicializa a lista de Usuario
+        this.alunos = new ArrayList<>();
     }
 
-    // --- Getters e Setters ---
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    // Construtor completo
+    public Turma(int id, String nome, String periodo) {
+        this();                 // reaproveita inicialização das listas
+        this.id = id;
+        setNome(nome);
+        setPeriodo(periodo);
+    }
 
-    public String getNome() { return nome.get(); }
-    public void setNome(String nome) { this.nome.set(nome); }
+    /* -------- Getters / Setters -------- */
+    public int getId()         { return id; }
+    public void setId(int id)  { this.id = id; }
+
+    public String getNome()    { return nome.get(); }
+    public void setNome(String n) { nome.set(n); }
     public StringProperty nomeProperty() { return nome; }
 
     public String getPeriodo() { return periodo.get(); }
-    public void setPeriodo(String periodo) { this.periodo.set(periodo); }
+    public void setPeriodo(String p) { periodo.set(p); }
     public StringProperty periodoProperty() { return periodo; }
 
-    public List<Disciplina> getDisciplinas() { return disciplinas; }
-    public void setDisciplinas(List<Disciplina> disciplinas) { this.disciplinas = disciplinas; }
+    public List<Disciplina> getDisciplinas()           { return disciplinas; }
+    public void setDisciplinas(List<Disciplina> list)   { disciplinas = list; }
 
-    // Getters e Setters atualizados para Usuario
-    public List<Usuario> getAlunos() { return alunos; }
-    public void setAlunos(List<Usuario> alunos) { this.alunos = alunos; }
+    public List<Usuario> getAlunos()                   { return alunos; }
+    public void setAlunos(List<Usuario> list)           { alunos = list; }
 
-    // --- Métodos para gerenciar listas ---
-    public void adicionarDisciplina(Disciplina disciplina) {
-        if (!disciplinas.contains(disciplina)) {
-            disciplinas.add(disciplina);
-        }
+    /* -------- Métodos utilitários -------- */
+    public void adicionarDisciplina(Disciplina d) {
+        if (!disciplinas.contains(d)) disciplinas.add(d);
     }
 
-    public void adicionarAluno(Usuario aluno) {
-        if (aluno.isAluno() && !alunos.contains(aluno)) {
-            alunos.add(aluno);
-        }
+    public void adicionarAluno(Usuario u) {
+        if (u.isAluno() && !alunos.contains(u)) alunos.add(u);
     }
 }

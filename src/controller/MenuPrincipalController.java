@@ -230,7 +230,7 @@ public class MenuPrincipalController implements Initializable {
     @FXML void abrirLancarNotas(ActionEvent e) { carregarConteudo("/view/LancarNotas.fxml", "Lançamento de Notas", btnLancarNotas); }
     
     // Métodos para funcionalidades futuras
-    @FXML void abrirRegistrarPresenca(ActionEvent e) { showAlert("Em Breve", "Funcionalidade de Registro de Presença em desenvolvimento."); }
+    @FXML void abrirRegistrarPresenca(ActionEvent e) { carregarConteudo("/view/RegistrarPresenca.fxml", "Registro de presenca", btnRegistrarPresenca); }
     @FXML void abrirEditarMeusDados(ActionEvent e) { showAlert("Em Breve", "Funcionalidade de Edição de Dados em desenvolvimento."); }
     
    

@@ -1,49 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" spacing="15.0" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RelatorioController">
-   <children>
-      <Label text="Geração de Relatórios de Turmas" textFill="#2c3e50">
-         <font>
-            <Font name="Arial Bold" size="22.0" />
-         </font>
-      </Label>
-      <HBox alignment="CENTER_LEFT" spacing="10.0">
-         <children>
-            <Label text="Turma:" />
-            <ComboBox fx:id="turmaComboBox" prefWidth="200.0" promptText="Selecione a Turma" />
-            <Label text="Disciplina:" />
-            <ComboBox fx:id="disciplinaComboBox" prefWidth="200.0" promptText="Selecione a Disciplina" />
-            <Button onAction="#gerarRelatorio" text="Gerar Relatório" styleClass="form-button" />
-         </children>
-      </HBox>
-      <TableView fx:id="tabelaRelatorio" VBox.vgrow="ALWAYS">
-        <columns>
-          <TableColumn fx:id="colMatricula" prefWidth="120.0" text="Matrícula" />
-          <TableColumn fx:id="colNome" prefWidth="250.0" text="Nome do Aluno" />
-          <TableColumn fx:id="colMedia" prefWidth="75.0" text="Média" />
-            <TableColumn fx:id="colFaltas" prefWidth="75.0" text="Faltas" />
-            <TableColumn fx:id="colSituacao" prefWidth="120.0" text="Situação" />
-        </columns>
-      </TableView>
-      <HBox alignment="CENTER_RIGHT" spacing="10.0">
-         <children>
-            <Button onAction="#exportarCSV" text="Exportar para CSV" />
-            <Button onAction="#onExportPdfClick" text="Exportar para PDF" />
-            <Button fx:id="btnVoltar" onAction="#voltar" text="Voltar" />
-         </children>
-      </HBox>
-   </children>
-   <padding>
-      <Insets top="10.0" />
-   </padding>
+<VBox alignment="TOP_CENTER" spacing="15.0"
+      xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controller.RelatorioController"
+      style="-fx-background-color: transparent;">
+
+    <!-- Título -->
+    <children>
+        <Label text="Geração de Relatórios de Turmas" textFill="#2c3e50">
+            <font><Font name="Arial Bold" size="22.0" /></font>
+        </Label>
+
+        <!-- Filtros -->
+        <HBox alignment="CENTER_LEFT" spacing="10.0">
+            <children>
+                <Label text="Turma:"/>
+                <ComboBox fx:id="turmaComboBox" prefWidth="200" promptText="Selecione a Turma"/>
+
+                <Label text="Disciplina:"/>
+                <ComboBox fx:id="disciplinaComboBox" prefWidth="200" promptText="Selecione a Disciplina"/>
+
+                <Button text="Gerar Relatório" onAction="#gerarRelatorio"/>
+            </children>
+        </HBox>
+
+        <!-- Tabela -->
+        <TableView fx:id="tabelaRelatorio" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colMatricula" prefWidth="120" text="Matrícula"/>
+                <TableColumn fx:id="colNome"      prefWidth="250" text="Nome do Aluno"/>
+                <TableColumn fx:id="colMedia"     prefWidth="75"  text="Média"/>
+                <TableColumn fx:id="colPresencas" prefWidth="90"  text="Presenças"/>
+                <TableColumn fx:id="colSituacao"  prefWidth="120" text="Situação"/>
+            </columns>
+        </TableView>
+    </children>
+
+    <padding><Insets top="10"/></padding>
 </VBox>

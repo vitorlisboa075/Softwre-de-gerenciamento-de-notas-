@@ -2,146 +2,186 @@ package controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.*;
+import model.Conexao;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class RelatorioController {
 
-    // --- Componentes FXML ---
+    /* ---------- FXML ---------- */
     @FXML private ComboBox<Turma> turmaComboBox;
     @FXML private ComboBox<Disciplina> disciplinaComboBox;
+
     @FXML private TableView<RelatorioAluno> tabelaRelatorio;
-    @FXML private TableColumn<RelatorioAluno, String> colNome;
-    @FXML private TableColumn<RelatorioAluno, String> colMatricula;
-    @FXML private TableColumn<RelatorioAluno, Integer> colFaltas;
-    @FXML private TableColumn<RelatorioAluno, Double> colMedia;
-    @FXML private TableColumn<RelatorioAluno, String> colSituacao;
-    @FXML private Button btnVoltar;
+    @FXML private TableColumn<RelatorioAluno,String>  colNome;
+    @FXML private TableColumn<RelatorioAluno,String>  colMatricula;
+    @FXML private TableColumn<RelatorioAluno,Integer> colPresencas;   // <‑‑ trocada
+    @FXML private TableColumn<RelatorioAluno,Double>  colMedia;
+    @FXML private TableColumn<RelatorioAluno,String>  colSituacao;
 
-    private ObservableList<RelatorioAluno> relatorioData = FXCollections.observableArrayList();
-    private ObservableList<Turma> todasAsTurmas = FXCollections.observableArrayList();
+    /* ---------- Dados ---------- */
+    private final ObservableList<RelatorioAluno> relatorioData = FXCollections.observableArrayList();
+    private final ObservableList<Turma>          turmas        = FXCollections.observableArrayList();
 
+    /* ---------- INIT ---------- */
     @FXML
     public void initialize() {
-        // Simula o carregamento de todas as turmas do sistema
-        carregarDadosSimulados();
-        
-        // Configura os ComboBoxes
-        turmaComboBox.setItems(todasAsTurmas);
+        carregarTurmasDoBanco();
+
+        turmaComboBox.setItems(turmas);
         turmaComboBox.setConverter(new TurmaStringConverter());
 
-        turmaComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> {
-            if (newV != null) {
-                disciplinaComboBox.setItems(FXCollections.observableArrayList(newV.getDisciplinas()));
-                disciplinaComboBox.setConverter(new DisciplinaStringConverter());
+        disciplinaComboBox.setDisable(true);
+        disciplinaComboBox.setConverter(new DisciplinaStringConverter());
+
+        turmaComboBox.getSelectionModel().selectedItemProperty()
+                     .addListener((obs, oldT, newT) -> {
+            if (newT != null) {
+                disciplinaComboBox.setItems(
+                        FXCollections.observableArrayList(newT.getDisciplinas()));
+                disciplinaComboBox.getSelectionModel().clearSelection();
+                disciplinaComboBox.setDisable(false);
+            } else {
+                disciplinaComboBox.getItems().clear();
+                disciplinaComboBox.setDisable(true);
             }
         });
 
-        // Configura as colunas da tabela
-        colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        /* Colunas da tabela */
+        colNome     .setCellValueFactory(new PropertyValueFactory<>("nome"));
         colMatricula.setCellValueFactory(new PropertyValueFactory<>("matricula"));
-        colFaltas.setCellValueFactory(new PropertyValueFactory<>("faltas"));
-        colMedia.setCellValueFactory(new PropertyValueFactory<>("media"));
-        colSituacao.setCellValueFactory(new PropertyValueFactory<>("situacao"));
+        colPresencas.setCellValueFactory(new PropertyValueFactory<>("presencas"));
+        colMedia    .setCellValueFactory(new PropertyValueFactory<>("media"));
+        colSituacao .setCellValueFactory(new PropertyValueFactory<>("situacao"));
 
         tabelaRelatorio.setItems(relatorioData);
     }
 
+    /* ---------- Gera Relatório ---------- */
     @FXML
     public void gerarRelatorio() {
-        Turma turma = turmaComboBox.getValue();
-        Disciplina disciplina = disciplinaComboBox.getValue();
-
-        if (turma == null || disciplina == null) {
-            showAlert(Alert.AlertType.WARNING, "Seleção Incompleta", "Por favor, selecione uma turma e uma disciplina.");
+        Turma turma       = turmaComboBox.getValue();
+        Disciplina disc   = disciplinaComboBox.getValue();
+        if (turma == null || disc == null) {
+            alert(Alert.AlertType.WARNING,"Seleção incompleta",
+                  "Escolha a turma e depois a disciplina.");
             return;
         }
 
         relatorioData.clear();
 
-        // --- SIMULAÇÃO DE DADOS ---
-        // Em um sistema real, você buscaria as notas e faltas do banco de dados
-        // para cada aluno desta turma e disciplina.
-        Random random = new Random();
-        for (Usuario aluno : turma.getAlunos()) {
-            double media = 5 + random.nextDouble() * 5; // Média aleatória entre 5.0 e 10.0
-            int faltas = random.nextInt(15); // Faltas aleatórias entre 0 e 14
-            String situacao = (media >= 6.0 && faltas < 20) ? "Aprovado" : "Reprovado"; // Exemplo de regra
+        String sql = """
+            SELECT u.nome, a.matricula, a.cpf,
+                   SUM(p.presente)            AS presencas,
+                   COUNT(*)                   AS totalLançamentos
+            FROM presencas p
+            JOIN alunos   a ON a.cpf = p.aluno_cpf
+            JOIN usuarios u ON u.cpf = a.cpf
+            WHERE p.turma_id = ?
+            GROUP BY a.cpf, a.matricula, u.nome
+            ORDER BY u.nome
+        """;
 
-            relatorioData.add(new RelatorioAluno(aluno.getNome(), aluno.getMatricula(), faltas, media, situacao));
-        }
-    }
+        try (Connection con = Conexao.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
-    // Mantendo sua funcionalidade original de exportação
-    @FXML
-    public void exportarCSV() {
-        if (relatorioData.isEmpty()) {
-            showAlert(Alert.AlertType.INFORMATION, "Aviso", "Não há dados no relatório para exportar.");
-            return;
-        }
-        try (FileWriter writer = new FileWriter("relatorio_turma.csv")) {
-            // Escreve o cabeçalho do CSV
-            writer.write("Matricula,Nome,Media,Faltas,Situacao\n");
-            // Escreve os dados de cada aluno
-            for (RelatorioAluno r : relatorioData) {
-                writer.write(String.format("%s,%s,%.2f,%d,%s\n",
-                        r.getMatricula(), r.getNome(), r.getMedia(), r.getFaltas(), r.getSituacao()));
+            ps.setInt(1, turma.getId());
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String  nome       = rs.getString("nome");
+                    String  matricula  = rs.getString("matricula");
+                    String  cpf        = rs.getString("cpf");
+                    int     presencas  = rs.getInt("presencas");
+                    int     totalReg   = rs.getInt("totalLançamentos");
+                    int     faltas     = totalReg - presencas;
+
+                    double media = buscarMedia(con, turma.getId(), cpf);
+
+                    String situ  = (media >= 6.0 && faltas <= totalReg * 0.25)
+                                   ? "Aprovado" : "Reprovado";
+
+                    relatorioData.add(
+                        new RelatorioAluno(nome, matricula,
+                                           presencas, media, situ));
+                }
             }
-            showAlert(Alert.AlertType.INFORMATION, "Exportação Concluída", "Relatório exportado com sucesso para relatorio_turma.csv");
-        } catch (IOException e) {
+
+        } catch (SQLException e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Erro de Exportação", "Ocorreu um erro ao exportar o arquivo CSV.");
+            alert(Alert.AlertType.ERROR,"Erro",
+                  "Falha ao gerar o relatório.");
         }
     }
 
-    @FXML
-    public void onExportPdfClick(ActionEvent event) {
-        showAlert(Alert.AlertType.INFORMATION, "Funcionalidade Futura", "A exportação para PDF ainda não foi implementada.");
+    /* ---------- Média ---------- */
+    private double buscarMedia(Connection c, int turmaId, String cpf) {
+        String q = """
+            SELECT (nota1 + nota2 + nota3) / 3 AS m
+              FROM notas
+             WHERE turma_id = ? AND aluno_cpf = ?
+        """;
+        try (PreparedStatement ps = c.prepareStatement(q)) {
+            ps.setInt(1, turmaId);
+            ps.setString(2, cpf);
+            try (ResultSet r = ps.executeQuery()) {
+                if (r.next()) return r.getDouble("m");
+            }
+        } catch (SQLException ignore) { }
+        return 0.0;
     }
 
-    private void carregarDadosSimulados() {
-        // Simulação de dados para preencher os ComboBoxes
-        Usuario prof1 = new Usuario(); prof1.setNome("Mariana Costa");
-        Usuario prof2 = new Usuario(); prof2.setNome("Ricardo Alves");
-        Disciplina d1 = new Disciplina(1, "Matemática", prof1);
-        Disciplina d2 = new Disciplina(2, "Português", prof2);
+    /* ---------- Carrega turmas ---------- */
+    private void carregarTurmasDoBanco() {
+        turmas.clear();
+        String sql = """
+            SELECT t.id, t.nome, t.periodo,
+                   d.id AS did, d.nome AS dnome
+              FROM turmas t
+              JOIN disciplinas d ON d.id = t.disciplina_id
+        """;
+        try (Connection c = Conexao.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-        Usuario a1 = new Usuario(); a1.setNome("Carlos Souza"); a1.setMatricula("2024001"); a1.setTipoUsuario("Aluno");
-        Usuario a2 = new Usuario(); a2.setNome("Beatriz Lima"); a2.setMatricula("2024003"); a2.setTipoUsuario("Aluno");
-        
-        Turma turmaA = new Turma(1, "1º Ano A", "Matutino");
-        turmaA.setDisciplinas(new ArrayList<>(List.of(d1, d2)));
-        turmaA.setAlunos(new ArrayList<>(List.of(a1, a2)));
-        
-        todasAsTurmas.add(turmaA);
-    }
-    
-    @FXML private void voltar(ActionEvent event) { /* ... */ }
+            while (rs.next()) {
+                Turma t = new Turma(rs.getInt("id"),
+                                    rs.getString("nome"),
+                                    rs.getString("periodo"));
+                Disciplina d = new Disciplina(rs.getInt("did"),
+                                              rs.getString("dnome"), null);
+                t.setDisciplinas(new ArrayList<>(List.of(d)));
+                turmas.add(t);
+            }
 
-    private void showAlert(Alert.AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            alert(Alert.AlertType.ERROR,"Erro",
+                  "Falha ao carregar turmas.");
+        }
     }
-    
-    // Classes internas para converter objetos para String nos ComboBoxes
-    private static class TurmaStringConverter extends javafx.util.StringConverter<Turma> {
-        @Override public String toString(Turma t) { return t == null ? null : t.getNome(); }
-        @Override public Turma fromString(String s) { return null; }
+
+    /* ---------- Utils ---------- */
+    private void alert(Alert.AlertType t, String title, String msg) {
+        Alert a = new Alert(t, msg, ButtonType.OK);
+        a.setTitle(title); a.setHeaderText(null); a.showAndWait();
     }
-    private static class DisciplinaStringConverter extends javafx.util.StringConverter<Disciplina> {
-        @Override public String toString(Disciplina d) { return d == null ? null : d.getNome(); }
-        @Override public Disciplina fromString(String s) { return null; }
+
+    /* ---------- Converters ---------- */
+    private static class TurmaStringConverter
+            extends javafx.util.StringConverter<Turma> {
+        @Override public String toString(Turma t){ return t==null?"":t.getNome(); }
+        @Override public Turma fromString(String s){ return null; }
+    }
+    private static class DisciplinaStringConverter
+            extends javafx.util.StringConverter<Disciplina> {
+        @Override public String toString(Disciplina d){ return d==null?"":d.getNome(); }
+        @Override public Disciplina fromString(String s){ return null; }
     }
 }

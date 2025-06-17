@@ -1,64 +1,56 @@
-// Local: src/model/BoletimView.java
 package model;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 public class BoletimView {
 
-    private final StringProperty disciplina;
-    private final StringProperty professor;
-    private final DoubleProperty nota1;
-    private final DoubleProperty nota2;
-    private final DoubleProperty nota3;
-    private final DoubleProperty media;
-    private final IntegerProperty faltas;
-    private final StringProperty situacao;
+    /* ---------- Propriedades ---------- */
+    private final StringProperty  disciplina  = new SimpleStringProperty();
+    private final StringProperty  professor   = new SimpleStringProperty();
+    private final DoubleProperty  nota1       = new SimpleDoubleProperty();
+    private final DoubleProperty  nota2       = new SimpleDoubleProperty();
+    private final DoubleProperty  nota3       = new SimpleDoubleProperty();
+    private final DoubleProperty  media       = new SimpleDoubleProperty();
+    private final IntegerProperty presencas   = new SimpleIntegerProperty();
+    private final StringProperty  situacao    = new SimpleStringProperty();
 
-    // Construtor que recebe as informações prontas
-    public BoletimView(String disciplina, String professor, double n1, double n2, double n3, int faltas) {
-        this.disciplina = new SimpleStringProperty(disciplina);
-        this.professor = new SimpleStringProperty(professor);
-        this.nota1 = new SimpleDoubleProperty(n1);
-        this.nota2 = new SimpleDoubleProperty(n2);
-        this.nota3 = new SimpleDoubleProperty(n3);
-        
-        // Calcula a média
-        double mediaCalculada = (n1 + n2 + n3) / 3.0;
-        this.media = new SimpleDoubleProperty(mediaCalculada);
-        
-        this.faltas = new SimpleIntegerProperty(faltas);
-        
-        // Determina a situação
-        this.situacao = new SimpleStringProperty(mediaCalculada >= 6.0 ? "Aprovado" : "Reprovado");
+    /* ---------- Construtor ---------- */
+    public BoletimView(String disciplina,
+                       String professor,
+                       double nota1,
+                       double nota2,
+                       double nota3,
+                       double media,
+                       int presencas,
+                       String situacao) {
+
+        this.disciplina.set(disciplina);
+        this.professor .set(professor);
+        this.nota1     .set(nota1);
+        this.nota2     .set(nota2);
+        this.nota3     .set(nota3);
+        this.media     .set(media);
+        this.presencas .set(presencas);
+        this.situacao  .set(situacao);
     }
 
-    // --- Getters e Properties ---
+    /* ---------- Getters (usados pelo TableView) ---------- */
     public String getDisciplina() { return disciplina.get(); }
-    public StringProperty disciplinaProperty() { return disciplina; }
+    public String getProfessor () { return professor .get(); }
+    public double getNota1     () { return nota1     .get(); }
+    public double getNota2     () { return nota2     .get(); }
+    public double getNota3     () { return nota3     .get(); }
+    public double getMedia     () { return media     .get(); }
+    public int    getPresencas () { return presencas .get(); }
+    public String getSituacao  () { return situacao  .get(); }
 
-    public String getProfessor() { return professor.get(); }
-    public StringProperty professorProperty() { return professor; }
-
-    public double getNota1() { return nota1.get(); }
-    public DoubleProperty nota1Property() { return nota1; }
-
-    public double getNota2() { return nota2.get(); }
-    public DoubleProperty nota2Property() { return nota2; }
-
-    public double getNota3() { return nota3.get(); }
-    public DoubleProperty nota3Property() { return nota3; }
-    
-    public double getMedia() { return media.get(); }
-    public DoubleProperty mediaProperty() { return media; }
-
-    public int getFaltas() { return faltas.get(); }
-    public IntegerProperty faltasProperty() { return faltas; }
-
-    public String getSituacao() { return situacao.get(); }
-    public StringProperty situacaoProperty() { return situacao; }
+    /* ---------- Properties (caso precise fazer bindings) ---------- */
+    public StringProperty  disciplinaProperty() { return disciplina; }
+    public StringProperty  professorProperty () { return professor ; }
+    public DoubleProperty  nota1Property     () { return nota1     ; }
+    public DoubleProperty  nota2Property     () { return nota2     ; }
+    public DoubleProperty  nota3Property     () { return nota3     ; }
+    public DoubleProperty  mediaProperty     () { return media     ; }
+    public IntegerProperty presencasProperty () { return presencas ; }
+    public StringProperty  situacaoProperty  () { return situacao  ; }
 }

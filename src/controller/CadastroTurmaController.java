@@ -1,4 +1,3 @@
-// Local: src/controller/CadastroTurmaController.java
 package controller;
 
 import javafx.collections.FXCollections;
@@ -8,123 +7,208 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.Parent;
 import model.*;
 
+import java.sql.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CadastroTurmaController {
 
-    // --- Campos da Turma ---
     @FXML private TextField nomeTurmaField;
     @FXML private ComboBox<String> periodoCombo;
-    
-    // --- Seção de Disciplinas ---
+
     @FXML private TextField pesquisaDisciplinaField;
     @FXML private TableView<DisciplinaWrapper> tabelaDisciplinas;
     @FXML private TableColumn<DisciplinaWrapper, Boolean> colSelecaoDisciplina;
     @FXML private TableColumn<DisciplinaWrapper, String> colNomeDisciplina;
-    
-    // --- Seção de Alunos ---
+
     @FXML private TextField pesquisaAlunoField;
     @FXML private TableView<UsuarioWrapper> tabelaAlunos;
     @FXML private TableColumn<UsuarioWrapper, Boolean> colSelecaoAluno;
     @FXML private TableColumn<UsuarioWrapper, String> colNomeAluno;
     @FXML private TableColumn<UsuarioWrapper, String> colCpfAluno;
-    
+
     @FXML private Button btnVoltar;
 
-    // --- Listas de Dados ---
-    private ObservableList<DisciplinaWrapper> masterDisciplinaList = FXCollections.observableArrayList();
-    private ObservableList<UsuarioWrapper> masterUsuarioList = FXCollections.observableArrayList();
+    private final ObservableList<DisciplinaWrapper> masterDisciplinaList = FXCollections.observableArrayList();
+    private final ObservableList<UsuarioWrapper>     masterUsuarioList   = FXCollections.observableArrayList();
 
+    /* ---------- Inicialização ---------- */
     @FXML
     public void initialize() {
         periodoCombo.getItems().addAll("Matutino", "Vespertino", "Noturno", "Integral");
 
-        carregarDadosSimulados();
+        carregarDisciplinasDoBanco();
+        carregarAlunosDoBanco();
+
         configurarTabelaDisciplinas();
         configurarTabelaAlunos();
     }
 
+    /* ---------- Configuração Tabela Disciplinas ---------- */
     private void configurarTabelaDisciplinas() {
-        // Configura colunas
-        colSelecaoDisciplina.setCellValueFactory(cellData -> cellData.getValue().selecionadoProperty());
+        colSelecaoDisciplina.setCellValueFactory(cd -> cd.getValue().selecionadoProperty());
         colSelecaoDisciplina.setCellFactory(CheckBoxTableCell.forTableColumn(colSelecaoDisciplina));
-        colNomeDisciplina.setCellValueFactory(cellData -> cellData.getValue().getDisciplina().nomeProperty());
+        colSelecaoDisciplina.setEditable(true);                       // <-- habilita clique
+
+        colNomeDisciplina.setCellValueFactory(cd -> cd.getValue().getDisciplina().nomeProperty());
+
         tabelaDisciplinas.setEditable(true);
 
-        // Configura filtro
-        FilteredList<DisciplinaWrapper> filteredData = new FilteredList<>(masterDisciplinaList, p -> true);
-        pesquisaDisciplinaField.textProperty().addListener((obs, oldV, newV) -> {
-            filteredData.setPredicate(dw -> newV == null || newV.isEmpty() || dw.getDisciplina().getNome().toLowerCase().contains(newV.toLowerCase()));
+        FilteredList<DisciplinaWrapper> filtrada = new FilteredList<>(masterDisciplinaList, p -> true);
+        pesquisaDisciplinaField.textProperty().addListener((obs, o, n) -> {
+            String f = n == null ? "" : n.toLowerCase();
+            filtrada.setPredicate(dw -> dw.getDisciplina().getNome().toLowerCase().contains(f));
         });
-        tabelaDisciplinas.setItems(filteredData);
+        tabelaDisciplinas.setItems(filtrada);
     }
 
+    /* ---------- Configuração Tabela Alunos ---------- */
     private void configurarTabelaAlunos() {
-        // Filtra a lista mestra de usuários para pegar apenas alunos
-        FilteredList<UsuarioWrapper> listaDeAlunos = new FilteredList<>(
-            masterUsuarioList,
-            uw -> "Aluno".equalsIgnoreCase(uw.getUsuario().getTipoUsuario())
-        );
+        // Só alunos
+        FilteredList<UsuarioWrapper> apenasAlunos = new FilteredList<>(masterUsuarioList,
+                uw -> "Aluno".equalsIgnoreCase(uw.getUsuario().getTipoUsuario()));
 
-        // Configura colunas
-        colSelecaoAluno.setCellValueFactory(cellData -> cellData.getValue().selecionadoProperty());
+        colSelecaoAluno.setCellValueFactory(cd -> cd.getValue().selecionadoProperty());
         colSelecaoAluno.setCellFactory(CheckBoxTableCell.forTableColumn(colSelecaoAluno));
-        colNomeAluno.setCellValueFactory(cellData -> cellData.getValue().getUsuario().nomeProperty());
-        colCpfAluno.setCellValueFactory(cellData -> cellData.getValue().getUsuario().cpfProperty());
+        colSelecaoAluno.setEditable(true);                            // <-- habilita clique
+
+        colNomeAluno.setCellValueFactory(cd -> cd.getValue().getUsuario().nomeProperty());
+        colCpfAluno.setCellValueFactory(cd -> cd.getValue().getUsuario().cpfProperty());
+
         tabelaAlunos.setEditable(true);
 
-        // Configura filtro da busca
-        FilteredList<UsuarioWrapper> filteredSearchData = new FilteredList<>(listaDeAlunos, p -> true);
-        pesquisaAlunoField.textProperty().addListener((obs, oldV, newV) -> {
-            filteredSearchData.setPredicate(uw -> {
-                if (newV == null || newV.isEmpty()) return true;
-                String filter = newV.toLowerCase();
-                return uw.getUsuario().getNome().toLowerCase().contains(filter) || uw.getUsuario().getCpf().contains(filter);
-            });
+        FilteredList<UsuarioWrapper> filtrada = new FilteredList<>(apenasAlunos, p -> true);
+        pesquisaAlunoField.textProperty().addListener((obs, o, n) -> {
+            String f = n == null ? "" : n.toLowerCase();
+            filtrada.setPredicate(uw ->
+                uw.getUsuario().getNome().toLowerCase().contains(f) ||
+                uw.getUsuario().getCpf().toLowerCase().contains(f)
+            );
         });
-        tabelaAlunos.setItems(filteredSearchData);
+        tabelaAlunos.setItems(filtrada);
     }
 
+    /* ---------- Salvar Turmas ---------- */
     @FXML
     void salvarTurma() {
-        String nome = nomeTurmaField.getText();
+        String nome    = nomeTurmaField.getText();
         String periodo = periodoCombo.getValue();
-        if (nome.trim().isEmpty() || periodo == null) {
-            showAlert(Alert.AlertType.WARNING, "Campos Incompletos", "Preencha o nome e o período da turma.");
+
+        if (nome == null || nome.trim().isEmpty() || periodo == null) {
+            showAlert(Alert.AlertType.WARNING, "Campos Incompletos",
+                      "Preencha o nome e o período da turma.");
             return;
         }
 
         List<Disciplina> disciplinasSelecionadas = masterDisciplinaList.stream()
-                .filter(DisciplinaWrapper::isSelecionado).map(DisciplinaWrapper::getDisciplina).collect(Collectors.toList());
+                .filter(DisciplinaWrapper::isSelecionado)
+                .map(DisciplinaWrapper::getDisciplina)
+                .collect(Collectors.toList());
 
         List<Usuario> alunosSelecionados = masterUsuarioList.stream()
-                .filter(uw -> uw.getUsuario().isAluno() && uw.isSelecionado()) // Garante que só pegamos alunos selecionados
-                .map(UsuarioWrapper::getUsuario).collect(Collectors.toList());
-        
+                .filter(uw -> "Aluno".equalsIgnoreCase(uw.getUsuario().getTipoUsuario()) && uw.isSelecionado())
+                .map(UsuarioWrapper::getUsuario)
+                .collect(Collectors.toList());
+
         if (disciplinasSelecionadas.isEmpty() || alunosSelecionados.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Seleção Necessária", "Selecione ao menos uma disciplina e um aluno.");
+            showAlert(Alert.AlertType.WARNING, "Seleção Necessária",
+                      "Selecione ao menos uma disciplina e um aluno.");
             return;
         }
 
-        Turma novaTurma = new Turma(0, nome, periodo); // ID seria gerado pelo banco
-        novaTurma.setDisciplinas(disciplinasSelecionadas);
-        novaTurma.setAlunos(alunosSelecionados);
+        boolean sucesso = true;
+        // Como cada turma só comporta uma disciplina, cria-se uma turma para cada disciplina selecionada
+        for (Disciplina disc : disciplinasSelecionadas) {
+            if (!salvarUmaTurma(nome, periodo, disc, alunosSelecionados)) {
+                sucesso = false;
+                break;
+            }
+        }
 
-        // Log para verificação
-        System.out.println("--- Turma Salva ---");
-        System.out.println("Nome: " + novaTurma.getNome() + " | Período: " + novaTurma.getPeriodo());
-        System.out.println("Disciplinas: " + novaTurma.getDisciplinas().stream().map(Disciplina::getNome).collect(Collectors.joining(", ")));
-        System.out.println("Alunos: " + novaTurma.getAlunos().stream().map(Usuario::getNome).collect(Collectors.joining(", ")));
-
-        showAlert(Alert.AlertType.INFORMATION, "Sucesso!", "Turma cadastrada com sucesso.");
-        limparCampos();
+        if (sucesso) {
+            showAlert(Alert.AlertType.INFORMATION, "Sucesso",
+                      "Turmas cadastradas com sucesso.");
+            limparCampos();
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Erro",
+                      "Falha ao cadastrar uma ou mais turmas.");
+        }
     }
 
+    private boolean salvarUmaTurma(String nome, String periodo,
+                                   Disciplina disciplina, List<Usuario> alunos) {
+
+        Connection conn = null;
+        PreparedStatement psTurma = null;
+        PreparedStatement psTurmaAluno = null;
+
+        try {
+            conn = Conexao.getConnection();
+            if (conn == null) {
+                showAlert(Alert.AlertType.ERROR, "Erro",
+                          "Falha na conexão com o banco de dados.");
+                return false;
+            }
+            conn.setAutoCommit(false);
+
+            // Inserir turma
+            String insertTurma = "INSERT INTO turmas (nome, disciplina_id, professor_cpf, periodo) "
+                               + "VALUES (?,?,?,?)";
+            psTurma = conn.prepareStatement(insertTurma, PreparedStatement.RETURN_GENERATED_KEYS);
+            psTurma.setString(1, nome);
+            psTurma.setInt(2, disciplina.getId());
+            psTurma.setString(3, disciplina.getProfessor().getCpf());
+            psTurma.setString(4, periodo);
+
+            if (psTurma.executeUpdate() == 0) {
+                conn.rollback();
+                return false;
+            }
+
+            int turmaId;
+            try (ResultSet keys = psTurma.getGeneratedKeys()) {
+                if (keys.next()) {
+                    turmaId = keys.getInt(1);
+                } else {
+                    conn.rollback();
+                    return false;
+                }
+            }
+
+            // Inserir alunos na turma
+            String insertTA = "INSERT INTO turma_aluno (turma_id, aluno_cpf) VALUES (?,?)";
+            psTurmaAluno = conn.prepareStatement(insertTA);
+
+            for (Usuario aluno : alunos) {
+                psTurmaAluno.setInt(1, turmaId);
+                psTurmaAluno.setString(2, aluno.getCpf());
+                psTurmaAluno.addBatch();
+            }
+            psTurmaAluno.executeBatch();
+
+            conn.commit();
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            if (conn != null) try { conn.rollback(); } catch (SQLException ignored) {}
+            return false;
+
+        } finally {
+            try {
+                if (psTurmaAluno != null) psTurmaAluno.close();
+                if (psTurma     != null) psTurma.close();
+                if (conn        != null) {
+                    conn.setAutoCommit(true);
+                    Conexao.fecharConnection(conn);
+                }
+            } catch (SQLException e) { e.printStackTrace(); }
+        }
+    }
+
+    /* ---------- Utilidades ---------- */
     @FXML
     void limparCampos() {
         nomeTurmaField.clear();
@@ -134,27 +218,73 @@ public class CadastroTurmaController {
         masterDisciplinaList.forEach(dw -> dw.selecionadoProperty().set(false));
         masterUsuarioList.forEach(uw -> uw.selecionadoProperty().set(false));
     }
-    
-    private void carregarDadosSimulados() {
-        // Disciplinas
-        Usuario prof1 = new Usuario(); prof1.setNome("Mariana Costa");
-        Disciplina d1 = new Disciplina(1, "Matemática", prof1);
-        Disciplina d2 = new Disciplina(2, "Português", prof1);
-        masterDisciplinaList.addAll(new DisciplinaWrapper(d1), new DisciplinaWrapper(d2));
 
-        // Usuários de todos os tipos
-        Usuario a1 = new Usuario(); a1.setNome("Carlos Souza"); a1.setCpf("11122233344"); a1.setTipoUsuario("Aluno");
-        Usuario a2 = new Usuario(); a2.setNome("Beatriz Lima"); a2.setCpf("33344455566"); a2.setTipoUsuario("Aluno");
-        masterUsuarioList.addAll(new UsuarioWrapper(a1), new UsuarioWrapper(a2), new UsuarioWrapper(prof1));
+    private void carregarAlunosDoBanco() {
+        masterUsuarioList.clear();
+        String sql = "SELECT cpf, nome, tipo FROM usuarios WHERE tipo = 'Aluno'";
+
+        try (Connection conn = Conexao.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Usuario aluno = new Usuario();
+                aluno.setCpf(rs.getString("cpf"));
+                aluno.setNome(rs.getString("nome"));
+                aluno.setTipoUsuario(rs.getString("tipo"));
+                masterUsuarioList.add(new UsuarioWrapper(aluno));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erro",
+                      "Falha ao carregar alunos do banco.");
+        }
     }
 
-    @FXML private void voltar(ActionEvent event) { /* ... Lógica para voltar ... */ }
+    private void carregarDisciplinasDoBanco() {
+        masterDisciplinaList.clear();
+        String sql = """
+                SELECT d.id, d.nome,
+                       p.cpf   AS professor_cpf,
+                       p.nome  AS professor_nome
+                  FROM disciplinas d
+                       JOIN usuarios p ON d.professor_cpf = p.cpf
+                """;
 
-    private void showAlert(Alert.AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        try (Connection conn = Conexao.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Usuario prof = new Usuario();
+                prof.setCpf(rs.getString("professor_cpf"));
+                prof.setNome(rs.getString("professor_nome"));
+                prof.setTipoUsuario("Professor");
+
+                Disciplina disc = new Disciplina();
+                disc.setId(rs.getInt("id"));
+                disc.setNome(rs.getString("nome"));
+                disc.setProfessor(prof);
+
+                masterDisciplinaList.add(new DisciplinaWrapper(disc));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erro",
+                      "Falha ao carregar disciplinas do banco.");
+        }
+    }
+
+    @FXML
+    private void voltar(ActionEvent e) {
+        btnVoltar.getScene().getWindow().hide();
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String msg) {
+        Alert a = new Alert(type);
+        a.setTitle(title);
+        a.setHeaderText(null);
+        a.setContentText(msg);
+        a.showAndWait();
     }
 }

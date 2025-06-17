@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.TextFieldTableCell?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/21.0.7" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GerenciarAlunoController">
+<AnchorPane prefHeight="600.0" prefWidth="1200.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GerenciarAlunoController">
     <children>
-        <VBox alignment="TOP_CENTER" spacing="15.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="20.0">
+        <VBox alignment="TOP_CENTER" spacing="15.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
             <children>
                 <Label text="Gerenciamento de Alunos" textFill="#333">
                     <font>
@@ -24,27 +24,100 @@
                 <HBox alignment="CENTER_LEFT" spacing="10.0">
                     <children>
                         <TextField fx:id="pesquisaCpfField" promptText="Pesquisar por CPF..." HBox.hgrow="ALWAYS" />
-                        <Button onAction="#handleNovoAluno" text="Novo Aluno" styleClass="form-button" />
-                        <Button onAction="#handleEditarAluno" text="Editar Aluno" styleClass="form-button-secondary" />
-                        <Button onAction="#handleExcluirAlunos" text="Excluir Selecionados" styleClass="sair-button" />
+                        <Button styleClass="form-button" text="Novo Aluno" onAction="#handleNovoAluno" />
+                        <Button styleClass="form-button-secondary" text="Editar Aluno" onAction="#handleEditarAluno" />
+                        <Button styleClass="sair-button" text="Excluir Selecionados" onAction="#handleExcluirSelecionados" />
                     </children>
                 </HBox>
 
-                <TableView fx:id="tabelaAlunos" VBox.vgrow="ALWAYS">
+                <TableView fx:id="tabelaAlunos" VBox.vgrow="ALWAYS" editable="true">
                     <columns>
+                        <!-- Coluna Seleção com checkbox -->
                         <TableColumn fx:id="colSelecao" prefWidth="50.0" text="Sel." />
-                        <TableColumn fx:id="colNome" prefWidth="250.0" text="Nome" />
-                        <TableColumn fx:id="colMatricula" prefWidth="120.0" text="Matrícula" />
-                        <TableColumn fx:id="colCpf" prefWidth="120.0" text="CPF" />
-                        <TableColumn fx:id="colEmail" prefWidth="200.0" text="Email" />
+
+                        <!-- Colunas editáveis de texto -->
+                        <TableColumn fx:id="colNome" prefWidth="200.0" text="Nome">
+                            <cellFactory>
+                                <TextFieldTableCell fx:factory="forTableColumn" />
+                            </cellFactory>
+                        </TableColumn>
+
+                        <TableColumn fx:id="colMatricula" prefWidth="100.0" text="Matrícula">
+                            <cellFactory>
+                                <TextFieldTableCell fx:factory="forTableColumn" />
+                            </cellFactory>
+                        </TableColumn>
+
+                        <TableColumn fx:id="colCpf" prefWidth="120.0" text="CPF">
+                            <cellFactory>
+                                <TextFieldTableCell fx:factory="forTableColumn" />
+                            </cellFactory>
+                        </TableColumn>
+
+                        <TableColumn fx:id="colEmail" prefWidth="180.0" text="Email">
+                            <cellFactory>
+                                <TextFieldTableCell fx:factory="forTableColumn" />
+                            </cellFactory>
+                        </TableColumn>
+
+                        <TableColumn fx:id="colTelefone" prefWidth="120.0" text="Telefone">
+                            <cellFactory>
+                                <TextFieldTableCell fx:factory="forTableColumn" />
+                            </cellFactory>
+                        </TableColumn>
+
+                        <TableColumn fx:id="colSenha" prefWidth="120.0" text="Senha">
+                            <cellFactory>
+                                <TextFieldTableCell fx:factory="forTableColumn" />
+                            </cellFactory>
+                        </TableColumn>
+
+
+                        <TableColumn fx:id="colRua" prefWidth="150.0" text="Rua">
+                            <cellFactory>
+                                <TextFieldTableCell fx:factory="forTableColumn" />
+                            </cellFactory>
+                        </TableColumn>
+
+                        <TableColumn fx:id="colNumero" prefWidth="80.0" text="Número">
+                            <cellFactory>
+                                <TextFieldTableCell fx:factory="forTableColumn" />
+                            </cellFactory>
+                        </TableColumn>
+
+                        <TableColumn fx:id="colComplemento" prefWidth="120.0" text="Complemento">
+                            <cellFactory>
+                                <TextFieldTableCell fx:factory="forTableColumn" />
+                            </cellFactory>
+                        </TableColumn>
+
+                        <TableColumn fx:id="colBairro" prefWidth="120.0" text="Bairro">
+                            <cellFactory>
+                                <TextFieldTableCell fx:factory="forTableColumn" />
+                            </cellFactory>
+                        </TableColumn>
+
+                        <TableColumn fx:id="colCidade" prefWidth="120.0" text="Cidade">
+                            <cellFactory>
+                                <TextFieldTableCell fx:factory="forTableColumn" />
+                            </cellFactory>
+                        </TableColumn>
+
+                        <TableColumn fx:id="colEstado" prefWidth="80.0" text="Estado">
+                            <cellFactory>
+                                <TextFieldTableCell fx:factory="forTableColumn" />
+                            </cellFactory>
+                        </TableColumn>
+
+                        <TableColumn fx:id="colCep" prefWidth="100.0" text="CEP">
+                            <cellFactory>
+                                <TextFieldTableCell fx:factory="forTableColumn" />
+                            </cellFactory>
+                        </TableColumn>
                     </columns>
                 </TableView>
-                
-                <HBox alignment="CENTER_RIGHT">
-                     <children>
-                        <Button fx:id="btnVoltar" onAction="#voltar" text="Voltar ao Menu" />
-                     </children>
-                </HBox>
+
+                <HBox alignment="CENTER_RIGHT" />
             </children>
         </VBox>
     </children>

@@ -8,16 +8,25 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.converter.DefaultStringConverter;
 import model.Disciplina;
 import model.DisciplinaWrapper;
 import model.Usuario;
+import model.Conexao;
 
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Controller da tela "Gerenciamento de Disciplinas" – agora com edição inline
+ * que persiste imediatamente no banco de dados.
+ */
 public class GerenciarDisciplinasController {
 
+    /* -------------------- FXML -------------------- */
     @FXML private TextField pesquisaField;
     @FXML private TableView<DisciplinaWrapper> tabelaDisciplinas;
     @FXML private TableColumn<DisciplinaWrapper, Boolean> colSelecao;
@@ -25,102 +34,147 @@ public class GerenciarDisciplinasController {
     @FXML private TableColumn<DisciplinaWrapper, String> colProfessor;
     @FXML private Button btnVoltar;
 
-    private ObservableList<DisciplinaWrapper> masterDisciplinaList = FXCollections.observableArrayList();
+    /* -------------------- Dados -------------------- */
+    private final ObservableList<DisciplinaWrapper> masterDisciplinaList = FXCollections.observableArrayList();
 
+    /* =================== Inicialização =================== */
     @FXML
     public void initialize() {
-        carregarDadosSimulados();
+        carregarDadosDoBanco();
 
-        // Configura as colunas
-        colSelecao.setCellValueFactory(cellData -> cellData.getValue().selecionadoProperty());
+        /* ------ Coluna seleção ------ */
+        colSelecao.setCellValueFactory(c -> c.getValue().selecionadoProperty());
         colSelecao.setCellFactory(CheckBoxTableCell.forTableColumn(colSelecao));
+
+        /* ------ Coluna Nome (EDITÁVEL) ------ */
+        colNome.setCellValueFactory(c -> c.getValue().getDisciplina().nomeProperty());
+        colNome.setCellFactory(TextFieldTableCell.forTableColumn(new DefaultStringConverter()));
+        colNome.setOnEditCommit(evt -> {
+            DisciplinaWrapper dw = evt.getRowValue();
+            String novoNome = evt.getNewValue();
+            if (novoNome != null && !novoNome.trim().isEmpty() && !novoNome.equals(dw.getDisciplina().getNome())) {
+                if (atualizarNomeDisciplinaNoBanco(dw.getDisciplina().getId(), novoNome)) {
+                    dw.getDisciplina().setNome(novoNome);
+                    tabelaDisciplinas.refresh();
+                }
+            }
+        });
         tabelaDisciplinas.setEditable(true);
 
-        colNome.setCellValueFactory(cellData -> cellData.getValue().getDisciplina().nomeProperty());
-        
-        // Para pegar o nome do professor, que está dentro de outro objeto
-        colProfessor.setCellValueFactory(cellData -> {
-            Usuario professor = cellData.getValue().getDisciplina().getProfessor();
-            return new SimpleStringProperty(professor != null ? professor.getNome() : "Não definido");
+        /* ------ Coluna Professor (somente leitura) ------ */
+        colProfessor.setCellValueFactory(c -> {
+            Usuario p = c.getValue().getDisciplina().getProfessor();
+            return new SimpleStringProperty(p != null ? p.getNome() : "Não definido");
         });
-        
-        // Configura a busca
-        FilteredList<DisciplinaWrapper> filteredData = new FilteredList<>(masterDisciplinaList, p -> true);
-        pesquisaField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(disciplinaWrapper -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
+
+        /* ------ Filtro de pesquisa ------ */
+        FilteredList<DisciplinaWrapper> filtered = new FilteredList<>(masterDisciplinaList, p -> true);
+        pesquisaField.textProperty().addListener((obs, oldV, newV) -> {
+            String f = newV == null ? "" : newV.toLowerCase();
+            filtered.setPredicate(dw -> dw.getDisciplina().getNome().toLowerCase().contains(f));
+        });
+        tabelaDisciplinas.setItems(filtered);
+    }
+
+    /* =================== CRUD no Banco =================== */
+    private void carregarDadosDoBanco() {
+        masterDisciplinaList.clear();
+        final String sql = "SELECT d.id, d.nome, p.cpf AS professor_cpf, p.nome AS professor_nome " +
+                           "FROM disciplinas d LEFT JOIN usuarios p ON p.cpf = d.professor_cpf";
+        try (Connection conn = Conexao.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String nome = rs.getString("nome");
+                String cpfProf = rs.getString("professor_cpf");
+                Usuario prof = null;
+                if (cpfProf != null) {
+                    prof = new Usuario();
+                    prof.setCpf(cpfProf);
+                    prof.setNome(rs.getString("professor_nome"));
                 }
-                String lowerCaseFilter = newValue.toLowerCase();
-                return disciplinaWrapper.getDisciplina().getNome().toLowerCase().contains(lowerCaseFilter);
-            });
-        });
-
-        tabelaDisciplinas.setItems(filteredData);
+                masterDisciplinaList.add(new DisciplinaWrapper(new Disciplina(id, nome, prof)));
+            }
+        } catch (SQLException e) {
+            showAlert(Alert.AlertType.ERROR, "Erro", "Falha ao carregar disciplinas: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
-    private void carregarDadosSimulados() {
-        // Criando professores e disciplinas de exemplo
-        Usuario prof1 = new Usuario(); prof1.setNome("Mariana Costa");
-        Usuario prof2 = new Usuario(); prof2.setNome("Ricardo Alves");
-        
-        Disciplina d1 = new Disciplina(1, "Matemática", prof1);
-        Disciplina d2 = new Disciplina(2, "Português", prof2);
-        Disciplina d3 = new Disciplina(3, "História", prof1);
-
-        masterDisciplinaList.addAll(
-            new DisciplinaWrapper(d1),
-            new DisciplinaWrapper(d2),
-            new DisciplinaWrapper(d3)
-        );
+    /** Atualiza o nome da disciplina no banco. */
+    private boolean atualizarNomeDisciplinaNoBanco(int id, String novoNome) {
+        final String sql = "UPDATE disciplinas SET nome = ? WHERE id = ?";
+        try (Connection conn = Conexao.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, novoNome);
+            ps.setInt(2, id);
+            int linhas = ps.executeUpdate();
+            return linhas > 0;
+        } catch (SQLException e) {
+            showAlert(Alert.AlertType.ERROR, "Erro", "Falha ao atualizar nome: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
     }
-    
-    @FXML
-    private void handleNovaDisciplina() {
+
+    private void excluirDisciplinasDoBanco(List<DisciplinaWrapper> sel) {
+        final String sql = "DELETE FROM disciplinas WHERE id = ?";
+        try (Connection conn = Conexao.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            for (DisciplinaWrapper dw : sel) {
+                ps.setInt(1, dw.getDisciplina().getId());
+                ps.addBatch();
+            }
+            ps.executeBatch();
+        } catch (SQLException e) {
+            showAlert(Alert.AlertType.ERROR, "Erro ao excluir", "Não foi possível excluir disciplina(s): " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /* =================== Ações de Botão =================== */
+    @FXML private void handleNovaDisciplina() {
         showAlert(Alert.AlertType.INFORMATION, "Ação", "Navegando para a tela de Cadastro de Disciplina...");
     }
 
-    @FXML
-    private void handleEditarDisciplina() {
-        List<DisciplinaWrapper> selecionados = getDisciplinasSelecionadas();
-        if (selecionados.size() != 1) {
-            showAlert(Alert.AlertType.WARNING, "Seleção Inválida", "Por favor, selecione exatamente UMA disciplina para editar.");
+    @FXML private void handleEditarDisciplina() {
+        List<DisciplinaWrapper> sel = getSelecionadas();
+        if (sel.size() != 1) {
+            showAlert(Alert.AlertType.WARNING, "Seleção Inválida", "Selecione exatamente UMA disciplina para editar.");
             return;
         }
-        showAlert(Alert.AlertType.INFORMATION, "Ação", "Abrindo formulário para editar: " + selecionados.get(0).getDisciplina().getNome());
+        // Aqui você pode abrir um formulário de edição completo
+        showAlert(Alert.AlertType.INFORMATION, "Editar", "Abrir editor para: " + sel.get(0).getDisciplina().getNome());
     }
 
-    @FXML
-    private void handleExcluirDisciplinas() {
-        List<DisciplinaWrapper> selecionados = getDisciplinasSelecionadas();
-        if (selecionados.isEmpty()) {
+    @FXML private void handleExcluirDisciplinas() {
+        List<DisciplinaWrapper> sel = getSelecionadas();
+        if (sel.isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Seleção Inválida", "Selecione pelo menos uma disciplina para excluir.");
             return;
         }
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Deseja realmente excluir " + selecionados.size() + " disciplina(s)?", ButtonType.YES, ButtonType.NO);
-        alert.setTitle("Confirmação de Exclusão");
-        
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.YES) {
-            masterDisciplinaList.removeAll(selecionados);
-            showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Disciplina(s) excluída(s) com sucesso.");
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION, "Excluir " + sel.size() + " disciplina(s)?", ButtonType.YES, ButtonType.NO);
+        confirm.setTitle("Confirmação");
+        Optional<ButtonType> res = confirm.showAndWait();
+        if (res.isPresent() && res.get() == ButtonType.YES) {
+            excluirDisciplinasDoBanco(sel);
+            masterDisciplinaList.removeAll(sel);
         }
     }
 
-    private List<DisciplinaWrapper> getDisciplinasSelecionadas() {
-        return masterDisciplinaList.stream()
-                .filter(DisciplinaWrapper::isSelecionado)
-                .collect(Collectors.toList());
+    /* =================== Utilitários =================== */
+    private List<DisciplinaWrapper> getSelecionadas() {
+        return masterDisciplinaList.stream().filter(DisciplinaWrapper::isSelecionado).collect(Collectors.toList());
     }
 
-    @FXML private void voltar(ActionEvent event) { /* ... */ }
+    @FXML private void voltar(ActionEvent evt) { /* implemente a navegação */ }
 
-    private void showAlert(Alert.AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    private void showAlert(Alert.AlertType t, String title, String msg) {
+        Alert a = new Alert(t);
+        a.setTitle(title);
+        a.setHeaderText(null);
+        a.setContentText(msg);
+        a.showAndWait();
     }
 }

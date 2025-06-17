@@ -3,34 +3,61 @@ package model;
 import javafx.beans.property.*;
 
 public class RelatorioAluno {
-    private final StringProperty nome;
-    private final StringProperty matricula;
-    private final IntegerProperty faltas;
-    private final DoubleProperty media;
-    private final StringProperty situacao;
 
-    public RelatorioAluno(String nome, String matricula, int faltas, double media, String situacao) {
-        this.nome = new SimpleStringProperty(nome);
-        this.matricula = new SimpleStringProperty(matricula);
-        this.faltas = new SimpleIntegerProperty(faltas);
-        this.media = new SimpleDoubleProperty(media);
-        this.situacao = new SimpleStringProperty(situacao);
+    private final StringProperty nome      = new SimpleStringProperty();
+    private final StringProperty matricula = new SimpleStringProperty();
+    private final IntegerProperty presencas = new SimpleIntegerProperty(0);
+    private final DoubleProperty media     = new SimpleDoubleProperty(0.0);
+    private final StringProperty situacao  = new SimpleStringProperty();
+
+    public RelatorioAluno(String nome, String matricula,
+                          int presencas, double media, String situacao) {
+        this.nome.set(nome);
+        this.matricula.set(matricula);
+        this.presencas.set(presencas);
+        this.media.set(media);
+        this.situacao.set(situacao);
     }
 
-    public String getNome() { return nome.get(); }
-    public StringProperty nomeProperty() { return nome; }
+    // Getters obrigatórios para o TableView funcionar com PropertyValueFactory
+    public String getNome() {
+        return nome.get();
+    }
 
-    public String getMatricula() { return matricula.get(); }
-    public StringProperty matriculaProperty() { return matricula; }
+    public String getMatricula() {
+        return matricula.get();
+    }
 
-    public int getFaltas() { return faltas.get(); }
-    public IntegerProperty faltasProperty() { return faltas; }
+    public int getPresencas() {
+        return presencas.get();
+    }
 
-    public double getMedia() { return media.get(); }
-    public DoubleProperty mediaProperty() { return media; }
+    public double getMedia() {
+        return media.get();
+    }
 
-    public String getSituacao() { return situacao.get(); }
-    public StringProperty situacaoProperty() { return situacao; }
+    public String getSituacao() {
+        return situacao.get();
+    }
+
+    // Properties usadas pelo JavaFX
+    public StringProperty nomeProperty() {
+        return nome;
+    }
+
+    public StringProperty matriculaProperty() {
+        return matricula;
+    }
+
+    public IntegerProperty presencasProperty() {
+        return presencas;
+    }
+
+    public DoubleProperty mediaProperty() {
+        return media;
+    }
+
+    public StringProperty situacaoProperty() {
+        return situacao;
+    }
 }
-
-

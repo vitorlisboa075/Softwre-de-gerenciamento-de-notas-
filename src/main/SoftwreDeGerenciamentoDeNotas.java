@@ -12,7 +12,7 @@ public class SoftwreDeGerenciamentoDeNotas extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/view/Login.fxml"));
         Scene scene = new Scene(root, 800, 600);
-        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/view/styles.css").toExternalForm());
         primaryStage.setTitle("Login");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false); // Login screen non-resizable

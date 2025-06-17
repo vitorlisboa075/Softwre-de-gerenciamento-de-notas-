@@ -1,4 +1,3 @@
-// Local: src/controller/CadastroDisciplinaController.java
 package controller;
 
 import javafx.collections.FXCollections;
@@ -9,16 +8,19 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.Parent;
-import model.Disciplina;
-import model.Usuario; // MUDANÇA: Importamos Usuario em vez de Professor
+import model.Conexao;
+import model.Usuario;
 
-import java.util.stream.Collectors;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class CadastroDisciplinaController {
 
     @FXML private TextField nomeDisciplinaField;
     @FXML private TextField pesquisaProfessorField;
-    @FXML private TableView<Usuario> tabelaProfessores; // MUDANÇA: A tabela agora é de Usuario
+    @FXML private TableView<Usuario> tabelaProfessores;
     @FXML private TableColumn<Usuario, Void> colSelecaoProfessor;
     @FXML private TableColumn<Usuario, String> colNomeProfessor;
     @FXML private TableColumn<Usuario, String> colCpfProfessor;
@@ -29,15 +31,18 @@ public class CadastroDisciplinaController {
 
     @FXML
     public void initialize() {
-        carregarDadosSimulados();
+        configurarTabela();
+        carregarProfessoresDoBanco();
+        configurarFiltro();
+    }
 
-        // Configura as colunas para o objeto Usuario
+    private void configurarTabela() {
         colNomeProfessor.setCellValueFactory(cellData -> cellData.getValue().nomeProperty());
         colCpfProfessor.setCellValueFactory(cellData -> cellData.getValue().cpfProperty());
 
-        // Configuração da coluna de seleção com RadioButton (a lógica interna não muda)
         colSelecaoProfessor.setCellFactory(param -> new TableCell<>() {
             private final RadioButton radioButton = new RadioButton();
+
             {
                 radioButton.setToggleGroup(professorToggleGroup);
             }
@@ -53,51 +58,48 @@ public class CadastroDisciplinaController {
                 }
             }
         });
+    }
 
-        // Configura o filtro para a lista de Usuários
+    private void configurarFiltro() {
         FilteredList<Usuario> filteredData = new FilteredList<>(listaProfessores, p -> true);
         pesquisaProfessorField.textProperty().addListener((obs, oldV, newV) -> {
             filteredData.setPredicate(usuario -> {
                 if (newV == null || newV.isEmpty()) return true;
                 String filter = newV.toLowerCase();
-                if (usuario.getNome().toLowerCase().contains(filter)) return true;
-                if (usuario.getCpf().toLowerCase().contains(filter)) return true;
-                return false;
+                return usuario.getNome().toLowerCase().contains(filter) || usuario.getCpf().toLowerCase().contains(filter);
             });
         });
-
         tabelaProfessores.setItems(filteredData);
     }
-    
-    private void carregarDadosSimulados() {
-        // Criamos usuários genéricos e filtramos para pegar apenas os professores
-        Usuario u1 = new Usuario();
-        u1.setNome("Mariana Costa"); u1.setCpf("44455566677"); u1.setTipoUsuario("Professor");
 
-        Usuario u2 = new Usuario();
-        u2.setNome("Ricardo Alves"); u2.setCpf("55566677788"); u2.setTipoUsuario("Professor");
+    private void carregarProfessoresDoBanco() {
+        listaProfessores.clear();
+        String sql = "SELECT cpf, nome, tipo FROM usuarios WHERE tipo = 'professor'";
 
-        Usuario u3 = new Usuario();
-        u3.setNome("Julio Cesar"); u3.setCpf("12312312312"); u3.setTipoUsuario("Professor");
+        try (Connection conn = Conexao.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-        Usuario u4 = new Usuario(); // Este não deve aparecer na lista
-        u4.setNome("Fernanda Abreu"); u4.setCpf("99988877766"); u4.setTipoUsuario("Secretaria");
+            while (rs.next()) {
+                Usuario professor = new Usuario();
+                professor.setCpf(rs.getString("cpf"));
+                professor.setNome(rs.getString("nome"));
+                professor.setTipoUsuario(rs.getString("tipo"));
 
-        // Adicionamos todos os usuários a uma lista temporária
-        ObservableList<Usuario> todosOsUsuarios = FXCollections.observableArrayList(u1, u2, u3, u4);
-
-        // Filtramos a lista para popular nossa tabela APENAS com professores
-        listaProfessores.setAll(todosOsUsuarios.stream()
-            .filter(u -> "Professor".equalsIgnoreCase(u.getTipoUsuario()))
-            .collect(Collectors.toList()));
+                listaProfessores.add(professor);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erro", "Falha ao carregar professores do banco.");
+        }
     }
 
     @FXML
     void cadastrarDisciplina() {
-        String nome = nomeDisciplinaField.getText();
+        String nome = nomeDisciplinaField.getText().trim();
         Toggle selectedToggle = professorToggleGroup.getSelectedToggle();
 
-        if (nome.trim().isEmpty()) {
+        if (nome.isEmpty()) {
             showAlert(Alert.AlertType.WARNING, "Campo Vazio", "Por favor, informe o nome da disciplina.");
             return;
         }
@@ -107,18 +109,48 @@ public class CadastroDisciplinaController {
             return;
         }
 
-        // MUDANÇA: O objeto recuperado agora é um Usuario
         Usuario professorSelecionado = (Usuario) selectedToggle.getUserData();
 
-        // Cria a nova disciplina
-        // Disciplina novaDisciplina = new Disciplina(0, nome, professorSelecionado);
-        
-        System.out.println("--- Disciplina Salva ---");
-        System.out.println("Nome: " + nome);
-        System.out.println("Professor Responsável: " + professorSelecionado.getNome());
+        boolean sucesso = salvarDisciplinaNoBanco(nome, professorSelecionado);
 
-        showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Disciplina cadastrada e associada ao professor com sucesso!");
-        limparCampos();
+        if (sucesso) {
+            showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Disciplina cadastrada e associada ao professor com sucesso!");
+            limparCampos();
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Erro", "Falha ao cadastrar a disciplina.");
+        }
+    }
+
+    private boolean salvarDisciplinaNoBanco(String nomeDisciplina, Usuario professor) {
+        String sql = "INSERT INTO disciplinas (nome, professor_cpf) VALUES (?, ?)";
+
+        try (Connection conn = Conexao.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            if (conn == null) {
+                showAlert(Alert.AlertType.ERROR, "Erro", "Falha na conexão com o banco de dados.");
+                return false;
+            }
+
+            conn.setAutoCommit(false);
+
+            ps.setString(1, nomeDisciplina);
+            ps.setString(2, professor.getCpf());
+
+            int affectedRows = ps.executeUpdate();
+
+            if (affectedRows == 0) {
+                conn.rollback();
+                return false;
+            }
+
+            conn.commit();
+            return true;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @FXML
