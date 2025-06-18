@@ -39,7 +39,6 @@
             <children>
                 <Button onAction="#salvarPresenca" style="-fx-background-color: #0052D4; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;" text="Salvar Presença" />
                 <Button onAction="#limparCampos" style="-fx-background-color: #cccccc; -fx-font-weight: bold; -fx-background-radius: 8;" text="Limpar" />
-                <Button fx:id="btnVoltar" onAction="#voltar" style="-fx-background-color: transparent; -fx-border-color: #0052D4; -fx-text-fill: #0052D4; -fx-font-weight: bold; -fx-border-radius: 8;" text="Voltar" />
             </children>
         </HBox>
 

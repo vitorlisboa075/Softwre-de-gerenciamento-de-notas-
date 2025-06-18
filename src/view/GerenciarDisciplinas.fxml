@@ -22,7 +22,6 @@
                 <HBox alignment="CENTER_LEFT" spacing="10.0">
                     <children>
                         <TextField fx:id="pesquisaField" promptText="Pesquisar por nome da disciplina..." HBox.hgrow="ALWAYS" />
-                        <Button onAction="#handleNovaDisciplina" styleClass="form-button" text="Nova Disciplina" />
                         <Button onAction="#handleExcluirDisciplinas" styleClass="sair-button" text="Excluir Selecionadas" />
                     </children>
                 </HBox>

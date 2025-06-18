@@ -51,14 +51,13 @@ public class CadastroUsuarioController {
             return;
         }
 
-        // Verifica se o e-mail já está cadastrado
         if (emailJaExiste(email)) {
             showAlert(Alert.AlertType.ERROR, "Erro no Cadastro", "Este e-mail já está cadastrado.");
             return;
         }
 
         String telefone = telefoneField.getText();
-        String senha = cpf; // Senha inicial = CPF
+        String senha = cpf;
         String rua = logradouroField.getText();
         String numero = this.numeroField.getText();
         String complemento = complementoField.getText();
@@ -118,7 +117,6 @@ public class CadastroUsuarioController {
             stmtUsuario.setString(11, cidade);
             stmtUsuario.setString(12, estado);
             stmtUsuario.setString(13, cep);
-
             stmtUsuario.executeUpdate();
 
             if (tipo.equals("aluno")) {
@@ -126,6 +124,11 @@ public class CadastroUsuarioController {
                 PreparedStatement stmtAluno = conn.prepareStatement(sqlAluno);
                 stmtAluno.setString(1, cpf);
                 stmtAluno.executeUpdate();
+            } else if (tipo.equals("professor")) {
+                String sqlProfessor = "INSERT INTO professores (cpf) VALUES (?)";
+                PreparedStatement stmtProf = conn.prepareStatement(sqlProfessor);
+                stmtProf.setString(1, cpf);
+                stmtProf.executeUpdate();
             }
 
             conn.commit();
@@ -138,7 +141,6 @@ public class CadastroUsuarioController {
                 ex.printStackTrace();
             }
 
-            // Trata erro de chave duplicada no e-mail
             if (e.getMessage().contains("Duplicate entry") && e.getMessage().contains("email")) {
                 showAlert(Alert.AlertType.ERROR, "Erro", "E-mail já cadastrado.");
             } else {

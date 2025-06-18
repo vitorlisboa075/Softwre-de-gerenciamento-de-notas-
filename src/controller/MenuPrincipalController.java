@@ -121,13 +121,13 @@ public class MenuPrincipalController implements Initializable {
         switch (tipoUsuario.toLowerCase()) {
             case "secretaria":
                 setButtonVisibility(true, btnCadastrarUsuario, btnGerenciarAlunos,
-                                          btnCadastrarDisciplina, btnCadastrarTurma, btnRelatorios, btnConfiguracoes, btnGerenciarTurmas, btnGerenciarDisciplinas);
+                                          btnCadastrarDisciplina, btnCadastrarTurma, btnRelatorios, btnGerenciarTurmas, btnGerenciarDisciplinas);
                 break;
             case "professor":
                 setButtonVisibility(true, btnLancarNotas, btnRegistrarPresenca, btnRelatorios, btnConfiguracoes);
                 break;
             case "aluno":
-                setButtonVisibility(true, btnVerMinhasNotas, btnEditarMeusDados, btnConfiguracoes);
+                setButtonVisibility(true, btnVerMinhasNotas );
                 break;
         }
     }

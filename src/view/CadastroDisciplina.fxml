@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CadastroDisciplinaController">
+<AnchorPane prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CadastroDisciplinaController">
    <children>
       <VBox alignment="TOP_CENTER" spacing="15.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="20.0">
          <children>
@@ -17,7 +23,7 @@
             
             <HBox alignment="CENTER_LEFT" spacing="10.0">
                <children>
-                  <Label text="Nome da Disciplina:" prefWidth="120.0" />
+                  <Label prefWidth="120.0" text="Nome da Disciplina:" />
                   <TextField fx:id="nomeDisciplinaField" promptText="Ex: Matemática" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
@@ -40,9 +46,8 @@
             
             <HBox alignment="CENTER_RIGHT" spacing="20.0">
                <children>
-                  <Button onAction="#limparCampos" text="Limpar" styleClass="form-button-secondary" />
-                  <Button onAction="#cadastrarDisciplina" text="Salvar Disciplina" styleClass="form-button" />
-                  <Button fx:id="btnVoltar" onAction="#voltar" text="Voltar" />
+                  <Button onAction="#limparCampos" styleClass="form-button-secondary" text="Limpar" />
+                  <Button onAction="#cadastrarDisciplina" styleClass="form-button" text="Salvar Disciplina" />
                </children>
             </HBox>
          </children>

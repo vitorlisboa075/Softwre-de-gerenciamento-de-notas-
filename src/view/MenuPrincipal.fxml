@@ -46,9 +46,6 @@
                                 <Button fx:id="btnGerenciarAlunos" onAction="#abrirGerenciarAlunos" graphicTextGap="12" maxWidth="Infinity" styleClass="sidebar-button" text="Gerenciar Alunos">
                                     <graphic><ImageView fitHeight="24" fitWidth="24" preserveRatio="true"><Image url="@../Image/Ícone%20gerenciar%20aluno.png" /></ImageView></graphic>
                                 </Button>
-                                <Button fx:id="btnGerenciarUsuarios" onAction="#abrirGerenciarUsuarios" graphicTextGap="12" maxWidth="Infinity" styleClass="sidebar-button" text="Gerenciar Usuários">
-                                    <graphic><ImageView fitHeight="24" fitWidth="24" preserveRatio="true"><Image url="@../Image/Ícone%20gerenciar%20usuário.png" /></ImageView></graphic>
-                                </Button>
                                 <Button fx:id="btnCadastrarDisciplina" onAction="#abrirCadastroDisciplina" graphicTextGap="12" maxWidth="Infinity" styleClass="sidebar-button" text="Cadastrar Disciplina">
                                     <graphic><ImageView fitHeight="24" fitWidth="24" preserveRatio="true"><Image url="@../Image/Ícone%20cadastrar%20disciplina.png" /></ImageView></graphic>
                                 </Button>

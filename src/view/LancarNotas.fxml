@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LancarNotasController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LancarNotasController">
    <children>
       <VBox alignment="TOP_CENTER" spacing="15.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="20.0">
          <children>
@@ -20,7 +26,7 @@
                   <Label text="Disciplina:" />
                   <ComboBox fx:id="disciplinaCombo" prefWidth="200.0" promptText="Selecione a Disciplina" />
                   <Region HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnCarregarAlunos" text="Carregar Alunos" onAction="#handleCarregarAlunos"/>
+                  <Button fx:id="btnCarregarAlunos" onAction="#handleCarregarAlunos" text="Carregar Alunos" />
                </children>
             </HBox>
 
@@ -37,8 +43,7 @@
             
             <HBox alignment="CENTER_RIGHT" spacing="20.0">
                <children>
-                  <Button onAction="#salvarNotas" text="Salvar Notas" styleClass="form-button" />
-                  <Button fx:id="btnVoltar" onAction="#voltar" text="Voltar" />
+                  <Button onAction="#salvarNotas" styleClass="form-button" text="Salvar Notas" />
                </children>
             </HBox>
          </children>
